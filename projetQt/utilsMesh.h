@@ -78,7 +78,20 @@ public:
     static float distance_point_to_face(MyMesh *_mesh, MyMesh::Point p, int faceID);
     static MyMesh::Point middle_edge(MyMesh *_mesh, int edgeID);
     static MyMesh::Point barycentre_triangle(MyMesh *_mesh, int faceID);
+    static float angle_diedre(MyMesh *_mesh);
 
+
+    ////////////////////////    DOCS    /////////////////////////////////////
+
+    // angle diedre
+    /*
+     * float a = _mesh->calc_dihedral_angle(EdgeHandle(eh));
+     * */
+
+    // Edge Length
+    /*
+     * float l = _mesh->calc_edge_length(EdgeHandle(eh)));
+     * */
 };
 
 #endif // UTILS_H

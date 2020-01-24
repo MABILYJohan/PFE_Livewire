@@ -257,4 +257,20 @@ MyMesh::Point UtilsMesh::middle_edge(MyMesh *_mesh, int edgeID)
     return myP;
 }
 
+void UtilsMesh::angle_diedre(MyMesh *_mesh)
+{
+    vector<int> angles(36);
+
+    for (MyMesh::EdgeIter e_it=mesh.edges_begin(); e_it!=mesh.edges_end(); ++e_it)
+    {
+        EdgeHandle eh = *e_it;
+
+        float a = _mesh->calc_dihedral_angle(eh);
+        if (a<0)    a = a*(-1.f);
+        a = Utils::RadToDeg(a);
+        int j = (int)a/10;
+        angles[j]+=1;
+    }
+}
+
 
