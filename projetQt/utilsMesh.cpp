@@ -193,6 +193,24 @@ void UtilsMesh::add_face(MyMesh *_mesh, vector<VertexHandle> vhs)
     _mesh->set_color(fh, MyMesh::Color(150, 150, 150));
 }
 
+void UtilsMesh::collapseEdge(MyMesh* _mesh, int edgeID)
+{
+    EdgeHandle eh = _mesh->edge_handle(edgeID);
+    MyMesh::HalfedgeHandle heh = _mesh->halfedge_handle(eh, 0);
+
+    if (_mesh->is_collapse_ok(heh)) {
+        MyMesh::VertexHandle vh0 = _mesh->to_vertex_handle(heh);
+        MyMesh::VertexHandle vh1 = _mesh->from_vertex_handle(heh);
+        MyMesh::Point newVertP = (_mesh->point(vh0) + _mesh->point(vh1))/2.f;
+        _mesh->set_point(vh0, newVertP);
+        _mesh->collapse(heh);
+    }
+    else {
+        qDebug() << "in" << __FUNCTION__ << ":collapse edge not possible";
+    }
+    // permet de nettoyer le maillage et de garder la cohérence des indices après un collapse
+    _mesh->garbage_collection();
+}
 
 ////////////////////////    AUTRES    /////////////////////////////////////
 
@@ -255,22 +273,6 @@ MyMesh::Point UtilsMesh::middle_edge(MyMesh *_mesh, int edgeID)
     float Z = UtilsMesh::middle_edge_coord(p1[2], p2[2]);
     MyMesh::Point myP(X, Y, Z);
     return myP;
-}
-
-void UtilsMesh::angle_diedre(MyMesh *_mesh)
-{
-    vector<int> angles(36);
-
-    for (MyMesh::EdgeIter e_it=mesh.edges_begin(); e_it!=mesh.edges_end(); ++e_it)
-    {
-        EdgeHandle eh = *e_it;
-
-        float a = _mesh->calc_dihedral_angle(eh);
-        if (a<0)    a = a*(-1.f);
-        a = Utils::RadToDeg(a);
-        int j = (int)a/10;
-        angles[j]+=1;
-    }
 }
 
 

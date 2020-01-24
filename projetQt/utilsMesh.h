@@ -70,7 +70,7 @@ public:
                                   VertexHandle vh2,
                                   VertexHandle vh3);
     static void add_face(MyMesh *_mesh, vector<VertexHandle> vhs);
-
+    static void collapseEdge(MyMesh* _mesh, int edgeID);
 
     ////////////////////////    AUTRES    /////////////////////////////////////
 
