@@ -1,9 +1,35 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
+{
+    ui->setupUi(this);
+}
+
+MainWindow::~MainWindow()
+{
+    delete ui;
+}
+
 
 /* **** début de la partie boutons et IHM **** */
 
+void MainWindow::on_pushButton_livewire_clicked()
+{
+    qDebug() <<"<" << __FUNCTION__ << "The event sender is" << sender() << ">";
+    LiveWire lW (mesh); // mesh passé en référence
+    // exemple
+    // lW.segmenter();
+
+    mesh.update_normals();
+    // initialisation des couleurs et épaisseurs (sommets et arêtes) du mesh
+    resetAllColorsAndThickness(&mesh);
+    // on affiche le maillage
+    displayMesh(&mesh);
+
+    qDebug() << "</" << __FUNCTION__ << ">";
+
+}
 
 // exemple pour charger un fichier .obj
 void MainWindow::on_pushButton_chargement_clicked()
@@ -305,14 +331,5 @@ void MainWindow::displayMesh(MyMesh* _mesh, bool isTemperatureMap, float mapRang
 }
 
 
-MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
-{
-    ui->setupUi(this);
-}
-
-MainWindow::~MainWindow()
-{
-    delete ui;
-}
 
 

@@ -7,6 +7,7 @@
 #include <OpenMesh/Core/Mesh/TriMesh_ArrayKernelT.hh>
 
 #include "utilsMesh.h"
+#include "livewire.h"
 
 namespace Ui {
 class MainWindow;
@@ -31,6 +32,8 @@ private slots:
     void on_pushButton_chargement_clicked();
 
     void on_pushButton_generer_clicked();
+
+    void on_pushButton_livewire_clicked();
 
 private:
 

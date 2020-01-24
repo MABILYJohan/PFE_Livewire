@@ -43,13 +43,15 @@ SOURCES += \
         mainwindow.cpp \
     meshviewerwidget.cpp \
     utils.cpp \
-    utilsMesh.cpp
+    utilsMesh.cpp \
+    livewire.cpp
 
 HEADERS += \
         mainwindow.h \
     meshviewerwidget.h \
     utils.h \
-    utilsMesh.h
+    utilsMesh.h \
+    livewire.h
 
 FORMS += \
         mainwindow.ui
