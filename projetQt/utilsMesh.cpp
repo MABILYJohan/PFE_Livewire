@@ -219,6 +219,16 @@ void UtilsMesh::flipEdge(MyMesh *_mesh, int edgeID)
         _mesh->flip(eh);
 }
 
+void UtilsMesh::splitEdge(MyMesh *_mesh, int edgeID, bool bCopy)
+{
+    MyMesh::Point P = UtilsMesh::middle_edge(_mesh, edgeID);
+    VertexHandle vh = _mesh->add_vertex(P);
+    EdgeHandle eh = _mesh->edge_handle(edgeID);
+    if (!bCopy) _mesh->TriConnectivity::split_edge(eh, vh);
+    else        _mesh->TriConnectivity::split_edge_copy(eh, vh);
+}
+
+
 ////////////////////////    AUTRES    /////////////////////////////////////
 
 MyMesh::Point UtilsMesh::barycentre_triangle(MyMesh *_mesh, int faceID)
