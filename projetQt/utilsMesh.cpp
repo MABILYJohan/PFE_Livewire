@@ -212,6 +212,13 @@ void UtilsMesh::collapseEdge(MyMesh* _mesh, int edgeID)
     _mesh->garbage_collection();
 }
 
+void UtilsMesh::flipEdge(MyMesh *_mesh, int edgeID)
+{
+    EdgeHandle eh = _mesh->edge_handle(edgeID);
+    if(_mesh->is_flip_ok(eh))
+        _mesh->flip(eh);
+}
+
 ////////////////////////    AUTRES    /////////////////////////////////////
 
 MyMesh::Point UtilsMesh::barycentre_triangle(MyMesh *_mesh, int faceID)

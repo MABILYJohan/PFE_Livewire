@@ -100,27 +100,35 @@ void MainWindow::on_pushButton_generer_clicked()
         eh = *fe_it;
     }
     mesh.set_color(eh, MyMesh::Color(255, 0, 0));
-    if (mesh.is_simple_link(eh)) {
-        mesh.remove_edge(eh);
+    //    if (mesh.is_simple_link(eh)) {
+    //        mesh.remove_edge(eh);
+    //    }
+    if(!mesh.is_boundary(eh)) {
+            // Flip edge
+            mesh.flip(eh);
     }
 
-    int cpt=0;
-    EdgeHandle eh2;
-    mesh.set_color(fh2, MyMesh::Color(0, 255, 0));
-    for (MyMesh::FaceEdgeCWIter fe_it = mesh.fe_cwiter(fh2); fe_it.is_valid(); fe_it++)
-    {
-        eh2 = *fe_it;
-        if (cpt++==0) {
-            mesh.set_color(eh2, MyMesh::Color(255, 0, 0));
-        }
-    }
-    if (mesh.is_simple_link(eh2)) {
-        mesh.remove_edge(eh2);
-    }
+//    int cpt=0;
+//    EdgeHandle eh2;
+//    mesh.set_color(fh2, MyMesh::Color(0, 255, 0));
+//    for (MyMesh::FaceEdgeCWIter fe_it = mesh.fe_cwiter(fh2); fe_it.is_valid(); fe_it++)
+//    {
+//        eh2 = *fe_it;
+//        if (cpt++==0) {
+//            mesh.set_color(eh2, MyMesh::Color(255, 0, 0));
+//        }
+//    }
+//    //    if (mesh.is_simple_link(eh2)) {
+//    //        mesh.remove_edge(eh2);
+//    //    }
+//    if(!mesh.is_boundary(eh2)) {
+//            // Flip edge
+//            mesh.flip(eh2);
+//    }
 
     mesh.garbage_collection();
 
-    mesh.triangulate();
+//    mesh.triangulate();
     resetAllColorsAndThickness(&mesh);
     mesh.update_normals();
 
