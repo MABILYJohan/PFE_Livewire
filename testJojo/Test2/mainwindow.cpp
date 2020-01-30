@@ -62,31 +62,31 @@ void MainWindow::on_pushButton_generer_clicked()
 
 
 
-                // TEST 1
-                //            FaceHandle fh1 = mesh.add_face(sommets[0], sommets[1], sommets[2]);
-                //            mesh.add_face(sommets[0], sommets[5], sommets[1]);
+        // TEST 1
+        //        FaceHandle fh1 = mesh.add_face(sommets[0], sommets[1], sommets[2]);
+        //        mesh.add_face(sommets[0], sommets[5], sommets[1]);
 
-                //            FaceHandle fh2 = mesh.add_face(sommets[2], sommets[6], sommets[4]);
-                //            mesh.add_face(sommets[2], sommets[4], sommets[3]);
+        //        FaceHandle fh2 = mesh.add_face(sommets[2], sommets[6], sommets[4]);
+        //        mesh.add_face(sommets[2], sommets[4], sommets[3]);
 
 
         //TEST 2
-        FaceHandle fh = mesh.add_face(sommets[0], sommets[1], sommets[2]);
+        //        FaceHandle fh = mesh.add_face(sommets[0], sommets[1], sommets[2]);
 
+        //        mesh.add_face(sommets[0], sommets[2], sommets[3]);
+        //        mesh.add_face(sommets[2], sommets[4], sommets[3]);
+        //        mesh.add_face(sommets[0], sommets[5], sommets[1]);
+        //        mesh.add_face(sommets[1], sommets[6], sommets[2]);
+        //        mesh.add_face(sommets[2], sommets[6], sommets[4]);
+
+        //        mesh.add_face(sommets[0], sommets[7], sommets[8]);
+        //        mesh.add_face(sommets[1], sommets[9], sommets[10]);
+
+        // TEST 3
+        FaceHandle fh1 = mesh.add_face(sommets[0], sommets[1], sommets[2]);
         mesh.add_face(sommets[0], sommets[2], sommets[3]);
-        mesh.add_face(sommets[2], sommets[4], sommets[3]);
-        mesh.add_face(sommets[0], sommets[5], sommets[1]);
-        mesh.add_face(sommets[1], sommets[6], sommets[2]);
-        mesh.add_face(sommets[2], sommets[6], sommets[4]);
-
-        mesh.add_face(sommets[0], sommets[7], sommets[8]);
-        mesh.add_face(sommets[1], sommets[9], sommets[10]);
-
-//        // TEST 3
-//        FaceHandle fh1 = mesh.add_face(sommets[0], sommets[1], sommets[2]);
-//        mesh.add_face(sommets[0], sommets[2], sommets[3]);
-//        mesh.add_face(sommets[0], sommets[3], sommets[4]);
-//        mesh.add_face(sommets[0], sommets[4], sommets[1]);
+        mesh.add_face(sommets[0], sommets[3], sommets[4]);
+        mesh.add_face(sommets[0], sommets[4], sommets[1]);
 
 
 //        mesh.update_normals();

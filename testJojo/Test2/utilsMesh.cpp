@@ -168,6 +168,37 @@ vector<FaceHandle> UtilsMesh::get_neighbour_faces(MyMesh *_mesh, int numFace)
     return faces;
 }
 
+/*--------------------------------------------------------------
+ * Simule un EdgeEdge Circulator en renvoyant la liste @ehs de
+ * toutes les arêtes voisines de l'arête @numEdge
+ * -----------------------------------------------------------*/
+vector<EdgeHandle> UtilsMesh::get_edgeEdge_circulator(MyMesh *_mesh, int numEdge)
+{
+    if (static_cast<unsigned>(numEdge)>_mesh->n_edges()) {
+        qWarning() << "In " << __FUNCTION__ << ": Error @numEdge not valid";
+        exit (1);
+    }
+    vector<EdgeHandle> ehs;
+
+    EdgeHandle eh = _mesh->edge_handle(numEdge);
+    HalfedgeHandle heh = _mesh->halfedge_handle(eh, 0);
+    VertexHandle vhTo = _mesh->to_vertex_handle(heh);
+    VertexHandle vhFrom = _mesh->from_vertex_handle(heh);
+
+    for (MyMesh::VertexEdgeCWIter ve_it = _mesh->ve_cwiter(vhTo); ve_it.is_valid(); ve_it++)
+    {
+        EdgeHandle ehTmp = *ve_it;
+        if (ehTmp!=eh) ehs.push_back(ehTmp);
+    }
+    for (MyMesh::VertexEdgeCWIter ve_it = _mesh->ve_cwiter(vhFrom); ve_it.is_valid(); ve_it++)
+    {
+        EdgeHandle ehTmp = *ve_it;
+        if (ehTmp!=eh) ehs.push_back(ehTmp);
+    }
+
+    return ehs;
+}
+
 
 ////////////////////////    TRANSFOS    ///////////////////////////////////
 

@@ -52,7 +52,6 @@ void MainWindow::on_pushButton_chargement_clicked()
 // exemple pour construire un mesh face par face
 void MainWindow::on_pushButton_generer_clicked()
 {
-    MyMesh mesh;
 
     // on construit une liste de sommets
     MyMesh::VertexHandle sommets[8];

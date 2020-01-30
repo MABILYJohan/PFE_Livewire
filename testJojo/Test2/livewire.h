@@ -24,9 +24,10 @@ public:
 
     void build();
 
-
 private:
     MyMesh &mesh;
+
+    double cost_function(int numEdgeCur, int numEdgeNeigh);
 };
 
 #endif // LIVEWIRE_H
