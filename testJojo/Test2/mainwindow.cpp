@@ -53,87 +53,56 @@ void MainWindow::on_pushButton_chargement_clicked()
 void MainWindow::on_pushButton_generer_clicked()
 {
     MyMesh::VertexHandle sommets[12];
-        sommets[0] = mesh.add_vertex(MyMesh::Point(-1.f, 0.5f,  1.f));
-        sommets[1] = mesh.add_vertex(MyMesh::Point( 1.f, 0.5f,  1.f));
-        sommets[2] = mesh.add_vertex(MyMesh::Point( 0.f,  0.f,  1.f));
+        sommets[0] = mesh.add_vertex(MyMesh::Point(0.f, 0.f, 0.f));
 
-        sommets[3] = mesh.add_vertex(MyMesh::Point(-1.f,  -0.5f,  1.f));
-        sommets[4] = mesh.add_vertex(MyMesh::Point(0.f,  -1.f,  1.f));
-        sommets[5] = mesh.add_vertex(MyMesh::Point( 0.f, 1.f, 1.f));
-        sommets[6] = mesh.add_vertex(MyMesh::Point(1.f,  -0.5f,  1.f));
-
-        sommets[7] = mesh.add_vertex(MyMesh::Point(-1.5f,  0.f,  1.f));
-        sommets[8] = mesh.add_vertex(MyMesh::Point(-1.5,  1.f,  1.f));
-
-        sommets[9] = mesh.add_vertex(MyMesh::Point(1.5f,  0.f,  1.f));
-        sommets[10] = mesh.add_vertex(MyMesh::Point(1.5f,  1.f,  1.f));
+        sommets[1] = mesh.add_vertex(MyMesh::Point(-1.f, 0.f, 0.f));
+        sommets[2] = mesh.add_vertex(MyMesh::Point(0.f, 0.5f, 0.f));
+        sommets[3] = mesh.add_vertex(MyMesh::Point(1.f, 0.f, 0.f));
+        sommets[4] = mesh.add_vertex(MyMesh::Point(0.f, -0.5f, 0.f));
 
 
 
-        // TEST 1
-        FaceHandle fh1 = mesh.add_face(sommets[0], sommets[1], sommets[2]);
-        mesh.add_face(sommets[0], sommets[5], sommets[1]);
+                // TEST 1
+                //            FaceHandle fh1 = mesh.add_face(sommets[0], sommets[1], sommets[2]);
+                //            mesh.add_face(sommets[0], sommets[5], sommets[1]);
 
-        FaceHandle fh2 = mesh.add_face(sommets[2], sommets[6], sommets[4]);
+                //            FaceHandle fh2 = mesh.add_face(sommets[2], sommets[6], sommets[4]);
+                //            mesh.add_face(sommets[2], sommets[4], sommets[3]);
+
+
+        //TEST 2
+        FaceHandle fh = mesh.add_face(sommets[0], sommets[1], sommets[2]);
+
+        mesh.add_face(sommets[0], sommets[2], sommets[3]);
         mesh.add_face(sommets[2], sommets[4], sommets[3]);
+        mesh.add_face(sommets[0], sommets[5], sommets[1]);
+        mesh.add_face(sommets[1], sommets[6], sommets[2]);
+        mesh.add_face(sommets[2], sommets[6], sommets[4]);
+
+        mesh.add_face(sommets[0], sommets[7], sommets[8]);
+        mesh.add_face(sommets[1], sommets[9], sommets[10]);
+
+//        // TEST 3
+//        FaceHandle fh1 = mesh.add_face(sommets[0], sommets[1], sommets[2]);
+//        mesh.add_face(sommets[0], sommets[2], sommets[3]);
+//        mesh.add_face(sommets[0], sommets[3], sommets[4]);
+//        mesh.add_face(sommets[0], sommets[4], sommets[1]);
 
 
-        // TEST 2
-//           FaceHandle fh = mesh.add_face(sommets[0], sommets[1], sommets[2]);
+//        mesh.update_normals();
+//        resetAllColorsAndThickness(&mesh);
 
-//           mesh.add_face(sommets[0], sommets[2], sommets[3]);
-//           mesh.add_face(sommets[2], sommets[4], sommets[3]);
-//           mesh.add_face(sommets[0], sommets[5], sommets[1]);
-//           mesh.add_face(sommets[1], sommets[6], sommets[2]);
-//           mesh.add_face(sommets[2], sommets[6], sommets[4]);
+//        EdgeHandle eh = mesh.edge_handle(6);
+//        mesh.set_color(eh, MyMesh::Color(255, 0, 0));
 
-//           mesh.add_face(sommets[0], sommets[7], sommets[8]);
-//           mesh.add_face(sommets[1], sommets[9], sommets[10]);
+//        UtilsMesh::splitEdge(&mesh, eh.idx());
 
-    mesh.update_normals();
-    resetAllColorsAndThickness(&mesh);
-    EdgeHandle eh;
+        mesh.update_normals();
+        resetAllColorsAndThickness(&mesh);
 
-    mesh.set_color(fh1, MyMesh::Color(0, 255, 0));
-    for (MyMesh::FaceEdgeCWIter fe_it = mesh.fe_cwiter(fh1); fe_it.is_valid(); fe_it++)
-    {
-        eh = *fe_it;
-    }
-    mesh.set_color(eh, MyMesh::Color(255, 0, 0));
-    //    if (mesh.is_simple_link(eh)) {
-    //        mesh.remove_edge(eh);
-    //    }
-    if(!mesh.is_boundary(eh)) {
-            // Flip edge
-            mesh.flip(eh);
-    }
+        displayMesh(&mesh);
+        displayMesh(&mesh);
 
-//    int cpt=0;
-//    EdgeHandle eh2;
-//    mesh.set_color(fh2, MyMesh::Color(0, 255, 0));
-//    for (MyMesh::FaceEdgeCWIter fe_it = mesh.fe_cwiter(fh2); fe_it.is_valid(); fe_it++)
-//    {
-//        eh2 = *fe_it;
-//        if (cpt++==0) {
-//            mesh.set_color(eh2, MyMesh::Color(255, 0, 0));
-//        }
-//    }
-//    //    if (mesh.is_simple_link(eh2)) {
-//    //        mesh.remove_edge(eh2);
-//    //    }
-//    if(!mesh.is_boundary(eh2)) {
-//            // Flip edge
-//            mesh.flip(eh2);
-//    }
-
-    mesh.garbage_collection();
-
-//    mesh.triangulate();
-    resetAllColorsAndThickness(&mesh);
-    mesh.update_normals();
-
-    displayMesh(&mesh);
-    displayMesh(&mesh);
 }
 
 /* **** fin de la partie boutons et IHM **** */

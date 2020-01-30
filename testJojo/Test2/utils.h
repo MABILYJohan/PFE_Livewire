@@ -14,13 +14,52 @@ public:
     static int randInt(int low, int high);
 
     template<typename T>
-    static void permut(T& x, T& y){
+    static void permut(T& x, T& y)
+    {
         T tmpX;
         tmpX = x;
         T tmpY;
         tmpY = y;
         x = tmpY;
         y = tmpX;
+    }
+
+
+    ////////////////////    VECTOR  ////////////////////////////////
+
+    /*--------------------------------------------------------------
+     * @id pour connaître l'emplacement dans @vec
+     * -----------------------------------------------------------*/
+    template<typename T>
+    static T get_min(vector<T> vec, unsigned &id)
+    {
+        if (vec.empty()) {
+            cout << "in " << __FUNCTION__ << ": @vec is empty";
+            exit (1);
+        }
+        T min = vec[0];
+        for (unsigned i=0; i<vec.size(); i++) {
+            if (min > vec[i]) {
+                min = vec[i];
+                id = i;
+            }
+        }
+        return min;
+    }
+    template<typename T>
+    static T get_min(vector<T> vec)
+    {
+        if (vec.empty()) {
+            cout << "in " << __FUNCTION__ << ": @vec is empty";
+            exit (1);
+        }
+        T min = vec[0];
+        for (auto i : vec) {
+            if (min > i) {
+                min = i;
+            }
+        }
+        return min;
     }
 
     template<typename T>
@@ -56,6 +95,9 @@ public:
         }
         return -1;
     }
+
+
+    ////////////////////    CIRCULAR VECTOR  ////////////////////////////////
 
     /*--------------------------------------------------------------
      * Vrai si @val2 est à la suite de @val1 dans le

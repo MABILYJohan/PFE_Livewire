@@ -71,6 +71,8 @@ public:
                                   VertexHandle vh3);
     static void add_face(MyMesh *_mesh, vector<VertexHandle> vhs);
     static void collapseEdge(MyMesh* _mesh, int edgeID);
+    static void flipEdge(MyMesh* _mesh, int edgeID);
+    static void splitEdge(MyMesh* _mesh, int edgeID, bool bCopy=false);
 
     ////////////////////////    AUTRES    /////////////////////////////////////
 
