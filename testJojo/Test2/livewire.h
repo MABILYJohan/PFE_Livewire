@@ -7,6 +7,8 @@
 #include "utils.h"
 #include "utilsMesh.h"
 
+#include <list>
+
 using namespace std;
 
 using namespace OpenMesh;
@@ -19,6 +21,8 @@ public:
 
     // Exemple
     void segmenter();
+
+    void build();
 
 
 private:

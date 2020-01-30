@@ -27,6 +27,29 @@ public:
 
     ////////////////////    VECTOR  ////////////////////////////////
 
+	template<typename T>
+    static void erase_elt(vector<T> &vec, T elt)
+    {
+        unsigned cptA=0;
+        for (auto v : vec)
+        {
+            if (v == elt)
+            {
+                unsigned cptB=0;
+                typename vector<T>::iterator it;
+                for(it = vec.begin(); it!=vec.end(); ++it)
+                {
+                    if (cptB == cptA) {
+                        vec.erase(it);
+                        return;
+                    }
+                    cptB++;
+                }
+            }
+            cptA++;
+        }
+    }
+
     /*--------------------------------------------------------------
      * @id pour connaître l'emplacement dans @vec
      * -----------------------------------------------------------*/
