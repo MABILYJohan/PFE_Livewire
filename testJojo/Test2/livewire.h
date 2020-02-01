@@ -23,9 +23,11 @@ public:
     void segmenter();
 
     void build();
+    vector<unsigned> get_paths();
 
 private:
     MyMesh &mesh;
+    vector<unsigned> paths;
 
     double cost_function(int numEdgeCur, int numEdgeNeigh);
 };

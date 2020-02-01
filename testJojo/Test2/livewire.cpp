@@ -12,26 +12,37 @@ LiveWire::LiveWire(MyMesh &_mesh) :
     qDebug() << "</" << __FUNCTION__ << ">";
 }
 
+vector<unsigned> LiveWire::get_paths()  {   return paths;   }
+
+
 double LiveWire::cost_function(int numEdgeCur, int numEdgeNeigh)
 {
     double cost = 0.0;
     EdgeHandle ehCur = mesh.edge_handle(numEdgeCur);
     EdgeHandle ehNeigh = mesh.edge_handle(numEdgeNeigh);
 
-    // TODO
+
+    // Length
+    cost = mesh.calc_edge_length(ehNeigh);
+    // dihedral angle
+    cost *= mesh.calc_dihedral_angle(ehNeigh);
+
+    MyMesh::Point myNorm;
+    myNorm = mesh.calc_edge_vector(ehNeigh);
 
     return cost;
 }
 
 void LiveWire::build()
 {
-    unsigned edgeBegin = 2;
+    unsigned edgeBegin = 0;
 
     // Init
     vector<double> costEdges(mesh.n_edges(), static_cast<double>(INT_MAX));
     costEdges[edgeBegin] = 0.0;
     vector<bool> edgesVisited(mesh.n_edges(), false);
     vector<unsigned> activeList;   activeList.push_back(edgeBegin);
+    paths = vector<unsigned>(mesh.n_edges(), static_cast<unsigned>(-1));;
 
     while (!activeList.empty())
     {
@@ -56,9 +67,7 @@ void LiveWire::build()
             // Voisin pas dans la lsite active
             else if ( ! Utils::is_in_vector(activeList, edgeNeigh)) {
                 costEdges[edgeNeigh] = tmpCost;
-
-                // TODO Indiquer le passage du curent au voisin comme passage
-
+                paths[edgeNeigh] = curEdge;
                 activeList.push_back(edgeNeigh);
             }
         }

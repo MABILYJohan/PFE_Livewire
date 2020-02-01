@@ -11,6 +11,38 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::showPathEdge(vector<unsigned> paths, int edge1, int edge2)
+{
+    // on réinitialise l'affichage
+    resetAllColorsAndThickness(&mesh);
+
+    EdgeHandle eh1 = mesh.edge_handle(edge1);
+    EdgeHandle eh2 = mesh.edge_handle(edge2);
+
+    int curEdge = edge2;
+    while (curEdge != edge1)
+    {
+        // EdgeHandle curEh = mesh.edge_handle(curEdge);
+        vector<EdgeHandle> ehs = UtilsMesh::get_edgeEdge_circulator(&mesh, curEdge);
+        for (auto eh : ehs)
+        {
+            if (eh.idx()==paths[curEdge]) {
+                mesh.set_color(eh, MyMesh::Color(0, 0, 255));
+                mesh.data(eh).thickness = 6;
+            }
+        }
+        curEdge = paths[curEdge];
+    }
+
+    // point de départ et point d'arrivée en vert et en gros
+    mesh.set_color(eh1, MyMesh::Color(0, 255, 0));
+    mesh.set_color(eh2, MyMesh::Color(0, 255, 0));
+    mesh.data(eh1).thickness = 8;
+    mesh.data(eh2).thickness = 8;
+
+    // on affiche le nouveau maillage
+    displayMesh(&mesh);
+}
 
 /* **** début de la partie boutons et IHM **** */
 
@@ -21,11 +53,15 @@ void MainWindow::on_pushButton_livewire_clicked()
     // exemple
     // lW.segmenter();
 
+    vector<unsigned> paths = lW.get_paths();
+
     mesh.update_normals();
     // initialisation des couleurs et épaisseurs (sommets et arêtes) du mesh
     resetAllColorsAndThickness(&mesh);
     // on affiche le maillage
     displayMesh(&mesh);
+
+    showPathEdge(paths, 0, 3);
 
     qDebug() << "</" << __FUNCTION__ << ">";
 
