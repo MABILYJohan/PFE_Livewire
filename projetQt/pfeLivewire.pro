@@ -44,14 +44,18 @@ SOURCES += \
     meshviewerwidget.cpp \
     utils.cpp \
     utilsMesh.cpp \
-    livewire.cpp
+    livewire.cpp \
+    selectedpoinst.cpp \
+    raycasting.cpp
 
 HEADERS += \
         mainwindow.h \
     meshviewerwidget.h \
     utils.h \
     utilsMesh.h \
-    livewire.h
+    livewire.h \
+    selectedpoints.h \
+    raycasting.h
 
 FORMS += \
         mainwindow.ui
