@@ -1,11 +1,22 @@
-#ifndef SELECTEDPOINT_H
-#define SELECTEDPOINT_H
+#ifndef SELECTEDPOINTS_H
+#define SELECTEDPOINTS_H
 
+#include <QVector>
 
-class SelectedPoint
+#include "utils.h"
+#include "utilsMesh.h"
+
+using namespace OpenMesh;
+using namespace OpenMesh::Attributes;
+
+class SelectedPoints
 {
 public:
-    SelectedPoint();
+    SelectedPoints();
+
+    MyMesh::Point raycast_onscreen_point(float x, float y); //Localization of the point (x,y) on the screen in the 3D mesh (x',y',z')
+    QVector<MyMesh::Point> points; //Store localisation of the point after raycasting
+
 };
 
-#endif // SELECTEDPOINT_H
+#endif // SELECTEDPOINTS_H
