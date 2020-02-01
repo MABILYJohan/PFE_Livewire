@@ -82,9 +82,9 @@ void UtilsMesh::get_vh_of_edge(MyMesh *_mesh, int edgeID,
 {
     EdgeHandle eh = _mesh->edge_handle(edgeID);
     MyMesh::HalfedgeHandle heh1 =  _mesh->halfedge_handle(eh, 0);
-    MyMesh::HalfedgeHandle heh2 =  _mesh->halfedge_handle(eh, 1);
-    vh0 = _mesh->to_vertex_handle(heh1);
-    vh1 = _mesh->to_vertex_handle(heh2);
+    //    MyMesh::HalfedgeHandle heh2 =  _mesh->halfedge_handle(eh, 1);
+    vh0 = _mesh->from_vertex_handle(heh1);
+    vh1 = _mesh->to_vertex_handle(heh1);
 }
 
 void UtilsMesh::get_eh_of_triangle_face(MyMesh *_mesh, int faceID,
