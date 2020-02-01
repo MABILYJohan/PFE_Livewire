@@ -2,8 +2,8 @@
 
 #include <QDebug>
 
-LiveWire::LiveWire(MyMesh &_mesh) :
-    mesh(_mesh)
+LiveWire::LiveWire(MyMesh &_mesh, Contour _myContour) :
+    mesh(_mesh), myContour(_myContour)
 {
     qDebug() << "<" << __FUNCTION__ << ">";
 
@@ -29,6 +29,8 @@ double LiveWire::cost_function(int numEdgeCur, int numEdgeNeigh)
 
     MyMesh::Point myNorm;
     myNorm = mesh.calc_edge_vector(ehNeigh);
+    //    mesh.has_halfedge_normals ();
+    // const Normal & 	normal (HalfedgeHandle _heh) const
 
     return cost;
 }

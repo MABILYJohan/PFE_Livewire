@@ -26,7 +26,7 @@ void MainWindow::showPathEdge(vector<unsigned> paths, int edge1, int edge2)
         vector<EdgeHandle> ehs = UtilsMesh::get_edgeEdge_circulator(&mesh, curEdge);
         for (auto eh : ehs)
         {
-            if (eh.idx()==paths[curEdge]) {
+            if (static_cast<unsigned>(eh.idx())==paths[curEdge]) {
                 mesh.set_color(eh, MyMesh::Color(0, 0, 255));
                 mesh.data(eh).thickness = 6;
             }
@@ -49,7 +49,9 @@ void MainWindow::showPathEdge(vector<unsigned> paths, int edge1, int edge2)
 void MainWindow::on_pushButton_livewire_clicked()
 {
     qDebug() <<"<" << __FUNCTION__ << "The event sender is" << sender() << ">";
-    LiveWire lW (mesh); // mesh passé en référence
+
+    Contour myContour;
+    LiveWire lW (mesh, myContour); // mesh passé en référence
     // exemple
     // lW.segmenter();
 
@@ -61,7 +63,7 @@ void MainWindow::on_pushButton_livewire_clicked()
     // on affiche le maillage
     displayMesh(&mesh);
 
-    showPathEdge(paths, 0, 3);
+    showPathEdge(paths, 0, 15);
 
     qDebug() << "</" << __FUNCTION__ << ">";
 

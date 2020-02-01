@@ -6,6 +6,7 @@
 
 #include "utils.h"
 #include "utilsMesh.h"
+#include "contour.h"
 
 #include <list>
 
@@ -17,7 +18,7 @@ using namespace OpenMesh::Attributes;
 class LiveWire
 {
 public:
-    LiveWire(MyMesh &_mesh);
+    LiveWire(MyMesh &_mesh, Contour _myContour);
 
     // Exemple
     void segmenter();
@@ -27,6 +28,7 @@ public:
 
 private:
     MyMesh &mesh;
+    Contour myContour;
     vector<unsigned> paths;
 
     double cost_function(int numEdgeCur, int numEdgeNeigh);
