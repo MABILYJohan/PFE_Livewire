@@ -7,6 +7,7 @@
 #include <OpenMesh/Core/Mesh/TriMesh_ArrayKernelT.hh>
 
 #include "utilsMesh.h"
+#include "contour.h"
 #include "livewire.h"
 
 namespace Ui {

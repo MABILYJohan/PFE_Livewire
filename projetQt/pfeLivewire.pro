@@ -47,6 +47,7 @@ SOURCES += \
     livewire.cpp \
     selectedpoinst.cpp \
     raycasting.cpp
+    contour.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -56,6 +57,7 @@ HEADERS += \
     livewire.h \
     selectedpoints.h \
     raycasting.h
+    contour.h
 
 FORMS += \
         mainwindow.ui
