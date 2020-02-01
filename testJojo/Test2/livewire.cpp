@@ -76,7 +76,49 @@ void LiveWire::build()
     }
 }
 
+void LiveWire::draw_part(unsigned edge1, unsigned edge2)
+{
+    EdgeHandle eh1 = mesh.edge_handle(edge1);
+    EdgeHandle eh2 = mesh.edge_handle(edge2);
 
+    unsigned curEdge = edge2;
+    while (curEdge != edge1)
+    {
+        // EdgeHandle curEh = mesh.edge_handle(curEdge);
+        vector<EdgeHandle> ehs = UtilsMesh::get_edgeEdge_circulator(&mesh, curEdge);
+        for (auto eh : ehs)
+        {
+            if (static_cast<unsigned>(eh.idx())==paths[curEdge]) {
+                mesh.set_color(eh, MyMesh::Color(0, 0, 255));
+                mesh.data(eh).thickness = 6;
+            }
+        }
+        curEdge = paths[curEdge];
+    }
+
+    // point de départ et point d'arrivée en vert et en gros
+    mesh.set_color(eh1, MyMesh::Color(0, 255, 0));
+    mesh.set_color(eh2, MyMesh::Color(0, 255, 0));
+    mesh.data(eh1).thickness = 8;
+    mesh.data(eh2).thickness = 8;
+}
+
+void LiveWire::draw()
+{
+    unsigned begin = myContour.get_start();
+    unsigned end = myContour.get_end();
+
+    unsigned curEdge = begin;
+    EdgeHandle ehCur = mesh.edge_handle(curEdge);
+    unsigned curEdge2 = myContour.get_contour()[curEdge+1];
+
+    while (curEdge2 != end)
+    {
+        curEdge2 = myContour.get_contour()[curEdge+1];
+        draw_part(curEdge, curEdge2);
+        curEdge = curEdge2;
+    }
+}
 
 // Brouillon
 /*

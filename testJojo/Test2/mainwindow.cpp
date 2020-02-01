@@ -60,10 +60,13 @@ void MainWindow::on_pushButton_livewire_clicked()
     mesh.update_normals();
     // initialisation des couleurs et épaisseurs (sommets et arêtes) du mesh
     resetAllColorsAndThickness(&mesh);
+
+    lW.draw();
+
     // on affiche le maillage
     displayMesh(&mesh);
 
-    showPathEdge(paths, 0, 15);
+    //showPathEdge(paths, 0, 15);
 
     qDebug() << "</" << __FUNCTION__ << ">";
 

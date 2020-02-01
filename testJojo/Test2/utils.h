@@ -29,6 +29,27 @@ public:
     ////////////////////    VECTOR / LIST  ////////////////////////////////
 
     template<typename T>
+    static void insert_elt(vector<T> &vec, T elt, unsigned pos)
+    {
+        for (unsigned i=0; i<vec.size(); i++)
+        {
+            if (i==pos)
+            {
+                unsigned cptB=0;
+                typename vector<T>::iterator it;
+                for(it = vec.begin(); it!=vec.end(); ++it)
+                {
+                    if (cptB == pos) {
+                        vec.insert(it, elt);
+                        return;
+                    }
+                    cptB++;
+                }
+            }
+        }
+    }
+
+    template<typename T>
     static void erase_elt(vector<T> &vec, T elt)
     {
         unsigned cptA=0;

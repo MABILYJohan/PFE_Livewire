@@ -45,7 +45,8 @@ SOURCES += \
     utils.cpp \
     utilsMesh.cpp \
     livewire.cpp \
-    contour.cpp
+    contour.cpp \
+    selectedpoints.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -53,7 +54,8 @@ HEADERS += \
     utils.h \
     utilsMesh.h \
     livewire.h \
-    contour.h
+    contour.h \
+    selectedpoints.h
 
 FORMS += \
         mainwindow.ui

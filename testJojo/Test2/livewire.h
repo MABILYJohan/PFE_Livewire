@@ -21,7 +21,7 @@ public:
     LiveWire(MyMesh &_mesh, Contour _myContour);
 
     // Exemple
-    void segmenter();
+    void draw();
 
     void build();
     vector<unsigned> get_paths();
@@ -32,6 +32,7 @@ private:
     vector<unsigned> paths;
 
     double cost_function(int numEdgeCur, int numEdgeNeigh);
+    void draw_part(unsigned edge1, unsigned edge2);
 };
 
 #endif // LIVEWIRE_H
