@@ -17,10 +17,14 @@ class Contour
 {
 public:
     Contour();
+    Contour(unsigned _begin);
+    Contour(vector<unsigned> _edges);
 
     unsigned get_start();
     unsigned get_end();
     vector<unsigned> get_contour();
+
+    void add_edge(unsigned numEdge);
 
 protected:
 

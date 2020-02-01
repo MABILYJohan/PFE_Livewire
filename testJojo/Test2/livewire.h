@@ -24,12 +24,12 @@ public:
     void draw();
 
     void build();
-    vector<unsigned> get_paths();
+    vector<int> get_paths();
 
 private:
     MyMesh &mesh;
     Contour myContour;
-    vector<unsigned> paths;
+    vector<int> paths;
 
     double cost_function(int numEdgeCur, int numEdgeNeigh);
     void draw_part(unsigned edge1, unsigned edge2);

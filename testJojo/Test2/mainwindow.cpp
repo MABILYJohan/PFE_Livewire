@@ -50,12 +50,13 @@ void MainWindow::on_pushButton_livewire_clicked()
 {
     qDebug() <<"<" << __FUNCTION__ << "The event sender is" << sender() << ">";
 
-    Contour myContour;
+    vector<unsigned> tmpEdges = {0, 4, 6, 15};
+    Contour myContour(tmpEdges);
     LiveWire lW (mesh, myContour); // mesh passé en référence
     // exemple
     // lW.segmenter();
 
-    vector<unsigned> paths = lW.get_paths();
+    vector<int> paths = lW.get_paths();
 
     mesh.update_normals();
     // initialisation des couleurs et épaisseurs (sommets et arêtes) du mesh
@@ -69,7 +70,6 @@ void MainWindow::on_pushButton_livewire_clicked()
     //showPathEdge(paths, 0, 15);
 
     qDebug() << "</" << __FUNCTION__ << ">";
-
 }
 
 // exemple pour charger un fichier .obj
