@@ -45,7 +45,7 @@ SOURCES += \
     utils.cpp \
     utilsMesh.cpp \
     livewire.cpp \
-    selectedpoinst.cpp \
+    selectedpoints.cpp \
     raycasting.cpp
     contour.cpp
 
