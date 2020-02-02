@@ -11,6 +11,21 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::test_pt_de_vue()
+{
+    ui->displayWidget->my_view();
+    OpenMesh::Vec3f center3F = ui->displayWidget->myCenter;
+    QVector3D center (center3F[0], center3F[1], center3F[2]);
+    qDebug() << "center = " << center;
+
+    //    for (MyMesh::VertexIter curVert = mesh.vertices_begin(); curVert != mesh.vertices_end(); curVert++)
+    //    {
+    //        VertexHandle vh = *curVert;
+    //        MyMesh::Point p = mesh.point(vh);
+    //        QVector3D myV (p[0], p[1], p[2]);
+    //        qDebug() << myV;
+    //    }
+}
 
 /* **** début de la partie boutons et IHM **** */
 

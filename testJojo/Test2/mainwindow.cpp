@@ -44,20 +44,38 @@ void MainWindow::showPathEdge(vector<unsigned> paths, int edge1, int edge2)
     displayMesh(&mesh);
 }
 
+void MainWindow::test_pt_de_vue()
+{
+    ui->displayWidget->my_view();
+    OpenMesh::Vec3f center3F = ui->displayWidget->myCenter;
+    QVector3D center (center3F[0], center3F[1], center3F[2]);
+    qDebug() << "center = " << center;
+
+    //    for (MyMesh::VertexIter curVert = mesh.vertices_begin(); curVert != mesh.vertices_end(); curVert++)
+    //    {
+    //        VertexHandle vh = *curVert;
+    //        MyMesh::Point p = mesh.point(vh);
+    //        QVector3D myV (p[0], p[1], p[2]);
+    //        qDebug() << myV;
+    //    }
+}
+
 /* **** début de la partie boutons et IHM **** */
 
 void MainWindow::on_pushButton_livewire_clicked()
 {
     qDebug() <<"<" << __FUNCTION__ << "The event sender is" << sender() << ">";
 
-    vector<unsigned> tmpEdges = {0, 4, 6, 15};
-    Contour myContour(tmpEdges);
+//    vector<unsigned> tmpEdges = {0, 4, 6, 15};
+//    Contour myContour(tmpEdges);
 
     mesh.update_normals();
     // initialisation des couleurs et épaisseurs (sommets et arêtes) du mesh
     resetAllColorsAndThickness(&mesh);
 
-    myContour.draw(&mesh);
+//    myContour.draw(&mesh);
+
+    test_pt_de_vue();
 
     // on affiche le maillage
     displayMesh(&mesh);
@@ -135,6 +153,21 @@ void MainWindow::on_pushButton_generer_clicked()
 
         mesh.update_normals();
         resetAllColorsAndThickness(&mesh);
+
+
+        // OpenMesh::Vec3f center3F = ui->displayWidget->center_;
+//        ui->displayWidget->view_all();
+//        OpenMesh::Vec3f center3F = ui->displayWidget->myCenter;
+//        QVector3D center (center3F[0], center3F[1], center3F[2]);
+//        qDebug() << "center = " << center;
+
+//        for (MyMesh::VertexIter curVert = mesh.vertices_begin(); curVert != mesh.vertices_end(); curVert++)
+//        {
+//            VertexHandle vh = *curVert;
+//            MyMesh::Point p = mesh.point(vh);
+//            QVector3D myV (p[0], p[1], p[2]);
+//            qDebug() << myV;
+//        }
 
         displayMesh(&mesh);
         displayMesh(&mesh);

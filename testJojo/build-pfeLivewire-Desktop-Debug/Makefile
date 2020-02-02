@@ -854,8 +854,7 @@ livewire.o: ../Test2/livewire.cpp ../Test2/livewire.h \
 		../../OpenMesh/inc/OpenMesh/Core/Geometry/LoopSchemeMaskT.hh \
 		../../OpenMesh/inc/OpenMesh/Core/Mesh/TriMeshT.cc \
 		../Test2/utils.h \
-		../Test2/utilsMesh.h \
-		../Test2/contour.h
+		../Test2/utilsMesh.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o livewire.o ../Test2/livewire.cpp
 
 contour.o: ../Test2/contour.cpp ../Test2/contour.h \
@@ -933,7 +932,8 @@ contour.o: ../Test2/contour.cpp ../Test2/contour.h \
 		../../OpenMesh/inc/OpenMesh/Core/Geometry/LoopSchemeMaskT.hh \
 		../../OpenMesh/inc/OpenMesh/Core/Mesh/TriMeshT.cc \
 		../Test2/utilsMesh.h \
-		../Test2/utils.h
+		../Test2/utils.h \
+		../Test2/livewire.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o contour.o ../Test2/contour.cpp
 
 selectedpoints.o: ../Test2/selectedpoints.cpp ../Test2/selectedpoints.h \

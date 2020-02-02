@@ -39,6 +39,7 @@ public:
 
     // gestion de la vue et de la trackball
     void update_projection_matrix();
+    void my_view();
     void view_all();
     void set_scene_pos( const OpenMesh::Vec3f& _cog, float _radius );
     bool map_to_sphere(const QPoint& _point, OpenMesh::Vec3f& _result);
@@ -69,6 +70,7 @@ public:
     // variables de gestion de la vue et de la trackball
     OpenMesh::Vec3f  center_;
     float            radius_;
+    OpenMesh::Vec3f  myCenter;
 
     GLdouble    projection_matrix_[16], modelview_matrix_[16];
 
