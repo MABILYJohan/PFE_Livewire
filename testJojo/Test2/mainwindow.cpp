@@ -52,17 +52,12 @@ void MainWindow::on_pushButton_livewire_clicked()
 
     vector<unsigned> tmpEdges = {0, 4, 6, 15};
     Contour myContour(tmpEdges);
-    LiveWire lW (mesh, myContour); // mesh passé en référence
-    // exemple
-    // lW.segmenter();
-
-    vector<int> paths = lW.get_paths();
 
     mesh.update_normals();
     // initialisation des couleurs et épaisseurs (sommets et arêtes) du mesh
     resetAllColorsAndThickness(&mesh);
 
-    lW.draw();
+    myContour.draw(&mesh);
 
     // on affiche le maillage
     displayMesh(&mesh);
@@ -124,7 +119,7 @@ void MainWindow::on_pushButton_generer_clicked()
         //        mesh.add_face(sommets[1], sommets[9], sommets[10]);
 
         // TEST 3
-        FaceHandle fh1 = mesh.add_face(sommets[0], sommets[1], sommets[2]);
+        /*FaceHandle fh1 = */mesh.add_face(sommets[0], sommets[1], sommets[2]);
         mesh.add_face(sommets[0], sommets[2], sommets[3]);
         mesh.add_face(sommets[0], sommets[3], sommets[4]);
         mesh.add_face(sommets[0], sommets[4], sommets[1]);

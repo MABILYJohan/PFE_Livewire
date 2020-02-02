@@ -17,13 +17,16 @@ MainWindow::~MainWindow()
 void MainWindow::on_pushButton_livewire_clicked()
 {
     qDebug() <<"<" << __FUNCTION__ << "The event sender is" << sender() << ">";
-    LiveWire lW (mesh); // mesh passé en référence
-    // exemple
-    // lW.segmenter();
+
+    vector<unsigned> tmpEdges = {0, 4, 6, 15};
+    Contour myContour(tmpEdges);
 
     mesh.update_normals();
     // initialisation des couleurs et épaisseurs (sommets et arêtes) du mesh
     resetAllColorsAndThickness(&mesh);
+
+    myContour.draw(&mesh);
+
     // on affiche le maillage
     displayMesh(&mesh);
 

@@ -2,14 +2,14 @@
 
 #include <QDebug>
 
-LiveWire::LiveWire(MyMesh &_mesh, Contour _myContour) :
-    mesh(_mesh), myContour(_myContour)
+LiveWire::LiveWire(MyMesh &_mesh, int _edgeSeed) :
+    mesh(_mesh), edgeSeed(_edgeSeed)
 {
-    qDebug() << "<" << __FUNCTION__ << ">";
+    //    qDebug() << "\t\t<" << __FUNCTION__ << ">";
 
     build();
 
-    qDebug() << "</" << __FUNCTION__ << ">";
+    //    qDebug() << "\t\t</" << __FUNCTION__ << ">";
 }
 
 vector<int> LiveWire::get_paths()  {   return paths;   }
@@ -18,7 +18,7 @@ vector<int> LiveWire::get_paths()  {   return paths;   }
 double LiveWire::cost_function(int numEdgeCur, int numEdgeNeigh)
 {
     double cost = 0.0;
-    EdgeHandle ehCur = mesh.edge_handle(numEdgeCur);
+    // EdgeHandle ehCur = mesh.edge_handle(numEdgeCur);
     EdgeHandle ehNeigh = mesh.edge_handle(numEdgeNeigh);
 
     // Length
@@ -37,17 +37,14 @@ double LiveWire::cost_function(int numEdgeCur, int numEdgeNeigh)
 
 void LiveWire::build()
 {
-    if (myContour.get_contour().empty())    return;
-    int edgeBegin = 0;
-
     // Init
     vector<double> costEdges(mesh.n_edges(), static_cast<double>(INT_MAX));
-    costEdges[edgeBegin] = 0.0;
+    costEdges[edgeSeed] = 0.0;
     vector<bool> edgesVisited(mesh.n_edges(), false);
-    vector<int> activeList;   activeList.push_back(edgeBegin);
+    vector<int> activeList;   activeList.push_back(edgeSeed);
     paths = vector<int>(mesh.n_edges(), -1);
 
-    // BEGIN PAS INITIALISE DANS PATHS...
+    // WARNING --> BEGIN PAS INITIALISE DANS PATHS...
 
     while (!activeList.empty())
     {
@@ -72,7 +69,8 @@ void LiveWire::build()
             // Voisin pas dans la lsite active
             else if ( ! Utils::is_in_vector(activeList, edgeNeigh)) {
                 costEdges[edgeNeigh] = tmpCost;
-                paths[edgeNeigh] = curEdge;
+                 paths[edgeNeigh] = curEdge;
+                // paths[curEdge] = edgeNeigh;
                 activeList.push_back(edgeNeigh);
             }
         }
@@ -82,22 +80,25 @@ void LiveWire::build()
 //        paths[edgeBegin] = edgeBegin+1;
 }
 
-void LiveWire::draw_part(unsigned edge1, unsigned edge2)
+/*------------------------------------------------------------------------------
+ * Dessine le chemin dans @mesh entre l'arête @edgeSeed et une arête @edge2
+ * ----------------------------------------------------------------------------*/
+void LiveWire::draw(unsigned edge2)
 {
-    qDebug() << "\t\t<" << __FUNCTION__ << ">";
+    //    qDebug() << "\t\t<" << __FUNCTION__ << ">";
 
-    EdgeHandle eh1 = mesh.edge_handle(edge1);
+    EdgeHandle eh1 = mesh.edge_handle(edgeSeed);
     EdgeHandle eh2 = mesh.edge_handle(edge2);
 
     unsigned curEdge = edge2;
-    qDebug() << "\t\t\tcurEdge=" << curEdge;
-    qDebug() << "\t\t\tedge2=" << edge2;
+    //    qDebug() << "\t\t\tedgeSeed=" << edgeSeed;
+    //    qDebug() << "\t\t\tedge2=" << edge2;
 
     vector<EdgeHandle> ehs;
 
-    while (curEdge != edge1)
+    //    qDebug() << "\t\t\tcurEdge=" << curEdge;
+    while (static_cast<int>(curEdge) != edgeSeed)
     {
-        // EdgeHandle curEh = mesh.edge_handle(curEdge);
         ehs.clear();
         ehs = UtilsMesh::get_edgeEdge_circulator(&mesh, curEdge);
         for (auto eh : ehs)
@@ -109,7 +110,7 @@ void LiveWire::draw_part(unsigned edge1, unsigned edge2)
         }
         if (ehs.empty())    break;
         curEdge = paths[curEdge];
-        qDebug() << "\t\t\tcurEdge=" << curEdge;
+        //        qDebug() << "\t\t\tcurEdge=" << curEdge;
     }
 
     // point de départ et point d'arrivée en vert et en gros
@@ -118,46 +119,8 @@ void LiveWire::draw_part(unsigned edge1, unsigned edge2)
     mesh.data(eh1).thickness = 8;
     mesh.data(eh2).thickness = 8;
 
-    qDebug() << "\t\t<" << __FUNCTION__ << ">";
+    //    qDebug() << "\t\t</" << __FUNCTION__ << ">";
 }
-
-void LiveWire::draw()
-{
-    qDebug() << "\t<" << __FUNCTION__ << ">";
-
-    if (myContour.get_contour().empty())    return;
-
-    unsigned begin = myContour.get_start();
-    unsigned end = myContour.get_end();
-
-    unsigned curEdge = begin;
-    EdgeHandle ehCur = mesh.edge_handle(curEdge);
-    unsigned cpt=0;
-    unsigned curEdge2 = myContour.get_contour()[cpt+1];
-
-    while (curEdge2 != end)
-    {
-        qDebug() << "\t\tcpt=" << cpt;
-        curEdge2 = myContour.get_contour()[cpt+1];
-        qDebug() << "\t\tcurEdge=" << curEdge;
-        qDebug() << "\t\tcurEdge2=" << curEdge2;
-
-        draw_part(curEdge, curEdge2);
-        curEdge = curEdge2;
-        cpt++;
-    }
-
-    qDebug() << "\t</" << __FUNCTION__ << ">";
-}
-
-// Brouillon
-/*
- //    for (MyMesh::EdgeIter e_it = mesh.edges_begin(); e_it != mesh.edges_end(); e_it++)
- //    {
- //        EdgeHandle eh = *e_it;
- //        edges.push_back(eh.idx());
- //    }
-*/
 
 
 

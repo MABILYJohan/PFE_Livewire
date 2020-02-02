@@ -16,7 +16,7 @@ TEMPLATE = app
 # any feature of Qt which has been marked as deprecated (the exact warnings
 # depend on your compiler). Please consult the documentation of the
 # deprecated API in order to know how to port your code away from it.
-DEFINES += QT_DEPRECATED_WARNINGS
+#DEFINES += QT_DEPRECATED_WARNINGS
 
 # You can also make your code fail to compile if you use deprecated APIs.
 # In order to do so, uncomment the following line.
@@ -45,8 +45,9 @@ SOURCES += \
     utils.cpp \
     utilsMesh.cpp \
     livewire.cpp \
-    selectedpoinst.cpp \
-    raycasting.cpp
+    selectedpoints.cpp \
+    raycasting.cpp \
+    contour.cpp
     contour.cpp
 
 HEADERS += \
@@ -56,7 +57,8 @@ HEADERS += \
     utilsMesh.h \
     livewire.h \
     selectedpoints.h \
-    raycasting.h
+    raycasting.h \
+    contour.h
     contour.h
 
 FORMS += \
