@@ -3,7 +3,6 @@
 
 #include <iostream>
 #include <vector>
-#include <list>
 
 using namespace std;
 
@@ -26,9 +25,9 @@ public:
     }
 
 
-    ////////////////////    VECTOR / LIST  ////////////////////////////////
+    ////////////////////    VECTOR  ////////////////////////////////
 
-    template<typename T>
+	template<typename T>
     static void insert_elt(vector<T> &vec, T elt, unsigned pos)
     {
         for (unsigned i=0; i<vec.size(); i++)
@@ -49,7 +48,7 @@ public:
         }
     }
 
-    template<typename T>
+	template<typename T>
     static void erase_elt(vector<T> &vec, T elt)
     {
         unsigned cptA=0;

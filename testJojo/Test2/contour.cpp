@@ -33,7 +33,7 @@ void Contour::add_edge(unsigned numEdge)
     endPoint = numEdge;
 }
 
-void Contour::draw(MyMesh *_mesh)
+void Contour::draw(MyMesh *_mesh, MyMesh::Point _sightPoint)
 {
     qDebug() << "\t<" << __FUNCTION__ << ">";
     if (contour.empty())    return;
@@ -51,13 +51,13 @@ void Contour::draw(MyMesh *_mesh)
         //        qDebug() << "\t\tcurEdge=" << curEdge;
         //        qDebug() << "\t\tcurEdge2=" << curEdge2;
 
-        LiveWire lW(*_mesh, curEdge);
+        LiveWire lW(*_mesh, curEdge, _sightPoint);
         lW.draw(curEdge2);
         curEdge = curEdge2;
         cpt++;
     }
     qDebug() << "\t\tchargement:" << cpt<<"/"<<contour.size();
-    LiveWire lW(*_mesh, endPoint);
+    LiveWire lW(*_mesh, endPoint, _sightPoint);
     lW.draw(startPoint);
     qDebug() << "\t\tchargement:" << cpt+1<<"/"<<contour.size();
     qDebug() << "\t</" << __FUNCTION__ << ">";

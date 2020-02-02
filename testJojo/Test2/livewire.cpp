@@ -2,8 +2,8 @@
 
 #include <QDebug>
 
-LiveWire::LiveWire(MyMesh &_mesh, int _edgeSeed) :
-    mesh(_mesh), edgeSeed(_edgeSeed)
+LiveWire::LiveWire(MyMesh &_mesh, int _edgeSeed,  MyMesh::Point _sightPoint) :
+    mesh(_mesh), edgeSeed(_edgeSeed), sightPoint(_sightPoint)
 {
     //    qDebug() << "\t\t<" << __FUNCTION__ << ">";
 
@@ -14,6 +14,32 @@ LiveWire::LiveWire(MyMesh &_mesh, int _edgeSeed) :
 
 vector<int> LiveWire::get_paths()  {   return paths;   }
 
+double LiveWire::normal_orientation(int numEdge, MyMesh::Point _sightPoint)
+{
+    double cost=0.0;
+
+    EdgeHandle eh = mesh.edge_handle(numEdge);
+
+    MyMesh::Point myP = mesh.calc_edge_midpoint(eh);
+    MyMesh::Point myVec = myP - _sightPoint;
+
+    MyMesh::HalfedgeHandle heh1 = mesh.halfedge_handle(eh, 0);
+    FaceHandle fh1 = mesh.face_handle(heh1);
+    MyMesh::Normal n1 = mesh.calc_face_normal(fh1);
+    float angle1 = acos(dot(n1, myVec));
+    cost+=angle1;
+
+    if ( ! mesh.is_boundary(eh) )
+    {
+        MyMesh::HalfedgeHandle heh2 = mesh.halfedge_handle(eh, 1);
+        FaceHandle fh2 = mesh.face_handle(heh2);
+        MyMesh::Normal n2 = mesh.calc_face_normal(fh2);
+        float angle2 = acos(dot(n2, myVec));
+        cost+=angle2;
+    }
+
+    return cost;
+}
 
 double LiveWire::cost_function(int numEdgeCur, int numEdgeNeigh)
 {
@@ -25,6 +51,8 @@ double LiveWire::cost_function(int numEdgeCur, int numEdgeNeigh)
     cost = mesh.calc_edge_length(ehNeigh);
     // dihedral angle
     cost *= mesh.calc_dihedral_angle(ehNeigh);
+    // Normal orientation
+    cost*=normal_orientation(numEdgeNeigh, sightPoint);
 
     // TESTS
     MyMesh::Point myNorm;
@@ -37,6 +65,8 @@ double LiveWire::cost_function(int numEdgeCur, int numEdgeNeigh)
 
 void LiveWire::build()
 {
+    qDebug() << "\t\t<" << __FUNCTION__ << ">";
+
     // Init
     vector<double> costEdges(mesh.n_edges(), static_cast<double>(INT_MAX));
     costEdges[edgeSeed] = 0.0;
@@ -44,10 +74,12 @@ void LiveWire::build()
     vector<int> activeList;   activeList.push_back(edgeSeed);
     paths = vector<int>(mesh.n_edges(), -1);
 
-    // WARNING --> BEGIN PAS INITIALISE DANS PATHS...
-
+    // WARNING --> BEGIN PAS INITIALISE DANS PATHS
+    //    unsigned cpt=0;
     while (!activeList.empty())
     {
+        //        qDebug() << "\t\t\t" << cpt++ ;
+        //        qDebug() << activeList;
         int curEdge = Utils::get_min(activeList);
         Utils::erase_elt(activeList, curEdge);
         edgesVisited[curEdge] = true;
@@ -78,6 +110,8 @@ void LiveWire::build()
 //    // TMP anti bug
 //    if (edgeBegin!=mesh.n_edges()-1)
 //        paths[edgeBegin] = edgeBegin+1;
+
+    qDebug() << "\t\t</" << __FUNCTION__ << ">";
 }
 
 /*------------------------------------------------------------------------------

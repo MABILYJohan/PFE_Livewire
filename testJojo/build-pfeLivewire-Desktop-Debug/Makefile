@@ -56,8 +56,9 @@ SOURCES       = ../Test2/main.cpp \
 		../Test2/utils.cpp \
 		../Test2/utilsMesh.cpp \
 		../Test2/livewire.cpp \
-		../Test2/contour.cpp \
-		../Test2/selectedpoints.cpp moc_mainwindow.cpp \
+		../Test2/selectedpoints.cpp \
+		../Test2/raycasting.cpp \
+		../Test2/contour.cpp moc_mainwindow.cpp \
 		moc_meshviewerwidget.cpp
 OBJECTS       = main.o \
 		mainwindow.o \
@@ -65,8 +66,9 @@ OBJECTS       = main.o \
 		utils.o \
 		utilsMesh.o \
 		livewire.o \
-		contour.o \
 		selectedpoints.o \
+		raycasting.o \
+		contour.o \
 		moc_mainwindow.o \
 		moc_meshviewerwidget.o
 DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
@@ -158,15 +160,17 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		../Test2/utils.h \
 		../Test2/utilsMesh.h \
 		../Test2/livewire.h \
-		../Test2/contour.h \
-		../Test2/selectedpoints.h ../Test2/main.cpp \
+		../Test2/selectedpoints.h \
+		../Test2/raycasting.h \
+		../Test2/contour.h ../Test2/main.cpp \
 		../Test2/mainwindow.cpp \
 		../Test2/meshviewerwidget.cpp \
 		../Test2/utils.cpp \
 		../Test2/utilsMesh.cpp \
 		../Test2/livewire.cpp \
-		../Test2/contour.cpp \
-		../Test2/selectedpoints.cpp
+		../Test2/selectedpoints.cpp \
+		../Test2/raycasting.cpp \
+		../Test2/contour.cpp
 QMAKE_TARGET  = starterLight
 DESTDIR       = 
 TARGET        = starterLight
@@ -372,8 +376,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../Test2/mainwindow.h ../Test2/meshviewerwidget.h ../Test2/utils.h ../Test2/utilsMesh.h ../Test2/livewire.h ../Test2/contour.h ../Test2/selectedpoints.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../Test2/main.cpp ../Test2/mainwindow.cpp ../Test2/meshviewerwidget.cpp ../Test2/utils.cpp ../Test2/utilsMesh.cpp ../Test2/livewire.cpp ../Test2/contour.cpp ../Test2/selectedpoints.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../Test2/mainwindow.h ../Test2/meshviewerwidget.h ../Test2/utils.h ../Test2/utilsMesh.h ../Test2/livewire.h ../Test2/selectedpoints.h ../Test2/raycasting.h ../Test2/contour.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../Test2/main.cpp ../Test2/mainwindow.cpp ../Test2/meshviewerwidget.cpp ../Test2/utils.cpp ../Test2/utilsMesh.cpp ../Test2/livewire.cpp ../Test2/selectedpoints.cpp ../Test2/raycasting.cpp ../Test2/contour.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents ../Test2/mainwindow.ui $(DISTDIR)/
 
 
@@ -485,6 +489,7 @@ moc_mainwindow.cpp: ../../OpenMesh/inc/OpenMesh/Core/IO/MeshIO.hh \
 		../Test2/utilsMesh.h \
 		../Test2/utils.h \
 		../Test2/contour.h \
+		../Test2/selectedpoints.h \
 		../Test2/livewire.h \
 		../Test2/mainwindow.h \
 		moc_predefs.h \
@@ -605,6 +610,7 @@ main.o: ../Test2/main.cpp ../Test2/mainwindow.h \
 		../Test2/utilsMesh.h \
 		../Test2/utils.h \
 		../Test2/contour.h \
+		../Test2/selectedpoints.h \
 		../Test2/livewire.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o ../Test2/main.cpp
 
@@ -685,6 +691,7 @@ mainwindow.o: ../Test2/mainwindow.cpp ../Test2/mainwindow.h \
 		../Test2/utilsMesh.h \
 		../Test2/utils.h \
 		../Test2/contour.h \
+		../Test2/selectedpoints.h \
 		../Test2/livewire.h \
 		ui_mainwindow.h \
 		../Test2/meshviewerwidget.h
@@ -857,85 +864,6 @@ livewire.o: ../Test2/livewire.cpp ../Test2/livewire.h \
 		../Test2/utilsMesh.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o livewire.o ../Test2/livewire.cpp
 
-contour.o: ../Test2/contour.cpp ../Test2/contour.h \
-		../../OpenMesh/inc/OpenMesh/Core/IO/MeshIO.hh \
-		../../OpenMesh/inc/OpenMesh/Core/System/config.h \
-		../../OpenMesh/inc/OpenMesh/Core/System/compiler.hh \
-		../../OpenMesh/inc/OpenMesh/Core/System/OpenMeshDLLMacros.hh \
-		../../OpenMesh/inc/OpenMesh/Core/IO/SR_store.hh \
-		../../OpenMesh/inc/OpenMesh/Core/IO/SR_types.hh \
-		../../OpenMesh/inc/OpenMesh/Core/IO/SR_rbo.hh \
-		../../OpenMesh/inc/OpenMesh/Core/System/omstream.hh \
-		../../OpenMesh/inc/OpenMesh/Core/System/mostream.hh \
-		../../OpenMesh/inc/OpenMesh/Core/Utils/GenProg.hh \
-		../../OpenMesh/inc/OpenMesh/Core/IO/SR_binary.hh \
-		../../OpenMesh/inc/OpenMesh/Core/IO/SR_binary_spec.hh \
-		../../OpenMesh/inc/OpenMesh/Tools/Utils/NumLimitsT.hh \
-		../../OpenMesh/inc/OpenMesh/Tools/Utils/Config.hh \
-		../../OpenMesh/inc/OpenMesh/Core/Geometry/VectorT.hh \
-		../../OpenMesh/inc/OpenMesh/Core/Geometry/Vector11T.hh \
-		../../OpenMesh/inc/OpenMesh/Core/Geometry/VectorT_inc.hh \
-		../../OpenMesh/inc/OpenMesh/Core/Mesh/Status.hh \
-		../../OpenMesh/inc/OpenMesh/Core/IO/SR_binary_vector_of_fundamentals.inl \
-		../../OpenMesh/inc/OpenMesh/Core/IO/SR_binary_vector_of_string.inl \
-		../../OpenMesh/inc/OpenMesh/Core/IO/SR_binary_vector_of_bool.inl \
-		../../OpenMesh/inc/OpenMesh/Core/IO/StoreRestore.hh \
-		../../OpenMesh/inc/OpenMesh/Core/IO/IOManager.hh \
-		../../OpenMesh/inc/OpenMesh/Core/IO/Options.hh \
-		../../OpenMesh/inc/OpenMesh/Core/IO/reader/BaseReader.hh \
-		../../OpenMesh/inc/OpenMesh/Core/IO/importer/BaseImporter.hh \
-		../../OpenMesh/inc/OpenMesh/Core/Mesh/BaseKernel.hh \
-		../../OpenMesh/inc/OpenMesh/Core/Utils/PropertyContainer.hh \
-		../../OpenMesh/inc/OpenMesh/Core/Utils/Property.hh \
-		../../OpenMesh/inc/OpenMesh/Core/Mesh/Handles.hh \
-		../../OpenMesh/inc/OpenMesh/Core/Utils/BaseProperty.hh \
-		../../OpenMesh/inc/OpenMesh/Core/Utils/SingletonT.hh \
-		../../OpenMesh/inc/OpenMesh/Core/Utils/SingletonT.cc \
-		../../OpenMesh/inc/OpenMesh/Core/IO/writer/BaseWriter.hh \
-		../../OpenMesh/inc/OpenMesh/Core/IO/exporter/BaseExporter.hh \
-		../../OpenMesh/inc/OpenMesh/Core/IO/importer/ImporterT.hh \
-		../../OpenMesh/inc/OpenMesh/Core/Utils/vector_cast.hh \
-		../../OpenMesh/inc/OpenMesh/Core/Utils/vector_traits.hh \
-		../../OpenMesh/inc/OpenMesh/Core/Utils/color_cast.hh \
-		../../OpenMesh/inc/OpenMesh/Core/Mesh/Attributes.hh \
-		../../OpenMesh/inc/OpenMesh/Core/IO/exporter/ExporterT.hh \
-		../../OpenMesh/inc/OpenMesh/Core/IO/IOInstances.hh \
-		../../OpenMesh/inc/OpenMesh/Core/IO/reader/OBJReader.hh \
-		../../OpenMesh/inc/OpenMesh/Core/IO/reader/OFFReader.hh \
-		../../OpenMesh/inc/OpenMesh/Core/IO/reader/PLYReader.hh \
-		../../OpenMesh/inc/OpenMesh/Core/IO/reader/STLReader.hh \
-		../../OpenMesh/inc/OpenMesh/Core/IO/reader/OMReader.hh \
-		../../OpenMesh/inc/OpenMesh/Core/IO/OMFormat.hh \
-		../../OpenMesh/inc/OpenMesh/Core/Utils/Endian.hh \
-		../../OpenMesh/inc/OpenMesh/Core/IO/OMFormatT.cc \
-		../../OpenMesh/inc/OpenMesh/Core/IO/writer/OBJWriter.hh \
-		../../OpenMesh/inc/OpenMesh/Core/IO/writer/OFFWriter.hh \
-		../../OpenMesh/inc/OpenMesh/Core/IO/writer/STLWriter.hh \
-		../../OpenMesh/inc/OpenMesh/Core/IO/writer/OMWriter.hh \
-		../../OpenMesh/inc/OpenMesh/Core/IO/BinaryHelper.hh \
-		../../OpenMesh/inc/OpenMesh/Core/IO/writer/PLYWriter.hh \
-		../../OpenMesh/inc/OpenMesh/Core/Mesh/TriMesh_ArrayKernelT.hh \
-		../../OpenMesh/inc/OpenMesh/Core/Mesh/TriConnectivity.hh \
-		../../OpenMesh/inc/OpenMesh/Core/Mesh/PolyConnectivity.hh \
-		../../OpenMesh/inc/OpenMesh/Core/Mesh/ArrayKernel.hh \
-		../../OpenMesh/inc/OpenMesh/Core/Mesh/ArrayItems.hh \
-		../../OpenMesh/inc/OpenMesh/Core/Mesh/ArrayKernelT.cc \
-		../../OpenMesh/inc/OpenMesh/Core/Mesh/IteratorsT.hh \
-		../../OpenMesh/inc/OpenMesh/Core/Mesh/CirculatorsT.hh \
-		../../OpenMesh/inc/OpenMesh/Core/Mesh/Traits.hh \
-		../../OpenMesh/inc/OpenMesh/Core/Mesh/FinalMeshItemsT.hh \
-		../../OpenMesh/inc/OpenMesh/Core/Mesh/AttribKernelT.hh \
-		../../OpenMesh/inc/OpenMesh/Core/Mesh/TriMeshT.hh \
-		../../OpenMesh/inc/OpenMesh/Core/Mesh/PolyMeshT.hh \
-		../../OpenMesh/inc/OpenMesh/Core/Geometry/MathDefs.hh \
-		../../OpenMesh/inc/OpenMesh/Core/Mesh/PolyMeshT.cc \
-		../../OpenMesh/inc/OpenMesh/Core/Geometry/LoopSchemeMaskT.hh \
-		../../OpenMesh/inc/OpenMesh/Core/Mesh/TriMeshT.cc \
-		../Test2/utilsMesh.h \
-		../Test2/utils.h \
-		../Test2/livewire.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o contour.o ../Test2/contour.cpp
-
 selectedpoints.o: ../Test2/selectedpoints.cpp ../Test2/selectedpoints.h \
 		../Test2/utils.h \
 		../Test2/utilsMesh.h \
@@ -1013,6 +941,89 @@ selectedpoints.o: ../Test2/selectedpoints.cpp ../Test2/selectedpoints.h \
 		../../OpenMesh/inc/OpenMesh/Core/Geometry/LoopSchemeMaskT.hh \
 		../../OpenMesh/inc/OpenMesh/Core/Mesh/TriMeshT.cc
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o selectedpoints.o ../Test2/selectedpoints.cpp
+
+raycasting.o: ../Test2/raycasting.cpp ../Test2/raycasting.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o raycasting.o ../Test2/raycasting.cpp
+
+contour.o: ../Test2/contour.cpp ../Test2/contour.h \
+		../../OpenMesh/inc/OpenMesh/Core/IO/MeshIO.hh \
+		../../OpenMesh/inc/OpenMesh/Core/System/config.h \
+		../../OpenMesh/inc/OpenMesh/Core/System/compiler.hh \
+		../../OpenMesh/inc/OpenMesh/Core/System/OpenMeshDLLMacros.hh \
+		../../OpenMesh/inc/OpenMesh/Core/IO/SR_store.hh \
+		../../OpenMesh/inc/OpenMesh/Core/IO/SR_types.hh \
+		../../OpenMesh/inc/OpenMesh/Core/IO/SR_rbo.hh \
+		../../OpenMesh/inc/OpenMesh/Core/System/omstream.hh \
+		../../OpenMesh/inc/OpenMesh/Core/System/mostream.hh \
+		../../OpenMesh/inc/OpenMesh/Core/Utils/GenProg.hh \
+		../../OpenMesh/inc/OpenMesh/Core/IO/SR_binary.hh \
+		../../OpenMesh/inc/OpenMesh/Core/IO/SR_binary_spec.hh \
+		../../OpenMesh/inc/OpenMesh/Tools/Utils/NumLimitsT.hh \
+		../../OpenMesh/inc/OpenMesh/Tools/Utils/Config.hh \
+		../../OpenMesh/inc/OpenMesh/Core/Geometry/VectorT.hh \
+		../../OpenMesh/inc/OpenMesh/Core/Geometry/Vector11T.hh \
+		../../OpenMesh/inc/OpenMesh/Core/Geometry/VectorT_inc.hh \
+		../../OpenMesh/inc/OpenMesh/Core/Mesh/Status.hh \
+		../../OpenMesh/inc/OpenMesh/Core/IO/SR_binary_vector_of_fundamentals.inl \
+		../../OpenMesh/inc/OpenMesh/Core/IO/SR_binary_vector_of_string.inl \
+		../../OpenMesh/inc/OpenMesh/Core/IO/SR_binary_vector_of_bool.inl \
+		../../OpenMesh/inc/OpenMesh/Core/IO/StoreRestore.hh \
+		../../OpenMesh/inc/OpenMesh/Core/IO/IOManager.hh \
+		../../OpenMesh/inc/OpenMesh/Core/IO/Options.hh \
+		../../OpenMesh/inc/OpenMesh/Core/IO/reader/BaseReader.hh \
+		../../OpenMesh/inc/OpenMesh/Core/IO/importer/BaseImporter.hh \
+		../../OpenMesh/inc/OpenMesh/Core/Mesh/BaseKernel.hh \
+		../../OpenMesh/inc/OpenMesh/Core/Utils/PropertyContainer.hh \
+		../../OpenMesh/inc/OpenMesh/Core/Utils/Property.hh \
+		../../OpenMesh/inc/OpenMesh/Core/Mesh/Handles.hh \
+		../../OpenMesh/inc/OpenMesh/Core/Utils/BaseProperty.hh \
+		../../OpenMesh/inc/OpenMesh/Core/Utils/SingletonT.hh \
+		../../OpenMesh/inc/OpenMesh/Core/Utils/SingletonT.cc \
+		../../OpenMesh/inc/OpenMesh/Core/IO/writer/BaseWriter.hh \
+		../../OpenMesh/inc/OpenMesh/Core/IO/exporter/BaseExporter.hh \
+		../../OpenMesh/inc/OpenMesh/Core/IO/importer/ImporterT.hh \
+		../../OpenMesh/inc/OpenMesh/Core/Utils/vector_cast.hh \
+		../../OpenMesh/inc/OpenMesh/Core/Utils/vector_traits.hh \
+		../../OpenMesh/inc/OpenMesh/Core/Utils/color_cast.hh \
+		../../OpenMesh/inc/OpenMesh/Core/Mesh/Attributes.hh \
+		../../OpenMesh/inc/OpenMesh/Core/IO/exporter/ExporterT.hh \
+		../../OpenMesh/inc/OpenMesh/Core/IO/IOInstances.hh \
+		../../OpenMesh/inc/OpenMesh/Core/IO/reader/OBJReader.hh \
+		../../OpenMesh/inc/OpenMesh/Core/IO/reader/OFFReader.hh \
+		../../OpenMesh/inc/OpenMesh/Core/IO/reader/PLYReader.hh \
+		../../OpenMesh/inc/OpenMesh/Core/IO/reader/STLReader.hh \
+		../../OpenMesh/inc/OpenMesh/Core/IO/reader/OMReader.hh \
+		../../OpenMesh/inc/OpenMesh/Core/IO/OMFormat.hh \
+		../../OpenMesh/inc/OpenMesh/Core/Utils/Endian.hh \
+		../../OpenMesh/inc/OpenMesh/Core/IO/OMFormatT.cc \
+		../../OpenMesh/inc/OpenMesh/Core/IO/writer/OBJWriter.hh \
+		../../OpenMesh/inc/OpenMesh/Core/IO/writer/OFFWriter.hh \
+		../../OpenMesh/inc/OpenMesh/Core/IO/writer/STLWriter.hh \
+		../../OpenMesh/inc/OpenMesh/Core/IO/writer/OMWriter.hh \
+		../../OpenMesh/inc/OpenMesh/Core/IO/BinaryHelper.hh \
+		../../OpenMesh/inc/OpenMesh/Core/IO/writer/PLYWriter.hh \
+		../../OpenMesh/inc/OpenMesh/Core/Mesh/TriMesh_ArrayKernelT.hh \
+		../../OpenMesh/inc/OpenMesh/Core/Mesh/TriConnectivity.hh \
+		../../OpenMesh/inc/OpenMesh/Core/Mesh/PolyConnectivity.hh \
+		../../OpenMesh/inc/OpenMesh/Core/Mesh/ArrayKernel.hh \
+		../../OpenMesh/inc/OpenMesh/Core/Mesh/ArrayItems.hh \
+		../../OpenMesh/inc/OpenMesh/Core/Mesh/ArrayKernelT.cc \
+		../../OpenMesh/inc/OpenMesh/Core/Mesh/IteratorsT.hh \
+		../../OpenMesh/inc/OpenMesh/Core/Mesh/CirculatorsT.hh \
+		../../OpenMesh/inc/OpenMesh/Core/Mesh/Traits.hh \
+		../../OpenMesh/inc/OpenMesh/Core/Mesh/FinalMeshItemsT.hh \
+		../../OpenMesh/inc/OpenMesh/Core/Mesh/AttribKernelT.hh \
+		../../OpenMesh/inc/OpenMesh/Core/Mesh/TriMeshT.hh \
+		../../OpenMesh/inc/OpenMesh/Core/Mesh/PolyMeshT.hh \
+		../../OpenMesh/inc/OpenMesh/Core/Geometry/MathDefs.hh \
+		../../OpenMesh/inc/OpenMesh/Core/Mesh/PolyMeshT.cc \
+		../../OpenMesh/inc/OpenMesh/Core/Geometry/LoopSchemeMaskT.hh \
+		../../OpenMesh/inc/OpenMesh/Core/Mesh/TriMeshT.cc \
+		../Test2/utilsMesh.h \
+		../Test2/utils.h \
+		../Test2/selectedpoints.h \
+		../Test2/livewire.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o contour.o ../Test2/contour.cpp
 
 moc_mainwindow.o: moc_mainwindow.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_mainwindow.o moc_mainwindow.cpp

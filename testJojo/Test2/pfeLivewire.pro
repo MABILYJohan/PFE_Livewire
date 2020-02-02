@@ -35,7 +35,7 @@ unix:!macx {
 
 macx: {
     INCLUDEPATH += $$PWD/../../OpenMesh/inc/
-    LIBS += -L$$PWD/../../OpenMesh/libosx/ -lOpenMeshCore -lOpenMeshTools
+    LIBS += -L$$PWD/../OpenMesh/libosx/ -lOpenMeshCore -lOpenMeshTools
 }
 
 SOURCES += \
@@ -45,8 +45,9 @@ SOURCES += \
     utils.cpp \
     utilsMesh.cpp \
     livewire.cpp \
-    contour.cpp \
-    selectedpoints.cpp
+    selectedpoints.cpp \
+    raycasting.cpp \
+    contour.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -54,8 +55,9 @@ HEADERS += \
     utils.h \
     utilsMesh.h \
     livewire.h \
-    contour.h \
-    selectedpoints.h
+    selectedpoints.h \
+    raycasting.h \
+    contour.h
 
 FORMS += \
         mainwindow.ui

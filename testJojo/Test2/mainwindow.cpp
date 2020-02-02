@@ -44,7 +44,7 @@ void MainWindow::showPathEdge(vector<unsigned> paths, int edge1, int edge2)
     displayMesh(&mesh);
 }
 
-void MainWindow::test_pt_de_vue()
+MyMesh::Point MainWindow::test_pt_de_vue()
 {
     ui->displayWidget->my_view();
     OpenMesh::Vec3f center3F = ui->displayWidget->myCenter;
@@ -58,6 +58,7 @@ void MainWindow::test_pt_de_vue()
     //        QVector3D myV (p[0], p[1], p[2]);
     //        qDebug() << myV;
     //    }
+    return (MyMesh::Point(center.x(), center.y(), center.z()));
 }
 
 /* **** début de la partie boutons et IHM **** */
@@ -66,23 +67,21 @@ void MainWindow::on_pushButton_livewire_clicked()
 {
     qDebug() <<"<" << __FUNCTION__ << "The event sender is" << sender() << ">";
 
-//    vector<unsigned> tmpEdges = {0, 4, 6, 15};
-//    Contour myContour(tmpEdges);
+    vector<unsigned> tmpEdges = {0, 4, 6, 15};
+    Contour myContour(tmpEdges);
 
     mesh.update_normals();
     // initialisation des couleurs et épaisseurs (sommets et arêtes) du mesh
     resetAllColorsAndThickness(&mesh);
 
-//    myContour.draw(&mesh);
-
-    test_pt_de_vue();
+    MyMesh::Point _sightPoint = test_pt_de_vue();
+    myContour.draw(&mesh, _sightPoint);
 
     // on affiche le maillage
     displayMesh(&mesh);
 
-    //showPathEdge(paths, 0, 15);
-
     qDebug() << "</" << __FUNCTION__ << ">";
+
 }
 
 // exemple pour charger un fichier .obj
@@ -107,71 +106,69 @@ void MainWindow::on_pushButton_chargement_clicked()
 void MainWindow::on_pushButton_generer_clicked()
 {
     MyMesh::VertexHandle sommets[12];
-        sommets[0] = mesh.add_vertex(MyMesh::Point(0.f, 0.f, 0.f));
+    sommets[0] = mesh.add_vertex(MyMesh::Point(0.f, 0.f, 0.f));
 
-        sommets[1] = mesh.add_vertex(MyMesh::Point(-1.f, 0.f, 0.f));
-        sommets[2] = mesh.add_vertex(MyMesh::Point(0.f, 0.5f, 0.f));
-        sommets[3] = mesh.add_vertex(MyMesh::Point(1.f, 0.f, 0.f));
-        sommets[4] = mesh.add_vertex(MyMesh::Point(0.f, -0.5f, 0.f));
-
-
-
-        // TEST 1
-        //        FaceHandle fh1 = mesh.add_face(sommets[0], sommets[1], sommets[2]);
-        //        mesh.add_face(sommets[0], sommets[5], sommets[1]);
-
-        //        FaceHandle fh2 = mesh.add_face(sommets[2], sommets[6], sommets[4]);
-        //        mesh.add_face(sommets[2], sommets[4], sommets[3]);
+    sommets[1] = mesh.add_vertex(MyMesh::Point(-1.f, 0.f, 0.f));
+    sommets[2] = mesh.add_vertex(MyMesh::Point(0.f, 0.5f, 0.f));
+    sommets[3] = mesh.add_vertex(MyMesh::Point(1.f, 0.f, 0.f));
+    sommets[4] = mesh.add_vertex(MyMesh::Point(0.f, -0.5f, 0.f));
 
 
-        //TEST 2
-        //        FaceHandle fh = mesh.add_face(sommets[0], sommets[1], sommets[2]);
+    // TEST 1
+    //        FaceHandle fh1 = mesh.add_face(sommets[0], sommets[1], sommets[2]);
+    //        mesh.add_face(sommets[0], sommets[5], sommets[1]);
 
-        //        mesh.add_face(sommets[0], sommets[2], sommets[3]);
-        //        mesh.add_face(sommets[2], sommets[4], sommets[3]);
-        //        mesh.add_face(sommets[0], sommets[5], sommets[1]);
-        //        mesh.add_face(sommets[1], sommets[6], sommets[2]);
-        //        mesh.add_face(sommets[2], sommets[6], sommets[4]);
-
-        //        mesh.add_face(sommets[0], sommets[7], sommets[8]);
-        //        mesh.add_face(sommets[1], sommets[9], sommets[10]);
-
-        // TEST 3
-        /*FaceHandle fh1 = */mesh.add_face(sommets[0], sommets[1], sommets[2]);
-        mesh.add_face(sommets[0], sommets[2], sommets[3]);
-        mesh.add_face(sommets[0], sommets[3], sommets[4]);
-        mesh.add_face(sommets[0], sommets[4], sommets[1]);
+    //        FaceHandle fh2 = mesh.add_face(sommets[2], sommets[6], sommets[4]);
+    //        mesh.add_face(sommets[2], sommets[4], sommets[3]);
 
 
-//        mesh.update_normals();
-//        resetAllColorsAndThickness(&mesh);
+    //TEST 2
+    //        FaceHandle fh = mesh.add_face(sommets[0], sommets[1], sommets[2]);
 
-//        EdgeHandle eh = mesh.edge_handle(6);
-//        mesh.set_color(eh, MyMesh::Color(255, 0, 0));
+    //        mesh.add_face(sommets[0], sommets[2], sommets[3]);
+    //        mesh.add_face(sommets[2], sommets[4], sommets[3]);
+    //        mesh.add_face(sommets[0], sommets[5], sommets[1]);
+    //        mesh.add_face(sommets[1], sommets[6], sommets[2]);
+    //        mesh.add_face(sommets[2], sommets[6], sommets[4]);
 
-//        UtilsMesh::splitEdge(&mesh, eh.idx());
+    //        mesh.add_face(sommets[0], sommets[7], sommets[8]);
+    //        mesh.add_face(sommets[1], sommets[9], sommets[10]);
 
-        mesh.update_normals();
-        resetAllColorsAndThickness(&mesh);
+    // TEST 3
+    /*FaceHandle fh1 = */mesh.add_face(sommets[0], sommets[1], sommets[2]);
+    mesh.add_face(sommets[0], sommets[2], sommets[3]);
+    mesh.add_face(sommets[0], sommets[3], sommets[4]);
+    mesh.add_face(sommets[0], sommets[4], sommets[1]);
 
 
-        // OpenMesh::Vec3f center3F = ui->displayWidget->center_;
-//        ui->displayWidget->view_all();
-//        OpenMesh::Vec3f center3F = ui->displayWidget->myCenter;
-//        QVector3D center (center3F[0], center3F[1], center3F[2]);
-//        qDebug() << "center = " << center;
+    //        mesh.update_normals();
+    //        resetAllColorsAndThickness(&mesh);
 
-//        for (MyMesh::VertexIter curVert = mesh.vertices_begin(); curVert != mesh.vertices_end(); curVert++)
-//        {
-//            VertexHandle vh = *curVert;
-//            MyMesh::Point p = mesh.point(vh);
-//            QVector3D myV (p[0], p[1], p[2]);
-//            qDebug() << myV;
-//        }
+    //        EdgeHandle eh = mesh.edge_handle(6);
+    //        mesh.set_color(eh, MyMesh::Color(255, 0, 0));
 
-        displayMesh(&mesh);
-        displayMesh(&mesh);
+    //        UtilsMesh::splitEdge(&mesh, eh.idx());
 
+    mesh.update_normals();
+    resetAllColorsAndThickness(&mesh);
+
+
+    // OpenMesh::Vec3f center3F = ui->displayWidget->center_;
+    //        ui->displayWidget->view_all();
+    //        OpenMesh::Vec3f center3F = ui->displayWidget->myCenter;
+    //        QVector3D center (center3F[0], center3F[1], center3F[2]);
+    //        qDebug() << "center = " << center;
+
+    //        for (MyMesh::VertexIter curVert = mesh.vertices_begin(); curVert != mesh.vertices_end(); curVert++)
+    //        {
+    //            VertexHandle vh = *curVert;
+    //            MyMesh::Point p = mesh.point(vh);
+    //            QVector3D myV (p[0], p[1], p[2]);
+    //            qDebug() << myV;
+    //        }
+
+    displayMesh(&mesh);
+    displayMesh(&mesh);
 }
 
 /* **** fin de la partie boutons et IHM **** */

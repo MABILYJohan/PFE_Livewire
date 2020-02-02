@@ -17,9 +17,8 @@ using namespace OpenMesh::Attributes;
 class LiveWire
 {
 public:
-    LiveWire(MyMesh &_mesh, int _edgeSeed);
+    LiveWire(MyMesh &_mesh, int _edgeSeed, MyMesh::Point _sightPoint);
 
-    // Exemple
     void draw(unsigned edge2);
 
     void build();
@@ -29,6 +28,9 @@ private:
     MyMesh &mesh;
     vector<int> paths;
     int edgeSeed;
+    MyMesh::Point sightPoint;
+
+    double normal_orientation(int numEdge, MyMesh::Point _sightPoint);
 
     double cost_function(int numEdgeCur, int numEdgeNeigh);
     //    void draw_part(unsigned edge1, unsigned edge2);

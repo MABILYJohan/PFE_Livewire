@@ -61,7 +61,7 @@ public:
     static void get_points_of_triangle_face(MyMesh *_mesh, int faceID,
             MyMesh::Point &p1, MyMesh::Point &p2, MyMesh::Point &p3);
     static vector<FaceHandle> get_neighbour_faces(MyMesh *_mesh, int numFace);
-    static vector<EdgeHandle> get_edgeEdge_circulator(MyMesh *_mesh, int numEdge);
+	static vector<EdgeHandle> get_edgeEdge_circulator(MyMesh *_mesh, int numEdge);
 
 
     ////////////////////////    TRANSFOS    ///////////////////////////////////

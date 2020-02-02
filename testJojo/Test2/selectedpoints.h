@@ -14,8 +14,14 @@ class SelectedPoints
 public:
     SelectedPoints();
 
-    MyMesh::Point raycast_onscreen_point(float x, float y); //Localization of the point (x,y) on the screen in the 3D mesh (x',y',z')
-    QVector<MyMesh::Point> points; //Store localisation of the point after raycasting
+    void add_point(float x, float y);
+    void raycast_selected_points();
+
+    QVector<MyMesh::Point> on_screen_points; //Store selected point on screen
+    QVector<MyMesh::Point> on_mesh_points; //Store localisation of the points after raycasting
+
+private:
+    MyMesh::Point raycast_on_screen_point(float x, float y); //Projection of the point (x,y) on the screen to the mesh (x',y',z')
 
 };
 

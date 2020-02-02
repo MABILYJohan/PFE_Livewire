@@ -8,6 +8,7 @@ using namespace OpenMesh;
 using namespace OpenMesh::Attributes;
 
 #include "utilsMesh.h"
+#include "selectedpoints.h"
 #include "livewire.h"
 
 #include <vector>
@@ -26,11 +27,12 @@ public:
     unsigned get_end();
     vector<unsigned> get_contour();
 
+    SelectedPoints selected_points;
+
     void add_edge(unsigned numEdge);
-    void draw(MyMesh *_mesh);
+    void draw(MyMesh *_mesh, MyMesh::Point _sightPoint);
 
 protected:
-
     int startPoint;
     int endPoint;
     vector<unsigned> contour;
