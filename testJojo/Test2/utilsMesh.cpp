@@ -174,8 +174,9 @@ vector<FaceHandle> UtilsMesh::get_neighbour_faces(MyMesh *_mesh, int numFace)
  * -----------------------------------------------------------*/
 vector<EdgeHandle> UtilsMesh::get_edgeEdge_circulator(MyMesh *_mesh, int numEdge)
 {
-    if (static_cast<unsigned>(numEdge)>_mesh->n_edges()) {
-        qWarning() << "In " << __FUNCTION__ << ": Error @numEdge not valid";
+    if (static_cast<unsigned>(numEdge) > _mesh->n_edges()) {
+        qWarning() << "In " << __FUNCTION__ << ": Error @numEdge not valid = "
+                   << numEdge << "> nbEdges=" << _mesh->n_edges();
         exit (1);
     }
     vector<EdgeHandle> ehs;

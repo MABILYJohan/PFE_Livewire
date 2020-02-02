@@ -17,17 +17,21 @@ using namespace OpenMesh::Attributes;
 class LiveWire
 {
 public:
-    LiveWire(MyMesh &_mesh);
+    LiveWire(MyMesh &_mesh, int _edgeSeed);
 
     // Exemple
-    void segmenter();
+    void draw(unsigned edge2);
 
     void build();
+    vector<int> get_paths();
 
 private:
     MyMesh &mesh;
+    vector<int> paths;
+    int edgeSeed;
 
     double cost_function(int numEdgeCur, int numEdgeNeigh);
+    //    void draw_part(unsigned edge1, unsigned edge2);
 };
 
 #endif // LIVEWIRE_H

@@ -44,14 +44,18 @@ SOURCES += \
     meshviewerwidget.cpp \
     utils.cpp \
     utilsMesh.cpp \
-    livewire.cpp
+    livewire.cpp \
+    contour.cpp \
+    selectedpoints.cpp
 
 HEADERS += \
         mainwindow.h \
     meshviewerwidget.h \
     utils.h \
     utilsMesh.h \
-    livewire.h
+    livewire.h \
+    contour.h \
+    selectedpoints.h
 
 FORMS += \
         mainwindow.ui

@@ -272,9 +272,19 @@ void MeshViewerWidget::update_projection_matrix()
     glMatrixMode( GL_MODELVIEW );
 }
 
+void MeshViewerWidget::my_view()
+{
+    myCenter = Vec3f( -(modelview_matrix_[0]*center_[0] + modelview_matrix_[4]*center_[1] + modelview_matrix_[8]*center_[2] + modelview_matrix_[12]),
+            -(modelview_matrix_[1]*center_[0] + modelview_matrix_[5]*center_[1] + modelview_matrix_[9]*center_[2] + modelview_matrix_[13]),
+            -(modelview_matrix_[2]*center_[0] + modelview_matrix_[6]*center_[1] + modelview_matrix_[10]*center_[2] + modelview_matrix_[14] + 3.0*radius_) );
+}
+
 void MeshViewerWidget::view_all()
 {
-    translate( Vec3f( -(modelview_matrix_[0]*center_[0] + modelview_matrix_[4]*center_[1] + modelview_matrix_[8]*center_[2] + modelview_matrix_[12]), -(modelview_matrix_[1]*center_[0] + modelview_matrix_[5]*center_[1] + modelview_matrix_[9]*center_[2] + modelview_matrix_[13]), -(modelview_matrix_[2]*center_[0] + modelview_matrix_[6]*center_[1] + modelview_matrix_[10]*center_[2] + modelview_matrix_[14] + 3.0*radius_) ) );
+    myCenter = Vec3f( -(modelview_matrix_[0]*center_[0] + modelview_matrix_[4]*center_[1] + modelview_matrix_[8]*center_[2] + modelview_matrix_[12]),
+            -(modelview_matrix_[1]*center_[0] + modelview_matrix_[5]*center_[1] + modelview_matrix_[9]*center_[2] + modelview_matrix_[13]),
+            -(modelview_matrix_[2]*center_[0] + modelview_matrix_[6]*center_[1] + modelview_matrix_[10]*center_[2] + modelview_matrix_[14] + 3.0*radius_) );
+    translate(myCenter);
 }
 
 void MeshViewerWidget::mousePressEvent( QMouseEvent* _event )
