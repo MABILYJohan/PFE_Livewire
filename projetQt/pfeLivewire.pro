@@ -46,7 +46,7 @@ SOURCES += \
     utilsMesh.cpp \
     livewire.cpp \
     selectedpoints.cpp \
-    raycasting.cpp
+    raycasting.cpp \
     contour.cpp
 
 HEADERS += \
@@ -56,7 +56,7 @@ HEADERS += \
     utilsMesh.h \
     livewire.h \
     selectedpoints.h \
-    raycasting.h
+    raycasting.h \
     contour.h
 
 FORMS += \

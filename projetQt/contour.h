@@ -8,6 +8,7 @@ using namespace OpenMesh;
 using namespace OpenMesh::Attributes;
 
 #include "utilsMesh.h"
+#include "selectedpoints.h"
 
 #include <vector>
 
@@ -21,6 +22,8 @@ public:
     unsigned get_start();
     unsigned get_end();
     vector<unsigned> get_contour();
+
+    SelectedPoints selected_points;
 
 protected:
 
