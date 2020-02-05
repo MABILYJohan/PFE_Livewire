@@ -21,7 +21,7 @@ class Contour
 public:
     Contour();
     Contour(unsigned _begin);
-    Contour(vector<unsigned> _edges);
+    Contour(vector<unsigned> _vertices);
 
     unsigned get_start();
     unsigned get_end();
@@ -30,12 +30,14 @@ public:
     SelectedPoints selected_points;
 
     void add_edge(unsigned numEdge);
-    void draw(MyMesh *_mesh);
+    void add_vertex(unsigned numVertex);
+    void draw(MyMesh *_mesh, MyMesh::Point _sightPoint);
 
 protected:
     int startPoint;
     int endPoint;
-    vector<unsigned> contour;
+    vector<unsigned> edgesContour;
+    vector<unsigned> verticesContour;
 };
 
 #endif // CONTOUR_H

@@ -11,7 +11,7 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::test_pt_de_vue()
+MyMesh::Point MainWindow::test_pt_de_vue()
 {
     ui->displayWidget->my_view();
     OpenMesh::Vec3f center3F = ui->displayWidget->myCenter;
@@ -25,6 +25,7 @@ void MainWindow::test_pt_de_vue()
     //        QVector3D myV (p[0], p[1], p[2]);
     //        qDebug() << myV;
     //    }
+    return (MyMesh::Point(center.x(), center.y(), center.z()));
 }
 
 /* **** début de la partie boutons et IHM **** */
@@ -33,14 +34,16 @@ void MainWindow::on_pushButton_livewire_clicked()
 {
     qDebug() <<"<" << __FUNCTION__ << "The event sender is" << sender() << ">";
 
-    vector<unsigned> tmpEdges = {0, 4, 6, 15};
-    Contour myContour(tmpEdges);
+    vector<unsigned> tmpVertices = {0, 4, 6, 7};
+    Contour myContour(tmpVertices);
 
     mesh.update_normals();
     // initialisation des couleurs et épaisseurs (sommets et arêtes) du mesh
     resetAllColorsAndThickness(&mesh);
 
-    myContour.draw(&mesh);
+    MyMesh::Point _sightPoint = test_pt_de_vue();
+    myContour.draw(&mesh, _sightPoint);
+    //    myContour.build();
 
     // on affiche le maillage
     displayMesh(&mesh);
