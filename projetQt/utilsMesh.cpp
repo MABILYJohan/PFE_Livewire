@@ -199,6 +199,18 @@ vector<EdgeHandle> UtilsMesh::get_edgeEdge_circulator(MyMesh *_mesh, int numEdge
     return ehs;
 }
 
+EdgeHandle UtilsMesh::get_next_eh_of_vh(MyMesh *_mesh, int numVertex)
+{
+    VertexHandle vh = _mesh->vertex_handle(numVertex);
+    EdgeHandle eh;
+    for (MyMesh::VertexEdgeCWIter ve_it = _mesh->ve_cwiter(vh); ve_it.is_valid(); ve_it++)
+    {
+        eh = *ve_it;
+        break;
+    }
+    return eh;
+}
+
 ////////////////////////    TRANSFOS    ///////////////////////////////////
 
 void UtilsMesh::add_triangle_face(MyMesh *_mesh,
