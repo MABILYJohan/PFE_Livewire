@@ -43,7 +43,9 @@ void Contour::add_vertex(unsigned numVertex)
     endPoint = numVertex;
 }
 
-//void Contour::build()
+
+
+//void Contour::draw_contour(MyMesh *_mesh, MyMesh::Point _sightPoint)
 //{
 //    qDebug() << "\t<" << __FUNCTION__ << ">";
 //    if (verticesContour.empty())    return;
@@ -52,41 +54,25 @@ void Contour::add_vertex(unsigned numVertex)
 //    unsigned cpt=0;
 //    unsigned curVertex2 = verticesContour[cpt+1];
 
+
+
 //    while (static_cast<int>(curVertex2) != endPoint)
 //    {
-//        curVertex2 = verticesContour[cpt+1];
-//    }
-
-//    qDebug() << "\t</" << __FUNCTION__ << ">";
-//}
-
-//void Contour::draw(MyMesh *_mesh)
-//{
-//    qDebug() << "\t<" << __FUNCTION__ << ">";
-//    if (edgesContour.empty())    return;
-
-//    unsigned curEdge = startPoint;
-//    unsigned cpt=0;
-//    unsigned curEdge2 = edgesContour[cpt+1];
-
-
-//    while (static_cast<int>(curEdge2) != endPoint)
-//    {
-//        qDebug() << "\t\tchargement:" << cpt<<"/"<<edgesContour.size();
+//        qDebug() << "\t\tchargement:" << cpt<<"/"<<verticesContour.size();
 //        //        qDebug() << "\t\tcpt=" << cpt;
-//        curEdge2 = edgesContour[cpt+1];
-//        //        qDebug() << "\t\tcurEdge=" << curEdge;
-//        //        qDebug() << "\t\tcurEdge2=" << curEdge2;
+//        curVertex2 = verticesContour[cpt+1];
+//        //        qDebug() << "\t\tcurVertex=" << curEdge;
+//        //        qDebug() << "\t\tcurVertex2=" << curEdge2;
 
-//        LiveWire lW(*_mesh, curEdge);
-//        lW.draw(curEdge2);
-//        curEdge = curEdge2;
+//        LiveWire lW(*_mesh, curVertex, _sightPoint);
+//        lW.draw(curVertex2);
+//        curVertex = curVertex2;
 //        cpt++;
 //    }
-//    qDebug() << "\t\tchargement:" << cpt<<"/"<<edgesContour.size();
-//    LiveWire lW(*_mesh, endPoint);
+//    qDebug() << "\t\tchargement:" << cpt<<"/"<<verticesContour.size();
+//    LiveWire lW(*_mesh, endPoint, _sightPoint);
 //    lW.draw(startPoint);
-//    qDebug() << "\t\tchargement:" << cpt+1<<"/"<<edgesContour.size();
+//    qDebug() << "\t\tchargement:" << cpt+1<<"/"<<verticesContour.size();
 //    qDebug() << "\t</" << __FUNCTION__ << ">";
 //}
 
@@ -100,28 +86,28 @@ void Contour::draw_contour(MyMesh *_mesh, MyMesh::Point _sightPoint)
     unsigned cpt=0;
     unsigned curVertex2 = verticesContour[cpt+1];
 
+    LiveWire lW(*_mesh, _sightPoint);
 
     while (static_cast<int>(curVertex2) != endPoint)
     {
-        qDebug() << "\t\tchargement:" << cpt<<"/"<<verticesContour.size();
+        qDebug() << "\t\tchargement draw:" << cpt<<"/"<<verticesContour.size();
         //        qDebug() << "\t\tcpt=" << cpt;
         curVertex2 = verticesContour[cpt+1];
         //        qDebug() << "\t\tcurVertex=" << curEdge;
         //        qDebug() << "\t\tcurVertex2=" << curEdge2;
 
-        LiveWire lW(*_mesh, curVertex, _sightPoint);
+        //        LiveWire lW(*_mesh, curVertex, _sightPoint);
+        lW.build_paths(curVertex);
         lW.draw(curVertex2);
         curVertex = curVertex2;
         cpt++;
     }
-    qDebug() << "\t\tchargement:" << cpt<<"/"<<verticesContour.size();
-    LiveWire lW(*_mesh, endPoint, _sightPoint);
+    qDebug() << "\t\tchargement draw:" << cpt<<"/"<<verticesContour.size();
+    lW.build_paths(endPoint);
     lW.draw(startPoint);
-    qDebug() << "\t\tchargement:" << cpt+1<<"/"<<verticesContour.size();
+    qDebug() << "\t\tchargement draw:" << cpt+1<<"/"<<verticesContour.size();
     qDebug() << "\t</" << __FUNCTION__ << ">";
 }
-
-
 
 
 

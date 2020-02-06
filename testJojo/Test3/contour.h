@@ -29,7 +29,6 @@ public:
 
     SelectedPoints selected_points;
 
-    //    void build();
 
     void add_edge(unsigned numEdge);
     void add_vertex(unsigned numVertex);

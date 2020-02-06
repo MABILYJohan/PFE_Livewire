@@ -56,7 +56,10 @@ void MainWindow::on_pushButton_livewire_clicked()
 void MainWindow::on_pushButton_chargement_clicked()
 {
     // fenêtre de sélection des fichiers
-    QString fileName = QFileDialog::getOpenFileName(this, tr("Open Mesh"), "", tr("Mesh Files (*.obj)"));
+    QString fileName = QFileDialog::getOpenFileName(this,
+                                                    tr("Open Mesh"),
+                                                    "../../../MGM/meshFiles/",
+                                                    tr("Mesh Files (*.obj)"));
 
     // chargement du fichier .obj dans la variable globale "mesh"
     OpenMesh::IO::read_mesh(mesh, fileName.toUtf8().constData());
