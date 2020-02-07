@@ -86,7 +86,7 @@ void Contour::draw_contour(MyMesh *_mesh, MyMesh::Point _sightPoint)
     unsigned cpt=0;
     unsigned curVertex2 = verticesContour[cpt+1];
 
-    LiveWire lW(*_mesh, _sightPoint);
+    LiveWire lW(*_mesh, curVertex, _sightPoint);
 
     while (static_cast<int>(curVertex2) != endPoint)
     {
@@ -97,7 +97,7 @@ void Contour::draw_contour(MyMesh *_mesh, MyMesh::Point _sightPoint)
         //        qDebug() << "\t\tcurVertex2=" << curEdge2;
 
         //        LiveWire lW(*_mesh, curVertex, _sightPoint);
-        lW.build_paths(curVertex);
+        lW.update_vertexSeed(curVertex);
         lW.draw(curVertex2);
         curVertex = curVertex2;
         cpt++;

@@ -6,6 +6,7 @@
 
 #include "utils.h"
 #include "utilsMesh.h"
+#include "dijkstra.h"
 
 #include <list>
 
@@ -17,9 +18,10 @@ using namespace OpenMesh::Attributes;
 class LiveWire
 {
 public:
-    LiveWire(MyMesh &_mesh, MyMesh::Point _sightPoint);
+    LiveWire(MyMesh &_mesh, int _vertexSeed, MyMesh::Point _sightPoint);
 
-    // Exemple
+    void update_vertexSeed(int _vertexSeed);
+
     void draw(unsigned vertex2);
 
     void build_paths(int _vertexSeed);
@@ -28,9 +30,11 @@ public:
 private:
     MyMesh &mesh;
     vector<int> paths;
+    Dijkstra myDijkstra;
     int vertexSeed;
     int edgeSeed;
     MyMesh::Point sightPoint;
+    bool flag_criterion_visibility;
 
     vector<vector<double>> tabCosts;
     void init_criterions(unsigned nbCriterions);
@@ -38,6 +42,7 @@ private:
     double criterion_length(EdgeHandle eh);
     double criterion_diedral_angle(EdgeHandle eh);
     double criterion_normal_orientation(EdgeHandle eh, MyMesh::Point _sightPoint);
+    double criterion_visibility(EdgeHandle eh);
 
     double cost_function(int numEdgeCur, int numEdgeNeigh);
     //    void draw_part(unsigned edge1, unsigned edge2);

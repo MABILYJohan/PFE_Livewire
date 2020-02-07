@@ -5,33 +5,23 @@
 
 ///////////////////////////////  CONSTRUCTEURS   ////////////////////////////////////////////////
 
-void LiveWire::init_criterions(unsigned nbCriterions)
-{
-    tabCosts.clear();
-    //    unsigned mySize = mesh.n_edges();
-    vector<double> tmpVec;
-    for (unsigned i=0; i<nbCriterions; i++) {
-        tabCosts.push_back(tmpVec);
-    }
-}
-
 /*------------------------------------------------------------------------------
- * Faire très attention à bien définir la variable @nb_criterions
+ * Faire très attention à bien définir la variable @nb_criterions_preload
  * ----------------------------------------------------------------------------*/
-LiveWire::LiveWire(MyMesh &_mesh, MyMesh::Point _sightPoint) :
-    mesh(_mesh), sightPoint(_sightPoint)
+LiveWire::LiveWire(MyMesh &_mesh, int _vertexSeed, MyMesh::Point _sightPoint) :
+    mesh(_mesh), vertexSeed(_vertexSeed), sightPoint(_sightPoint)
 {
     qDebug() << "\t\t<" << __FUNCTION__ << ">";
 
-    unsigned nb_criterions = 3;
-    if (nb_criterions <= 0) {
+    flag_criterion_visibility = true;
+    unsigned nb_criterions_preload = 3;
+    if (nb_criterions_preload <= 0) {
         qWarning() << "in" << __FUNCTION__ << ": nb_criterions can't be inferior to 1:"
-                   << "\nnb_criterions =" << nb_criterions << "not accepted";
+                   << "\nnb_criterions =" << nb_criterions_preload << "not accepted";
         return;
     }
-    init_criterions(nb_criterions);
+    init_criterions(nb_criterions_preload);
     unsigned cpt=0;
-
 
     qDebug() << "\t\t\tchargement LW:" << 0 <<"/"<<mesh.n_edges();
     for (MyMesh::EdgeIter curEdge = mesh.edges_begin(); curEdge != mesh.edges_end(); curEdge++)
@@ -52,8 +42,29 @@ LiveWire::LiveWire(MyMesh &_mesh, MyMesh::Point _sightPoint) :
 
 vector<int> LiveWire::get_paths()  {   return paths;   }
 
+void LiveWire::update_vertexSeed(int _vertexSeed)
+{
+    vertexSeed = _vertexSeed;
+    if (flag_criterion_visibility)
+    {
+        myDijkstra.dijkstra(&mesh, vertexSeed);
+        //        vector<int> dijkstraPaths = myDijkstra.get_paths();
+    }
+    build_paths(vertexSeed);
+}
 
-//////////////////////////////////  CRITERES   ///////////////////////////////////////////////////
+
+//////////////////////////////////  CRITERES PRELOAD  //////////////////////////////////
+
+void LiveWire::init_criterions(unsigned nbCriterions)
+{
+    tabCosts.clear();
+    //    unsigned mySize = mesh.n_edges();
+    vector<double> tmpVec;
+    for (unsigned i=0; i<nbCriterions; i++) {
+        tabCosts.push_back(tmpVec);
+    }
+}
 
 double LiveWire::criterion_length(EdgeHandle eh) {
     return mesh.calc_edge_length(eh);
@@ -84,6 +95,25 @@ double LiveWire::criterion_normal_orientation(EdgeHandle eh, MyMesh::Point _sigh
         float angle2 = acos(dot(n2, myVec));
         cost+=angle2;
     }
+
+    return cost;
+}
+
+
+//////////////////////////////////  CRITERES AUTRES //////////////////////////////////
+
+double LiveWire::criterion_visibility(EdgeHandle eh)
+{
+    double cost = 0.0;
+    // Visibilité
+    vector<int> dijkstraPaths = myDijkstra.get_paths();
+    if (dijkstraPaths.empty()) {
+        qWarning() << "Warning in " << __FUNCTION__
+                   << "dijkstraPaths is empty";
+        exit(1);
+    }
+
+    ;
 
     return cost;
 }
@@ -125,6 +155,7 @@ double LiveWire::cost_function(int numEdgeCur, int numEdgeNeigh)
     // EdgeHandle ehCur = mesh.edge_handle(numEdgeCur);
     EdgeHandle ehNeigh = mesh.edge_handle(numEdgeNeigh);
 
+    /////////////////// COUT CRITERES PRECHARGES ///////////////////////////////////
     // Init pour éviter de multiplier par 0
     cost = tabCosts[0][numEdgeNeigh];
     bool flagFirst=true;
@@ -137,11 +168,9 @@ double LiveWire::cost_function(int numEdgeCur, int numEdgeNeigh)
         cost *= listCout[numEdgeNeigh];
     }
 
-    // TESTS
-    //    MyMesh::Point myNorm;
-    //    myNorm = mesh.calc_edge_vector(ehNeigh);
-    //    mesh.has_halfedge_normals ();
-    // const Normal & 	normal (HalfedgeHandle _heh) const
+    /////////////////// COUTS AUTRES ///////////////////////////////////
+    cost *= criterion_visibility(ehNeigh);
+
 
     //    qDebug() << "\t\t\t</" << __FUNCTION__ << ">";
     return cost;
@@ -166,8 +195,6 @@ unsigned get_minCostEdge_from_activeList(vector<int> activeList, vector<double> 
 void LiveWire::build_paths(int _vertexSeed)
 {
     qDebug() << "\t\t<" << __FUNCTION__ << ">";
-
-    vertexSeed = _vertexSeed;
 
     // Init
     EdgeHandle ehTmp = UtilsMesh::get_next_eh_of_vh(&mesh, vertexSeed);
