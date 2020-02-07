@@ -37,7 +37,7 @@ private:
 
     double criterion_length(EdgeHandle eh);
     double criterion_diedral_angle(EdgeHandle eh);
-    double normal_orientation(int numEdge, MyMesh::Point _sightPoint);
+    double criterion_normal_orientation(EdgeHandle eh, MyMesh::Point _sightPoint);
 
     double cost_function(int numEdgeCur, int numEdgeNeigh);
     //    void draw_part(unsigned edge1, unsigned edge2);

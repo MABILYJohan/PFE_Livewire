@@ -23,7 +23,7 @@ LiveWire::LiveWire(MyMesh &_mesh, MyMesh::Point _sightPoint) :
 {
     qDebug() << "\t\t<" << __FUNCTION__ << ">";
 
-    unsigned nb_criterions = 2;
+    unsigned nb_criterions = 3;
     if (nb_criterions <= 0) {
         qWarning() << "in" << __FUNCTION__ << ": nb_criterions can't be inferior to 1:"
                    << "\nnb_criterions =" << nb_criterions << "not accepted";
@@ -41,6 +41,7 @@ LiveWire::LiveWire(MyMesh &_mesh, MyMesh::Point _sightPoint) :
 
         tabCosts[cpt].push_back(criterion_length(eh)); cpt++;
         tabCosts[cpt].push_back(criterion_diedral_angle(eh)); cpt++;
+        tabCosts[cpt].push_back(criterion_normal_orientation(eh, sightPoint)); cpt++;
         if (eh.idx()%1000 == 0)
             qDebug() << "\t\t\tchargement LW:" << eh.idx()+1<<"/"<<mesh.n_edges();
     }
@@ -62,11 +63,9 @@ double LiveWire::criterion_diedral_angle(EdgeHandle eh) {
     return mesh.calc_dihedral_angle(eh);
 }
 
-double LiveWire::normal_orientation(int numEdge, MyMesh::Point _sightPoint)
+double LiveWire::criterion_normal_orientation(EdgeHandle eh, MyMesh::Point _sightPoint)
 {
     double cost=0.0;
-
-    EdgeHandle eh = mesh.edge_handle(numEdge);
 
     MyMesh::Point myP = mesh.calc_edge_midpoint(eh);
     MyMesh::Point myVec = myP - _sightPoint;
