@@ -5,6 +5,31 @@
 
 ///////////////////////////////  CONSTRUCTEURS   ////////////////////////////////////////////////
 
+
+void LiveWire::init_criterions()
+{
+    criteres = vector<int>(nbMaxCrit, -1);
+    criteres.push_back(LENGTH);
+    criteres.push_back(DIEDRAL);
+    criteres.push_back(NORMAL_OR);
+    criteres.push_back(VISIBILITY);
+    criteres.push_back(CURVATURE);
+
+    unsigned nb_criterions_preload=0;
+    for(auto c : criteres) {
+        if (c==LENGTH ||  c==DIEDRAL    || c==NORMAL_OR) {
+            nb_criterions_preload++;
+        }
+    }
+
+    tabCosts.clear();
+    //    unsigned mySize = mesh.n_edges();
+    vector<double> tmpVec;
+    for (unsigned i=0; i<nb_criterions_preload; i++) {
+        tabCosts.push_back(tmpVec);
+    }
+}
+
 /*------------------------------------------------------------------------------
  * Faire très attention à bien définir la variable @nb_criterions_preload
  * ----------------------------------------------------------------------------*/
@@ -13,14 +38,8 @@ LiveWire::LiveWire(MyMesh &_mesh, int _vertexSeed, MyMesh::Point _sightPoint) :
 {
     qDebug() << "\t\t<" << __FUNCTION__ << ">";
 
-    flag_criterion_visibility = true;
-    unsigned nb_criterions_preload = 3;
-    if (nb_criterions_preload <= 0) {
-        qWarning() << "in" << __FUNCTION__ << ": nb_criterions can't be inferior to 1:"
-                   << "\nnb_criterions =" << nb_criterions_preload << "not accepted";
-        return;
-    }
-    init_criterions(nb_criterions_preload);
+    init_criterions();
+
     unsigned cpt=0;
 
     qDebug() << "\t\t\tchargement LW:" << 0 <<"/"<<mesh.n_edges();
@@ -28,10 +47,15 @@ LiveWire::LiveWire(MyMesh &_mesh, int _vertexSeed, MyMesh::Point _sightPoint) :
     {
         cpt=0;
         EdgeHandle eh = *curEdge;
-
-        tabCosts[cpt].push_back(criterion_length(eh)); cpt++;
-        tabCosts[cpt].push_back(criterion_diedral_angle(eh)); cpt++;
-        tabCosts[cpt].push_back(criterion_normal_orientation(eh, sightPoint)); cpt++;
+        if (Utils::is_in_vector(criteres, static_cast<int>(LENGTH))) {
+            tabCosts[cpt].push_back(criterion_length(eh)); cpt++;
+        }
+        if (Utils::is_in_vector(criteres, static_cast<int>(DIEDRAL))) {
+            tabCosts[cpt].push_back(criterion_diedral_angle(eh)); cpt++;
+        }
+        if (Utils::is_in_vector(criteres, static_cast<int>(NORMAL_OR))) {
+            tabCosts[cpt].push_back(criterion_normal_orientation(eh, sightPoint)); cpt++;
+        }
         if (eh.idx()%1000 == 0)
             qDebug() << "\t\t\tchargement LW:" << eh.idx()+1<<"/"<<mesh.n_edges();
     }
@@ -45,8 +69,7 @@ vector<int> LiveWire::get_paths()  {   return paths;   }
 void LiveWire::update_vertexSeed(int _vertexSeed)
 {
     vertexSeed = _vertexSeed;
-    if (flag_criterion_visibility)
-    {
+    if (Utils::is_in_vector(criteres, static_cast<int>(VISIBILITY))) {
         myDijkstra.dijkstra(&mesh, vertexSeed);
         //        vector<int> dijkstraPaths = myDijkstra.get_paths();
     }
@@ -55,16 +78,6 @@ void LiveWire::update_vertexSeed(int _vertexSeed)
 
 
 //////////////////////////////////  CRITERES PRELOAD  //////////////////////////////////
-
-void LiveWire::init_criterions(unsigned nbCriterions)
-{
-    tabCosts.clear();
-    //    unsigned mySize = mesh.n_edges();
-    vector<double> tmpVec;
-    for (unsigned i=0; i<nbCriterions; i++) {
-        tabCosts.push_back(tmpVec);
-    }
-}
 
 double LiveWire::criterion_length(EdgeHandle eh) {
     return mesh.calc_edge_length(eh);
@@ -104,8 +117,6 @@ double LiveWire::criterion_normal_orientation(EdgeHandle eh, MyMesh::Point _sigh
 
 double LiveWire::criterion_visibility(EdgeHandle eh)
 {
-    double cost = 0.0;
-    // Visibilité
     vector<int> dijkstraPaths = myDijkstra.get_paths();
     if (dijkstraPaths.empty()) {
         qWarning() << "Warning in " << __FUNCTION__
@@ -114,13 +125,24 @@ double LiveWire::criterion_visibility(EdgeHandle eh)
     }
     vector<int> path = myDijkstra.get_currentPath();
 
+    int numEdge = eh.idx();
     double bestCost = static_cast<double>(INT_MAX);
+    MyMesh::Point myP = mesh.calc_edge_midpoint(eh);
     for (auto p : path)
     {
-//        double d
+        if (p==numEdge) {
+            return 0.0;
+        }
+        EdgeHandle ehTest = mesh.edge_handle(p);
+        MyMesh::Point pTest = mesh.calc_edge_midpoint(ehTest);
+        double distEuclid = Utils::distance_euclidienne(myP[0], pTest[0],
+                                                        myP[1], pTest[1]);
+        if (bestCost <= distEuclid) {
+            bestCost = distEuclid;
+        }
     }
 
-    return cost;
+    return bestCost;
 }
 
 
@@ -174,7 +196,9 @@ double LiveWire::cost_function(int numEdgeCur, int numEdgeNeigh)
     }
 
     /////////////////// COUTS AUTRES ///////////////////////////////////
-    cost *= criterion_visibility(ehNeigh);
+    if (Utils::is_in_vector(criteres, static_cast<int>(VISIBILITY))) {
+        cost *= criterion_visibility(ehNeigh);
+    }
 
 
     //    qDebug() << "\t\t\t</" << __FUNCTION__ << ">";
@@ -268,7 +292,9 @@ void LiveWire::draw(unsigned vertex2)
         qWarning() << "in" << __FUNCTION__ << ": tabCosts is empty";
         return;
     }
-    myDijkstra.calc_path(&mesh, vertex2);
+    if (Utils::is_in_vector(criteres, static_cast<int>(VISIBILITY))) {
+        myDijkstra.calc_path(&mesh, vertex2);
+    }
 
     srand(0);
     int red = Utils::randInt(0, 255);

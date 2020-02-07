@@ -15,6 +15,8 @@ using namespace std;
 using namespace OpenMesh;
 using namespace OpenMesh::Attributes;
 
+enum enum_criteres {LENGTH, DIEDRAL, NORMAL_OR, VISIBILITY, CURVATURE};
+
 class LiveWire
 {
 public:
@@ -34,10 +36,11 @@ private:
     int vertexSeed;
     int edgeSeed;
     MyMesh::Point sightPoint;
-    bool flag_criterion_visibility;
 
+    int nbMaxCrit = 5;
+    vector<int> criteres;
     vector<vector<double>> tabCosts;
-    void init_criterions(unsigned nbCriterions);
+    void init_criterions();
 
     double criterion_length(EdgeHandle eh);
     double criterion_diedral_angle(EdgeHandle eh);
