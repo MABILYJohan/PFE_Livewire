@@ -7,7 +7,8 @@ Dijkstra::Dijkstra()
 
 }
 
-vector<int> Dijkstra::get_paths()   {   return  paths;  }
+vector<int> Dijkstra::get_paths()   {   return  allPaths;  }
+vector<int> Dijkstra::get_currentPath() {   return currentPath; }
 
 bool Dijkstra::tous_sommets_extraits(QVector<bool> tab)
 {
@@ -31,11 +32,13 @@ int Dijkstra::extraire_min(QVector<bool> listeSommets)
     return sommet_min;
 }
 
-void Dijkstra::dijkstra(MyMesh* _mesh, int sommetDepart)
+void Dijkstra::dijkstra(MyMesh* _mesh, int _vertexStart)
 {
+    vertexStart = _vertexStart;
     int nbVertex = _mesh->n_vertices();
     QVector<bool> vertexList;
-    paths.clear();
+    allPaths.clear();
+    currentPath.clear();
     tabWeights.clear();
 
     // INIT
@@ -43,9 +46,9 @@ void Dijkstra::dijkstra(MyMesh* _mesh, int sommetDepart)
         //On initialise nos valeurs pour utiliser dijkstra
         vertexList.append(true);
         tabWeights.push_back(INT32_MAX);
-        paths.push_back(-1);
+        allPaths.push_back(-1);
     }
-    tabWeights[sommetDepart] = 0;
+    tabWeights[vertexStart] = 0;
 
     while(!tous_sommets_extraits(vertexList))
     {
@@ -60,12 +63,50 @@ void Dijkstra::dijkstra(MyMesh* _mesh, int sommetDepart)
             if(tabWeights[vv_it->idx()] > poids){
                 //MAJ du poids
                 tabWeights[vv_it->idx()] = poids;
-                paths[vv_it->idx()] = vertex;
+                allPaths[vv_it->idx()] = vertex;
             }
         }
     }
-//    paths.clear();
-//    for (auto p : pred) {
-//        paths.push_back(p);
-//    }
 }
+
+/*------------------------------------------------------------------------------
+ * Attention la fonction @dijkstra doit avoir été appelée avant.
+ * Renvoit dans un tableau le chemin calculé entre
+ * @vertexStart et @vertexEnd.
+ * Met aussi à jour le chemin actuel @currentPath.
+ * ----------------------------------------------------------------------------*/
+vector<int> Dijkstra::calc_path(MyMesh *_mesh, int vertexEnd)
+{
+    if (allPaths.empty()) {
+        qWarning() << "in" << __FUNCTION__ << ": allPaths is empty";
+        exit(1);
+    }
+    vector<int> path;
+    int vertexCur = vertexEnd;
+
+    while (vertexCur != vertexStart)
+    {
+        VertexHandle vhCurrent = _mesh->vertex_handle(vertexCur);
+        for (MyMesh::VertexEdgeIter ve_it=_mesh->ve_iter(vhCurrent); ve_it.is_valid(); ++ve_it)
+        {
+            EdgeHandle eh = *ve_it;
+            HalfedgeHandle heha = _mesh->halfedge_handle(eh, 0);
+            HalfedgeHandle hehb = _mesh->halfedge_handle(eh, 1);
+            VertexHandle vha = _mesh->to_vertex_handle(heha);
+            VertexHandle vhb = _mesh->to_vertex_handle(hehb);
+            if (vha.idx()==allPaths[vertexCur]   ||  vhb.idx()==allPaths[vertexCur]) {
+                path.push_back(eh.idx());
+            }
+        }
+        vertexCur = allPaths[vertexCur];
+    }
+    currentPath = path;
+    return path;
+}
+
+
+
+
+
+
+

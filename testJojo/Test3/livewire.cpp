@@ -112,8 +112,13 @@ double LiveWire::criterion_visibility(EdgeHandle eh)
                    << "dijkstraPaths is empty";
         exit(1);
     }
+    vector<int> path = myDijkstra.get_currentPath();
 
-    ;
+    double bestCost = static_cast<double>(INT_MAX);
+    for (auto p : path)
+    {
+//        double d
+    }
 
     return cost;
 }
@@ -263,6 +268,7 @@ void LiveWire::draw(unsigned vertex2)
         qWarning() << "in" << __FUNCTION__ << ": tabCosts is empty";
         return;
     }
+    myDijkstra.calc_path(&mesh, vertex2);
 
     srand(0);
     int red = Utils::randInt(0, 255);

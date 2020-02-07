@@ -14,12 +14,16 @@ public:
     Dijkstra();
 
     vector<int> get_paths();
+    vector<int> get_currentPath();
 
-    void dijkstra(MyMesh* _mesh, int sommetDepart);
+    void dijkstra(MyMesh* _mesh, int _vertexStart);
+    vector<int> calc_path(MyMesh* _mesh, int vertexEnd);
 
 private:
-    vector<int> paths;
+    vector<int> allPaths;
+    vector<int> currentPath;
     vector<int> tabWeights;
+    int vertexStart;
 
     bool tous_sommets_extraits(QVector<bool> tab);
     int extraire_min(QVector<bool> listeSommets);

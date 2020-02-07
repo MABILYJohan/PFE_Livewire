@@ -10,6 +10,8 @@
 #include "contour.h"
 #include "livewire.h"
 
+#include "dijkstra.h"
+
 namespace Ui {
 class MainWindow;
 }
