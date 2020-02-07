@@ -42,7 +42,7 @@ void MainWindow::on_pushButton_livewire_clicked()
     resetAllColorsAndThickness(&mesh);
 
     MyMesh::Point _sightPoint = test_pt_de_vue();
-    myContour.draw(&mesh, _sightPoint);
+    myContour.draw_contour(&mesh, _sightPoint);
     //    myContour.build();
 
     // on affiche le maillage

@@ -2,17 +2,65 @@
 
 #include <QDebug>
 
-LiveWire::LiveWire(MyMesh &_mesh, int _vertexSeed, MyMesh::Point _sightPoint) :
-    mesh(_mesh), vertexSeed(_vertexSeed), sightPoint(_sightPoint)
+
+///////////////////////////////  CONSTRUCTEURS   ////////////////////////////////////////////////
+
+void LiveWire::init_criterions(unsigned nbCriterions)
 {
-    //    qDebug() << "\t\t<" << __FUNCTION__ << ">";
+    tabCosts.clear();
+    //    unsigned mySize = mesh.n_edges();
+    vector<double> tmpVec;
+    for (unsigned i=0; i<nbCriterions; i++) {
+        tabCosts.push_back(tmpVec);
+    }
+}
 
-    build();
+/*------------------------------------------------------------------------------
+ * Faire très attention à bien définir la variable @nb_criterions
+ * ----------------------------------------------------------------------------*/
+LiveWire::LiveWire(MyMesh &_mesh, MyMesh::Point _sightPoint) :
+    mesh(_mesh), sightPoint(_sightPoint)
+{
+    qDebug() << "\t\t<" << __FUNCTION__ << ">";
 
-    //    qDebug() << "\t\t</" << __FUNCTION__ << ">";
+    unsigned nb_criterions = 2;
+    if (nb_criterions <= 0) {
+        qWarning() << "in" << __FUNCTION__ << ": nb_criterions can't be inferior to 1:"
+                   << "\nnb_criterions =" << nb_criterions << "not accepted";
+        return;
+    }
+    init_criterions(nb_criterions);
+    unsigned cpt=0;
+
+
+    qDebug() << "\t\t\tchargement LW:" << 0 <<"/"<<mesh.n_edges();
+    for (MyMesh::EdgeIter curEdge = mesh.edges_begin(); curEdge != mesh.edges_end(); curEdge++)
+    {
+        cpt=0;
+        EdgeHandle eh = *curEdge;
+
+        tabCosts[cpt].push_back(criterion_length(eh)); cpt++;
+        tabCosts[cpt].push_back(criterion_diedral_angle(eh)); cpt++;
+        if (eh.idx()%1000 == 0)
+            qDebug() << "\t\t\tchargement LW:" << eh.idx()+1<<"/"<<mesh.n_edges();
+    }
+    qDebug() << "\t\t\tchargement LW:" << mesh.n_edges()<<"/"<<mesh.n_edges();
+
+    qDebug() << "\t\t</" << __FUNCTION__ << ">";
 }
 
 vector<int> LiveWire::get_paths()  {   return paths;   }
+
+
+//////////////////////////////////  CRITERES   ///////////////////////////////////////////////////
+
+double LiveWire::criterion_length(EdgeHandle eh) {
+    return mesh.calc_edge_length(eh);
+}
+
+double LiveWire::criterion_diedral_angle(EdgeHandle eh) {
+    return mesh.calc_dihedral_angle(eh);
+}
 
 double LiveWire::normal_orientation(int numEdge, MyMesh::Point _sightPoint)
 {
@@ -41,28 +89,34 @@ double LiveWire::normal_orientation(int numEdge, MyMesh::Point _sightPoint)
     return cost;
 }
 
+
+///////////////////////////////////  ALGO   ////////////////////////////////////////////////
+
 double LiveWire::cost_function(int numEdgeCur, int numEdgeNeigh)
 {
-    //    qDebug() << "\t\t<" << __FUNCTION__ << ">";
+    //    qDebug() << "\t\t\t<" << __FUNCTION__ << ">";
 
+    if (tabCosts.empty()) {
+        qWarning() << "in" << __FUNCTION__ << ": tabCosts is empty";
+        exit (1);
+    }
     double cost = 0.0;
     // EdgeHandle ehCur = mesh.edge_handle(numEdgeCur);
     EdgeHandle ehNeigh = mesh.edge_handle(numEdgeNeigh);
 
-    // Length
-    cost = mesh.calc_edge_length(ehNeigh);
-    // dihedral angle
-    cost *= mesh.calc_dihedral_angle(ehNeigh);
-    // Normal orientation
-    cost*=normal_orientation(numEdgeNeigh, sightPoint);
+    // Init pour éviter de multiplier par 0
+    cost = tabCosts[0][numEdgeNeigh];
+    bool flagFirst=true;
+    for (auto listCout : tabCosts)
+    {
+        if (flagFirst) {
+            flagFirst = false;
+            continue;
+        }
+        cost *= listCout[numEdgeNeigh];
+    }
 
-    //    // TESTS
-    //    MyMesh::Point myNorm;
-    //    myNorm = mesh.calc_edge_vector(ehNeigh);
-    //    //    mesh.has_halfedge_normals ();
-    //    // const Normal & 	normal (HalfedgeHandle _heh) const
-
-    //    qDebug() << "\t\t</" << __FUNCTION__ << ">";
+    //    qDebug() << "\t\t\t</" << __FUNCTION__ << ">";
     return cost;
 }
 
@@ -82,16 +136,15 @@ unsigned get_minCostEdge_from_activeList(vector<int> activeList, vector<double> 
     return numEdge;
 }
 
-void LiveWire::build()
+void LiveWire::build_paths(int _vertexSeed)
 {
-    //    qDebug() << "\t<" << __FUNCTION__ << ">";
+    //    qDebug() << "\t\t<" << __FUNCTION__ << ">";
+
+    vertexSeed = _vertexSeed;
 
     // Init
     EdgeHandle ehTmp = UtilsMesh::get_next_eh_of_vh(&mesh, vertexSeed);
     edgeSeed = ehTmp.idx();
-
-    //    qDebug() << "\t\tvertexSeed =" << vertexSeed;
-    //    qDebug() << "\t\tedgeSeed =" << edgeSeed;
 
     vector<double> costEdges(mesh.n_edges(), static_cast<double>(INT_MAX));
     costEdges[edgeSeed] = 0.0;
@@ -108,8 +161,6 @@ void LiveWire::build()
         Utils::erase_elt(activeList, curEdge);
         edgesVisited[curEdge] = true;
 
-        //        qDebug() << "\t\tcurEdge =" << curEdge;
-        //        qDebug() << activeList;
         // Voisinage
         vector<EdgeHandle> ehs = UtilsMesh::get_edgeEdge_circulator(&mesh, curEdge);
         for (auto eh : ehs)
@@ -127,21 +178,30 @@ void LiveWire::build()
             // Voisin pas dans la lsite active
             else if ( ! Utils::is_in_vector(activeList, edgeNeigh)) {
                 costEdges[edgeNeigh] = tmpCost;
-                 paths[edgeNeigh] = curEdge;
+                paths[edgeNeigh] = curEdge;
                 // paths[curEdge] = edgeNeigh;
                 activeList.push_back(edgeNeigh);
             }
         }
     }
-    //    qDebug() << "\t</" << __FUNCTION__ << ">";
+    //    qDebug() << "\t\t</" << __FUNCTION__ << ">";
 }
+
+
+///////////////////////////////////  AUTRES   ////////////////////////////////////////////////
 
 /*------------------------------------------------------------------------------
  * Dessine le chemin dans @mesh entre l'arête @edgeSeed et une arête @edge2
  * ----------------------------------------------------------------------------*/
 void LiveWire::draw(unsigned vertex2)
 {
-    //    qDebug() << "\t\t<" << __FUNCTION__ << ">";
+    qDebug() << "\t\t<" << __FUNCTION__ << ">";
+
+    if (tabCosts.empty()) {
+        qWarning() << "in" << __FUNCTION__ << ": tabCosts is empty";
+        return;
+    }
+
     srand(0);
     int red = Utils::randInt(0, 255);
     int blue = Utils::randInt(0, 255);
@@ -190,7 +250,7 @@ void LiveWire::draw(unsigned vertex2)
     mesh.data(vh1).thickness = 20;
     mesh.data(vh2).thickness = 20;
 
-    //    qDebug() << "\t\t</" << __FUNCTION__ << ">";
+    qDebug() << "\t\t</" << __FUNCTION__ << ">";
 }
 
 

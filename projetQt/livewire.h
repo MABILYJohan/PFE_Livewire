@@ -17,11 +17,12 @@ using namespace OpenMesh::Attributes;
 class LiveWire
 {
 public:
-    LiveWire(MyMesh &_mesh, int _vertexSeed, MyMesh::Point _sightPoint);
+    LiveWire(MyMesh &_mesh, MyMesh::Point _sightPoint);
 
+    // Exemple
     void draw(unsigned vertex2);
 
-    void build();
+    void build_paths(int _vertexSeed);
     vector<int> get_paths();
 
 private:
@@ -31,9 +32,15 @@ private:
     int edgeSeed;
     MyMesh::Point sightPoint;
 
+    vector<vector<double>> tabCosts;
+    void init_criterions(unsigned nbCriterions);
+
+    double criterion_length(EdgeHandle eh);
+    double criterion_diedral_angle(EdgeHandle eh);
     double normal_orientation(int numEdge, MyMesh::Point _sightPoint);
 
     double cost_function(int numEdgeCur, int numEdgeNeigh);
+    //    void draw_part(unsigned edge1, unsigned edge2);
 };
 
 #endif // LIVEWIRE_H

@@ -31,7 +31,7 @@ public:
 
     void add_edge(unsigned numEdge);
     void add_vertex(unsigned numVertex);
-    void draw(MyMesh *_mesh, MyMesh::Point _sightPoint);
+    void draw_contour(MyMesh *_mesh, MyMesh::Point _sightPoint);
 
 protected:
     int startPoint;
