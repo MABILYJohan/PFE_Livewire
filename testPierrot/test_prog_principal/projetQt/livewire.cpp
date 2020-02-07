@@ -132,7 +132,7 @@ double LiveWire::cost_function(int numEdgeCur, int numEdgeNeigh)
     //    qDebug() << "\t\t<" << __FUNCTION__ << ">";
 
     double cost = 0.0;
-    // EdgeHandle ehCur = mesh.edge_handle(numEdgeCur);
+    //EdgeHandle ehCur = mesh.edge_handle(numEdgeCur);
     EdgeHandle ehNeigh = mesh.edge_handle(numEdgeNeigh);
 
     // Length
@@ -141,6 +141,13 @@ double LiveWire::cost_function(int numEdgeCur, int numEdgeNeigh)
     cost *= mesh.calc_dihedral_angle(ehNeigh);
     // Normal orientation
     cost*=normal_orientation(numEdgeNeigh, sightPoint);
+
+    VertexHandle vh_commun, vh_suivant;
+    UtilsMesh::get_vh_of_edge(&mesh, numEdgeNeigh, vh_commun, vh_suivant);
+    double K_commun = K_Curv(&mesh, vh_commun.idx());
+    double K_suivant = K_Curv(&mesh, vh_suivant.idx());
+    qDebug() << "K_commun = " << K_commun;
+    qDebug() << "K_suivant = " << K_suivant;
 
     //    // TESTS
     //    MyMesh::Point myNorm;

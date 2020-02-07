@@ -350,6 +350,3 @@ void MainWindow::displayMesh(MyMesh* _mesh, bool isTemperatureMap, float mapRang
     delete[] pointsVerts;
 }
 
-
-
-
