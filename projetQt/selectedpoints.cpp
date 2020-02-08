@@ -13,7 +13,6 @@ void SelectedPoints::add_point(float x, float y)
 MyMesh::Point SelectedPoints::raycast_on_screen_point(float x, float y)
 {
     QVector3D intersection_p;
-    return intersection_p;
 
 }
 
