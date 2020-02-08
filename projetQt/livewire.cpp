@@ -189,38 +189,20 @@ double LiveWire::cost_function(int numEdgeCur, int numEdgeNeigh)
 {
     //    qDebug() << "\t\t\t<" << __FUNCTION__ << ">";
 
-    double cost = 0.0;
+    double cost = 1.0;
     // EdgeHandle ehCur = mesh.edge_handle(numEdgeCur);
     EdgeHandle ehNeigh = mesh.edge_handle(numEdgeNeigh);
-    bool flagFirst = true;
 
     /////////////////// COUT CRITERES PRECHARGES ///////////////////////////////////
-    if (!tabCosts.empty())
-    {
-        // Init pour éviter de multiplier par 0
-        cost = tabCosts[0][numEdgeNeigh];
-        flagFirst=true;
-        for (auto listCout : tabCosts)
-        {
-            if (flagFirst) {
-                flagFirst = false;
-                continue;
-            }
+    if (!tabCosts.empty()) {
+        for (auto listCout : tabCosts){
             cost *= listCout[numEdgeNeigh];
         }
     }
 
     /////////////////// COUTS AUTRES ///////////////////////////////////
-    if (Utils::is_in_vector(criteres, static_cast<int>(VISIBILITY)))
-    {
-        // Init pour éviter de multiplier par 0
-        if (flagFirst) {
-            cost = criterion_visibility(ehNeigh);
-            flagFirst = false;
-        }
-        else {
-            cost *= criterion_visibility(ehNeigh);
-        }
+    if (Utils::is_in_vector(criteres, static_cast<int>(VISIBILITY))) {
+        cost *= criterion_visibility(ehNeigh);
     }
     //    qDebug() << "\t\t\t</" << __FUNCTION__ << ">";
     return cost;
