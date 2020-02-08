@@ -10,6 +10,7 @@
 #include "contour.h"
 #include "livewire.h"
 
+
 namespace Ui {
 class MainWindow;
 }
@@ -26,7 +27,7 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
     
-	MyMesh::Point test_pt_de_vue();
+	MyMesh::Point get_pt_de_vue();
 
     void displayMesh(MyMesh *_mesh, bool isTemperatureMap = false, float mapRange = -1);
     void resetAllColorsAndThickness(MyMesh* _mesh);

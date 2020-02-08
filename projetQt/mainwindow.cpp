@@ -11,7 +11,7 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-MyMesh::Point MainWindow::test_pt_de_vue()
+MyMesh::Point MainWindow::get_pt_de_vue()
 {
     ui->displayWidget->my_view();
     OpenMesh::Vec3f center3F = ui->displayWidget->myCenter;
@@ -41,7 +41,7 @@ void MainWindow::on_pushButton_livewire_clicked()
     // initialisation des couleurs et épaisseurs (sommets et arêtes) du mesh
     resetAllColorsAndThickness(&mesh);
 
-    MyMesh::Point _sightPoint = test_pt_de_vue();
+    MyMesh::Point _sightPoint = get_pt_de_vue();
     myContour.draw_contour(&mesh, _sightPoint);
     //    myContour.build();
 
