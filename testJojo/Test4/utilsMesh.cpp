@@ -50,6 +50,30 @@ bool UtilsMesh::vertex_is_in_face(MyMesh *_mesh, int faceID, int vertexID)
 
 ////////////////////////    HANDLES    /////////////////////////////////////
 
+int UtilsMesh::get_vertex_of_point(MyMesh *_mesh, MyMesh::Point p, int precision)
+{
+    int numVertex = -1;
+    float fPrec = 0.f;
+    for (unsigned i=0; i<precision; i++) {
+        fPrec += 0.01f;
+    }
+
+    for (MyMesh::VertexIter curVert = _mesh->vertices_begin(); curVert != _mesh->vertices_end(); curVert++)
+    {
+        VertexHandle vh = *curVert;
+        MyMesh::Point pTest = _mesh->point(vh);
+        //        qDebug() << QVector3D(pTest[0], pTest[1], pTest[2]);
+        if (pTest[0] >= p[0] - fPrec    &&  pTest[0] <= p[0] + fPrec
+                &&  pTest[1] >= p[1] - fPrec    &&  pTest[1] <= p[1] + fPrec
+                &&  pTest[2] >= p[2] - fPrec    &&  pTest[2] <= p[2] + fPrec)
+        {
+            return vh.idx();
+        }
+    }
+
+    return numVertex;
+}
+
 /*------------------------------------------------------------------------------
  * Renvoie l'id de la face opposée de @faceID par rapport à l'arete @edgeID
  * ATTENTION
