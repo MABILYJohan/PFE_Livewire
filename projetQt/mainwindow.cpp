@@ -11,6 +11,44 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+/*------------------------------------------------------------------------------
+ * A utiliser seulement avec le bunnyLowPoly.
+ * Fait pour être modiifiée comme on le souhaite.
+ * ----------------------------------------------------------------------------*/
+vector<unsigned> MainWindow::test_cou_bunny_contour()
+{
+    vector<unsigned> tmpVertices;
+    int truc;
+    MyMesh::Point p;
+
+    p = MyMesh::Point(-0.288f, 0.082f, 0.148f);
+    truc = UtilsMesh::get_vertex_of_point(&mesh, p, 1);
+    if (truc >= 0)  tmpVertices.push_back(truc);
+
+    p = MyMesh::Point(-0.105f, 0.133f, 0.133f);
+    truc = UtilsMesh::get_vertex_of_point(&mesh, p, 1);
+    if (truc >= 0)  tmpVertices.push_back(truc);
+
+    p = MyMesh::Point(-0.069f, 0.201f, 0.001f);
+    truc = UtilsMesh::get_vertex_of_point(&mesh, p, 1);
+    if (truc >= 0)  tmpVertices.push_back(truc);
+
+    p = MyMesh::Point(-0.149f, 0.174f, -0.095f);
+    truc = UtilsMesh::get_vertex_of_point(&mesh, p, 1);
+    if (truc >= 0)  tmpVertices.push_back(truc);
+
+    p = MyMesh::Point(-0.313f, 0.085f, -0.031f);
+    truc = UtilsMesh::get_vertex_of_point(&mesh, p, 1);
+    if (truc >= 0) {
+        tmpVertices.push_back(truc);
+        //        VertexHandle vh = mesh.vertex_handle(truc);
+        //        mesh.data(vh).thickness = 15;
+        //        mesh.set_color(vh, MyMesh::Color(255, 0, 0));
+    }
+
+    return tmpVertices;
+}
+
 MyMesh::Point MainWindow::get_pt_de_vue()
 {
     ui->displayWidget->my_view();
@@ -34,16 +72,18 @@ void MainWindow::on_pushButton_livewire_clicked()
 {
     qDebug() <<"<" << __FUNCTION__ << "The event sender is" << sender() << ">";
 
-    vector<unsigned> tmpVertices = {0, 4, 6, 7};
-    Contour myContour(tmpVertices);
-
     mesh.update_normals();
     // initialisation des couleurs et épaisseurs (sommets et arêtes) du mesh
     resetAllColorsAndThickness(&mesh);
 
+
+    //    vector<unsigned> tmpVertices = {0, 4, 6, 7};
+    vector<unsigned> tmpVertices = test_cou_bunny_contour();
+
+    Contour myContour(tmpVertices);
+
     MyMesh::Point _sightPoint = get_pt_de_vue();
     myContour.draw_contour(&mesh, _sightPoint);
-    //    myContour.build();
 
     // on affiche le maillage
     displayMesh(&mesh);

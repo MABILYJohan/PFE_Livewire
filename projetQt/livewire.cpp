@@ -10,6 +10,7 @@ LiveWire::LiveWire(MyMesh &_mesh, int _vertexSeed, MyMesh::Point _sightPoint) :
 {
     qDebug() << "\t\t<" << __FUNCTION__ << ">";
 
+    srand(time(0));
     init_criterions();
     display_criterions(3);
 
@@ -302,7 +303,7 @@ void LiveWire::draw(unsigned vertex2)
 
     EdgeHandle eh1 = mesh.edge_handle(edgeSeed);
     EdgeHandle eh2 = UtilsMesh::get_next_eh_of_vh(&mesh, vertex2);
-    unsigned curEdge = vertex2;
+    unsigned curEdge = eh2.idx();
     vector<EdgeHandle> ehs;
 
     while (static_cast<int>(curEdge) != edgeSeed)

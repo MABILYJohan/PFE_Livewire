@@ -28,6 +28,10 @@ MyMesh::Point MainWindow::get_pt_de_vue()
     return (MyMesh::Point(center.x(), center.y(), center.z()));
 }
 
+/*------------------------------------------------------------------------------
+ * A utiliser seulement avec le bunnyLowPoly.
+ * Fait pour être modiifiée comme on le souhaite.
+ * ----------------------------------------------------------------------------*/
 vector<unsigned> MainWindow::test_cou_bunny_contour()
 {
     vector<unsigned> tmpVertices;

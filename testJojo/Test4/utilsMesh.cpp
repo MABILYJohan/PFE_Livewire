@@ -50,6 +50,10 @@ bool UtilsMesh::vertex_is_in_face(MyMesh *_mesh, int faceID, int vertexID)
 
 ////////////////////////    HANDLES    /////////////////////////////////////
 
+/*------------------------------------------------------------------------------
+ * Trouve le vertex correspondant à la position @p.
+ * @precision sert à choisir à quel point on approxime la position à trouver
+ * ----------------------------------------------------------------------------*/
 int UtilsMesh::get_vertex_of_point(MyMesh *_mesh, MyMesh::Point p, int precision)
 {
     int numVertex = -1;

@@ -44,6 +44,8 @@ private:
     MyMesh mesh;
 
     Ui::MainWindow *ui;
+
+    vector<unsigned> test_cou_bunny_contour();
 };
 
 #endif // MAINWINDOW_H

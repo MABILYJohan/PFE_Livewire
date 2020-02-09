@@ -50,6 +50,7 @@ public:
 
     ////////////////////////    HANDLES    /////////////////////////////////////
 
+    static int get_vertex_of_point(MyMesh *_mesh, MyMesh::Point p, int precision=0);
     static int get_opposite_edgeFace(MyMesh *_mesh, int faceID, int edgeID);
     static void get_vh_of_edge(MyMesh *_mesh, int edgeID,
                                VertexHandle &vh0, VertexHandle &vh1);

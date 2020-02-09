@@ -2,6 +2,7 @@
 
 #include <QDebug>
 #include <cstring>
+#include <ctime>
 
 //////////////////////////  CONSTRUCTEURS / REGLAGES   ///////////////////////////////////////
 
@@ -10,6 +11,7 @@ LiveWire::LiveWire(MyMesh &_mesh, int _vertexSeed, MyMesh::Point _sightPoint) :
 {
     qDebug() << "\t\t<" << __FUNCTION__ << ">";
 
+    srand(time(0));
     init_criterions();
     display_criterions(3);
 
@@ -76,6 +78,10 @@ void LiveWire::update_vertexSeed(int _vertexSeed)
     build_paths();
 }
 
+/*------------------------------------------------------------------------------
+ * Affiche quels critères sont utilisés.
+ * @profDisplay juste là pour régler la profondeur d'affichage par balise.
+ * ----------------------------------------------------------------------------*/
 void LiveWire::display_criterions(int profDisplay)
 {
     if (profDisplay<0)  profDisplay=0;
@@ -295,14 +301,13 @@ void LiveWire::draw(unsigned vertex2)
         myDijkstra.calc_path(&mesh, vertex2);
     }
 
-    srand(0);
     int red = Utils::randInt(0, 255);
     int blue = Utils::randInt(0, 255);
     int green = Utils::randInt(0, 255);
 
     EdgeHandle eh1 = mesh.edge_handle(edgeSeed);
     EdgeHandle eh2 = UtilsMesh::get_next_eh_of_vh(&mesh, vertex2);
-    unsigned curEdge = vertex2;
+    unsigned curEdge = eh2.idx();
     vector<EdgeHandle> ehs;
 
     while (static_cast<int>(curEdge) != edgeSeed)
