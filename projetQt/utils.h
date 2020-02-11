@@ -14,6 +14,9 @@ public:
 
     static int randInt(int low, int high);
 	static double distance_euclidienne(double x1, double y1, double x2, double y2);
+	static double distance_euclidienne(double x1, double y1,
+                                       double x2, double y2,
+                                       double x3, double y3);
 
     template<typename T>
     static void permut(T& x, T& y)
