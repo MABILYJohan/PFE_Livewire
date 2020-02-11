@@ -59,13 +59,13 @@ void Contour::draw_contour(MyMesh *_mesh, MyMesh::Point _sightPoint)
     {
         qDebug() << "\t\tchargement draw:" << cpt<<"/"<<verticesContour.size();
         curVertex2 = verticesContour[cpt+1];
-        lW.update_vertexSeed(curVertex);
+        lW.update_vertexSeed(curVertex, curVertex2);
         lW.draw(curVertex2);
         curVertex = curVertex2;
         cpt++;
     }
     qDebug() << "\t\tchargement draw:" << cpt<<"/"<<verticesContour.size();
-    lW.update_vertexSeed(endPoint);
+    lW.update_vertexSeed(endPoint, startPoint);
     lW.draw(startPoint);
     qDebug() << "\t\tchargement draw:" << cpt+1<<"/"<<verticesContour.size();
     qDebug() << "\t</" << __FUNCTION__ << ">";

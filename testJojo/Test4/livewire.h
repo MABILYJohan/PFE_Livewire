@@ -23,11 +23,11 @@ public:
 
     void display_criterions(int profDisplay = 0);
 
-    void update_vertexSeed(int _vertexSeed);
+    void update_vertexSeed(int _vertexSeed, int vertexNext);
 
     void draw(unsigned vertex2);
 
-    void build_paths();
+    void build_paths(int vertexNext);
     vector<int> get_paths();
 
 private:
