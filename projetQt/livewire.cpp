@@ -28,8 +28,8 @@ void LiveWire::init_criterions()
     criteres.clear();
     criteres.push_back(LENGTH);
     //    criteres.push_back(DIEDRAL);
-    //    criteres.push_back(NORMAL_OR);
-    //    criteres.push_back(VISIBILITY);
+    criteres.push_back(NORMAL_OR);
+    criteres.push_back(VISIBILITY);
     //    criteres.push_back(CURVATURE);
 
     unsigned nb_criterions_preload=0;
@@ -67,14 +67,19 @@ void LiveWire::init_criterions()
     qDebug() << "\t\t\tchargement LW:" << mesh.n_edges()<<"/"<<mesh.n_edges();
 }
 
-void LiveWire::update_vertexSeed(int _vertexSeed)
+/*------------------------------------------------------------------------------
+ * Met à jour le sommet de départ @_vertexSeed et met à jour Dijkstra
+ * si critère de visibilité puis refait les chemins avec critères.
+ * @vertexNext pour le critère de visibilité avec dijkstra.
+ * ----------------------------------------------------------------------------*/
+void LiveWire::update_vertexSeed(int _vertexSeed, int vertexNext)
 {
     vertexSeed = _vertexSeed;
     if (Utils::is_in_vector(criteres, static_cast<int>(VISIBILITY))) {
         myDijkstra.dijkstra(&mesh, vertexSeed);
         //        vector<int> dijkstraPaths = myDijkstra.get_paths();
     }
-    build_paths();
+    build_paths(vertexNext);
 }
 
 void LiveWire::display_criterions(int profDisplay)
@@ -161,21 +166,23 @@ double LiveWire::criterion_visibility(EdgeHandle eh)
                    << "dijkstraPaths is empty";
         exit(1);
     }
-    vector<int> path = myDijkstra.get_currentPath();
 
+    vector<int> pathEdges = myDijkstra.get_currentPath();
     int numEdge = eh.idx();
     double bestCost = static_cast<double>(INT_MAX);
     MyMesh::Point myP = mesh.calc_edge_midpoint(eh);
-    for (auto p : path)
+
+    for (auto id : pathEdges)
     {
-        if (p==numEdge) {
+        if (id==numEdge) {
             return 0.0;
         }
-        EdgeHandle ehTest = mesh.edge_handle(p);
+        EdgeHandle ehTest = mesh.edge_handle(id);
         MyMesh::Point pTest = mesh.calc_edge_midpoint(ehTest);
         double distEuclid = Utils::distance_euclidienne(myP[0], pTest[0],
-                                                        myP[1], pTest[1]);
-        if (bestCost <= distEuclid) {
+                myP[1], pTest[1],
+                myP[2], pTest[2]);
+        if (bestCost >= distEuclid) {
             bestCost = distEuclid;
         }
     }
@@ -227,11 +234,12 @@ unsigned get_minCostEdge_from_activeList(vector<int> activeList, vector<double> 
 
 /*------------------------------------------------------------------------------
  * Construit les chemins pour le livewire (dans @paths).
+ * @vertexNext pour le critère de visibilité avec dijkstra.
  * Pensez au cas où à bien mettre à jour @vertexSeed avant d'utiliser la focntion.
  * ----------------------------------------------------------------------------*/
-void LiveWire::build_paths()
+void LiveWire::build_paths(int vertexNext)
 {
-    //    qDebug() << "\t\t<" << __FUNCTION__ << ">";
+    qDebug() << "\t\t<" << __FUNCTION__ << ">";
 
     // Init
     EdgeHandle ehTmp = UtilsMesh::get_next_eh_of_vh(&mesh, vertexSeed);
@@ -243,12 +251,15 @@ void LiveWire::build_paths()
     vector<int> activeList;   activeList.push_back(edgeSeed);
     paths = vector<int>(mesh.n_edges(), -1);
 
+    if (Utils::is_in_vector(criteres, static_cast<int>(VISIBILITY))) {
+        myDijkstra.calc_path(&mesh, vertexNext);
+    }
+
     // WARNING --> BEGIN PAS INITIALISE DANS PATHS...
 
     while (!activeList.empty())
     {
         int curEdge = get_minCostEdge_from_activeList(activeList, costEdges);
-        //        int curEdge = Utils::get_min(costEdges);
         Utils::erase_elt(activeList, curEdge);
         edgesVisited[curEdge] = true;
 
@@ -257,6 +268,7 @@ void LiveWire::build_paths()
         for (auto eh : ehs)
         {
             int edgeNeigh = eh.idx();
+
             // Si déjà visité
             if (edgesVisited[edgeNeigh])    continue;
 
@@ -275,7 +287,7 @@ void LiveWire::build_paths()
         }
     }
 
-    //    qDebug() << "\t\t</" << __FUNCTION__ << ">";
+    qDebug() << "\t\t</" << __FUNCTION__ << ">";
 }
 
 
@@ -288,15 +300,11 @@ void LiveWire::draw(unsigned vertex2)
 {
     //    qDebug() << "\t\t<" << __FUNCTION__ << ">";
 
-    if (tabCosts.empty()) {
-        qWarning() << "in" << __FUNCTION__ << ": tabCosts is empty";
-        return;
-    }
-    if (Utils::is_in_vector(criteres, static_cast<int>(VISIBILITY))) {
-        myDijkstra.calc_path(&mesh, vertex2);
-    }
+    //    if (tabCosts.empty()) {
+    //        qWarning() << "in" << __FUNCTION__ << ": tabCosts is empty";
+    //        return;
+    //    }
 
-    srand(0);
     int red = Utils::randInt(0, 255);
     int blue = Utils::randInt(0, 255);
     int green = Utils::randInt(0, 255);

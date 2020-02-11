@@ -78,8 +78,8 @@ void MainWindow::on_pushButton_livewire_clicked()
 
 
     //    vector<unsigned> tmpVertices = {0, 4, 6, 7};
+    //    vector<unsigned> tmpVertices = {0, 4};
     vector<unsigned> tmpVertices = test_cou_bunny_contour();
-
     Contour myContour(tmpVertices);
 
     MyMesh::Point _sightPoint = get_pt_de_vue();

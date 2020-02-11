@@ -68,6 +68,11 @@ void LiveWire::init_criterions()
     qDebug() << "\t\t\tchargement LW:" << mesh.n_edges()<<"/"<<mesh.n_edges();
 }
 
+/*------------------------------------------------------------------------------
+ * Met à jour le sommet de départ @_vertexSeed et met à jour Dijkstra
+ * si critère de visibilité puis refait les chemins avec critères.
+ * @vertexNext pour le critère de visibilité avec dijkstra.
+ * ----------------------------------------------------------------------------*/
 void LiveWire::update_vertexSeed(int _vertexSeed, int vertexNext)
 {
     vertexSeed = _vertexSeed;
@@ -80,7 +85,6 @@ void LiveWire::update_vertexSeed(int _vertexSeed, int vertexNext)
 
 /*------------------------------------------------------------------------------
  * Affiche quels critères sont utilisés.
- * @vertexNext pour le critère de visibilité avec dijkstra.
  * @profDisplay juste là pour régler la profondeur d'affichage par balise.
  * ----------------------------------------------------------------------------*/
 void LiveWire::display_criterions(int profDisplay)
