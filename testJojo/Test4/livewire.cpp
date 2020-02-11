@@ -30,7 +30,7 @@ void LiveWire::init_criterions()
     criteres.push_back(LENGTH);
     //    criteres.push_back(DIEDRAL);
     //    criteres.push_back(NORMAL_OR);
-    //    criteres.push_back(VISIBILITY);
+    criteres.push_back(VISIBILITY);
     //    criteres.push_back(CURVATURE);
 
     unsigned nb_criterions_preload=0;
@@ -166,20 +166,39 @@ double LiveWire::criterion_visibility(EdgeHandle eh)
                    << "dijkstraPaths is empty";
         exit(1);
     }
-    vector<int> path = myDijkstra.get_currentPath();
+    vector<int> pathVertices = myDijkstra.get_currentPath();
+    vector<int> pathEdges;
 
     int numEdge = eh.idx();
     double bestCost = static_cast<double>(INT_MAX);
     MyMesh::Point myP = mesh.calc_edge_midpoint(eh);
-    for (auto p : path)
+    for (auto id : pathVertices)
     {
-        if (p==numEdge) {
+        VertexHandle vh = mesh.vertex_handle(id);
+
+        for (MyMesh::VertexEdgeIter ve_it=mesh.ve_iter(vh); ve_it.is_valid(); ++ve_it)
+        {
+            EdgeHandle eh = *ve_it;
+            HalfedgeHandle heha = mesh.halfedge_handle(eh, 0);
+            HalfedgeHandle hehb = mesh.halfedge_handle(eh, 1);
+            VertexHandle vha = mesh.to_vertex_handle(heha);
+            VertexHandle vhb = mesh.to_vertex_handle(hehb);
+            if (vha.idx()==dijkstraPaths[id]   ||  vhb.idx()==dijkstraPaths[id]) {
+               pathEdges.push_back(eh.idx());
+               break;
+            }
+        }
+    }
+
+    for (auto id : pathEdges)
+    {
+        if (id==numEdge) {
             return 0.0;
         }
-        EdgeHandle ehTest = mesh.edge_handle(p);
+        EdgeHandle ehTest = mesh.edge_handle(id);
         MyMesh::Point pTest = mesh.calc_edge_midpoint(ehTest);
         double distEuclid = Utils::distance_euclidienne(myP[0], pTest[0],
-                                                        myP[1], pTest[1]);
+                myP[1], pTest[1]);
         if (bestCost <= distEuclid) {
             bestCost = distEuclid;
         }

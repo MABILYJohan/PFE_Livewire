@@ -73,6 +73,7 @@ void Dijkstra::dijkstra(MyMesh* _mesh, int _vertexStart)
  * Attention la fonction @dijkstra doit avoir été appelée avant.
  * Renvoit dans un tableau le chemin calculé entre
  * @vertexStart et @vertexEnd.
+ * @_mesh devrait être le même que celui utilisé dans la fonction dijkstra
  * Met aussi à jour le chemin actuel @currentPath.
  * ----------------------------------------------------------------------------*/
 vector<int> Dijkstra::calc_path(MyMesh *_mesh, int vertexEnd)

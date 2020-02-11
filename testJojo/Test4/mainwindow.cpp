@@ -46,22 +46,22 @@ vector<unsigned> MainWindow::test_cou_bunny_contour()
     truc = UtilsMesh::get_vertex_of_point(&mesh, p, 1);
     if (truc >= 0)  tmpVertices.push_back(truc);
 
-    p = MyMesh::Point(-0.069f, 0.201f, 0.001f);
-    truc = UtilsMesh::get_vertex_of_point(&mesh, p, 1);
-    if (truc >= 0)  tmpVertices.push_back(truc);
+//    p = MyMesh::Point(-0.069f, 0.201f, 0.001f);
+//    truc = UtilsMesh::get_vertex_of_point(&mesh, p, 1);
+//    if (truc >= 0)  tmpVertices.push_back(truc);
 
-    p = MyMesh::Point(-0.149f, 0.174f, -0.095f);
-    truc = UtilsMesh::get_vertex_of_point(&mesh, p, 1);
-    if (truc >= 0)  tmpVertices.push_back(truc);
+//    p = MyMesh::Point(-0.149f, 0.174f, -0.095f);
+//    truc = UtilsMesh::get_vertex_of_point(&mesh, p, 1);
+//    if (truc >= 0)  tmpVertices.push_back(truc);
 
-    p = MyMesh::Point(-0.313f, 0.085f, -0.031f);
-    truc = UtilsMesh::get_vertex_of_point(&mesh, p, 1);
-    if (truc >= 0) {
-        tmpVertices.push_back(truc);
-        //        VertexHandle vh = mesh.vertex_handle(truc);
-        //        mesh.data(vh).thickness = 15;
-        //        mesh.set_color(vh, MyMesh::Color(255, 0, 0));
-    }
+//    p = MyMesh::Point(-0.313f, 0.085f, -0.031f);
+//    truc = UtilsMesh::get_vertex_of_point(&mesh, p, 1);
+//    if (truc >= 0) {
+//        tmpVertices.push_back(truc);
+//        //        VertexHandle vh = mesh.vertex_handle(truc);
+//        //        mesh.data(vh).thickness = 15;
+//        //        mesh.set_color(vh, MyMesh::Color(255, 0, 0));
+//    }
 
     return tmpVertices;
 }
@@ -79,8 +79,12 @@ void MainWindow::on_pushButton_livewire_clicked()
 
     //    vector<unsigned> tmpVertices = {0, 4, 6, 7};
     vector<unsigned> tmpVertices = test_cou_bunny_contour();
-
     Contour myContour(tmpVertices);
+
+//    // TMP TEST
+//    Dijkstra tmpD;
+//    tmpD.dijkstra(&mesh, myContour.get_start());
+//    vector<int> path = tmpD.get_currentPath();
 
     MyMesh::Point _sightPoint = get_pt_de_vue();
     myContour.draw_contour(&mesh, _sightPoint);
