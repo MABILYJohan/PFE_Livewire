@@ -10,6 +10,16 @@ LiveWire::LiveWire(MyMesh &_mesh, int _vertexSeed, MyMesh::Point _sightPoint) :
 {
     qDebug() << "\t\t<" << __FUNCTION__ << ">";
 
+    // INIT MIN ET MAX CURVATURE pour plage [0,1]
+    vector<double> tabcurv;
+    for (MyMesh::VertexIter curVert = mesh.vertices_begin(); curVert != mesh.vertices_end(); curVert++)
+    {
+        VertexHandle vh = *curVert;
+        tabcurv.push_back(abs(K_Curv(&mesh, vh.idx())));
+    }
+    this->minCurv = *std::min_element(tabcurv.begin(), tabcurv.end());
+    this->maxCurv = *std::max_element(tabcurv.begin(), tabcurv.end());
+
     qsrand(time(NULL));
     init_criterions();
     display_criterions(3);
@@ -30,11 +40,11 @@ void LiveWire::init_criterions()
     criteres.push_back(DIEDRAL);
     criteres.push_back(NORMAL_OR);
     criteres.push_back(VISIBILITY);
-    //    criteres.push_back(CURVATURE);
+    criteres.push_back(CURVATURE);
 
     unsigned nb_criterions_preload=0;
     for(auto c : criteres) {
-        if (c==LENGTH ||  c==DIEDRAL    || c==NORMAL_OR) {
+        if (c==LENGTH ||  c==DIEDRAL    || c==NORMAL_OR || c==CURVATURE) {
             nb_criterions_preload++;
         }
     }
@@ -60,6 +70,9 @@ void LiveWire::init_criterions()
         }
         if (Utils::is_in_vector(criteres, static_cast<int>(NORMAL_OR))) {
             tabCosts[cpt].push_back(criterion_normal_orientation(eh, sightPoint)); cpt++;
+        }
+        if (Utils::is_in_vector(criteres, static_cast<int>(CURVATURE))) {
+            tabCosts[cpt].push_back(criterion_curvature(eh)); cpt++;
         }
         if (eh.idx()%1000 == 0)
             qDebug() << "\t\t\tchargement LW:" << eh.idx()+1<<"/"<<mesh.n_edges();
@@ -119,6 +132,99 @@ void LiveWire::display_criterions(int profDisplay)
     qDebug() << cprof << "</" << __FUNCTION__ << ">";
 }
 
+/*---------------------------------------
+ * Fonctions pour la courbure gaussienne
+ * --------------------------------------*/
+
+float LiveWire::angleEE(MyMesh* _mesh, int vertexID,  int faceID)
+{
+    MyMesh::Point v1;
+    MyMesh::Point v2;
+    FaceHandle fhId = _mesh->face_handle(faceID);
+    VertexHandle vhId = _mesh->vertex_handle(vertexID);
+    std::vector<VertexHandle> vh;
+    for (MyMesh::FaceVertexCWIter fv_it = _mesh->fv_cwiter(fhId); fv_it.is_valid(); fv_it++)
+    {
+        vh.push_back(*fv_it);
+    }
+
+    MyMesh::Point A;
+    MyMesh::Point B;
+    MyMesh::Point C;
+    for (unsigned i=0; i<vh.size(); i++)
+    {
+        if (vh[i] == vhId) {
+            A = _mesh->point (vh[i]);
+            int k=i+1;
+            if (k>=vh.size()) k=0;
+            B = _mesh->point (vh[k]);
+            k++;
+            if (k>=vh.size()) k=0;
+            C = _mesh->point (vh[k]);
+            break;
+        }
+    }
+    v1 = B-A;
+    v2 = C-A;
+    v1.normalize();
+    v2.normalize();
+
+    float angle = acos((v1 | v2));
+
+    return angle;
+}
+
+float LiveWire::faceArea(MyMesh* _mesh, int faceID)
+{
+
+    FaceHandle face_h = FaceHandle(faceID);
+    QVector<MyMesh::Point> points;
+    for(MyMesh::FaceVertexIter curVer = _mesh->fv_iter(face_h); curVer.is_valid(); curVer++) {
+        VertexHandle vertex_h = *curVer;
+        points.push_back(_mesh->point(vertex_h));
+    }
+
+    float aire = norm((points[1] - points[0]) % (points[2] - points[0])) / 2;
+    return aire;
+}
+
+float LiveWire::aire_barycentrique(MyMesh* _mesh, int vertID)
+{
+    VertexHandle vh = _mesh->vertex_handle(vertID);
+    float area = 0;
+    for(MyMesh::VertexFaceIter vfit = _mesh->vf_iter(vh); vfit.is_valid(); vfit++){
+        area += faceArea(_mesh,(*vfit).idx());
+    }
+    return area / 3;
+}
+
+double LiveWire::K_Curv(MyMesh* _mesh, int vertID)
+{
+    VertexHandle vh = _mesh->vertex_handle(vertID);
+    float a = 1 / aire_barycentrique(_mesh, vh.idx());
+    float theta = 0.f;
+    for (MyMesh::VertexFaceCWIter vf_it = _mesh->vf_cwiter(vh); vf_it.is_valid(); vf_it++)
+        {
+            FaceHandle fh = *vf_it;
+            theta += angleEE(_mesh, vh.idx(), fh.idx());
+        }
+    float b = 2*M_PI - theta;
+    float K = a*b;
+    return K;
+}
+
+double LiveWire::criterion_curvature(EdgeHandle eh)
+{
+    VertexHandle vh_commun, vh_suivant;
+    UtilsMesh::get_vh_of_edge(&mesh, eh.idx(), vh_commun, vh_suivant);
+    double K_commun = abs(K_Curv(&mesh, vh_commun.idx()));
+    double K_suivant = abs(K_Curv(&mesh, vh_suivant.idx()));
+
+    //plage [0,1]
+    K_commun = (K_commun-minCurv)/(maxCurv-minCurv);
+    K_suivant = (K_suivant-minCurv)/(maxCurv-minCurv);
+    return (K_commun+K_suivant)/2.0;
+}
 
 //////////////////////////////////  CRITERES PRELOAD  //////////////////////////////////
 

@@ -8,6 +8,7 @@
 #include "utilsMesh.h"
 #include "dijkstra.h"
 
+#include <math.h>
 
 using namespace std;
 
@@ -36,6 +37,8 @@ private:
     Dijkstra myDijkstra;
     int vertexSeed;
     int edgeSeed;
+    double minCurv;
+    double maxCurv;
     MyMesh::Point sightPoint;
 
     int nbMaxCrit = 5;
@@ -47,7 +50,15 @@ private:
     double criterion_length(EdgeHandle eh);
     double criterion_diedral_angle(EdgeHandle eh);
     double criterion_normal_orientation(EdgeHandle eh, MyMesh::Point _sightPoint);
+    void init_min_max_curvature(MyMesh mesh);
+    double criterion_curvature(EdgeHandle eh);
     double criterion_visibility(EdgeHandle eh);
+
+    //fonctions pour la courbure gaussienne
+    float angleEE(MyMesh* _mesh, int vertexID,  int faceID);
+    float faceArea(MyMesh* _mesh, int faceID);
+    float aire_barycentrique(MyMesh* _mesh, int vertID);
+    double K_Curv(MyMesh* _mesh, int vertID);
 
     double cost_function(int numEdgeCur, int numEdgeNeigh);
 };

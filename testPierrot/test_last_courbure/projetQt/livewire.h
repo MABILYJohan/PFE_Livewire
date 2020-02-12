@@ -8,6 +8,7 @@
 #include "utilsMesh.h"
 #include "dijkstra.h"
 
+#include <math.h>
 
 using namespace std;
 

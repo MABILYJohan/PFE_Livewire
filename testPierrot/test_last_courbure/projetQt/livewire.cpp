@@ -20,7 +20,7 @@ LiveWire::LiveWire(MyMesh &_mesh, int _vertexSeed, MyMesh::Point _sightPoint) :
     this->minCurv = *std::min_element(tabcurv.begin(), tabcurv.end());
     this->maxCurv = *std::max_element(tabcurv.begin(), tabcurv.end());
 
-    srand(time(0));
+    qsrand(time(NULL));
     init_criterions();
     display_criterions(3);
 
@@ -38,7 +38,7 @@ void LiveWire::init_criterions()
 {
     criteres.clear();
     criteres.push_back(LENGTH);
-    //    criteres.push_back(DIEDRAL);
+    criteres.push_back(DIEDRAL);
     criteres.push_back(NORMAL_OR);
     criteres.push_back(VISIBILITY);
     criteres.push_back(CURVATURE);
@@ -141,7 +141,7 @@ double LiveWire::criterion_length(EdgeHandle eh) {
 }
 
 double LiveWire::criterion_diedral_angle(EdgeHandle eh) {
-    return mesh.calc_dihedral_angle(eh);
+    return fabs(mesh.calc_dihedral_angle(eh));
 }
 
 double LiveWire::criterion_normal_orientation(EdgeHandle eh, MyMesh::Point _sightPoint)
@@ -247,7 +247,6 @@ double LiveWire::K_Curv(MyMesh* _mesh, int vertID)
         }
     float b = 2*M_PI - theta;
     float K = a*b;
-    qDebug() << K;
     return K;
 }
 
