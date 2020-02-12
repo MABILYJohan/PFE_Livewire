@@ -11,7 +11,7 @@ namespace Raycasting
 
     inline void disable_backface_culling(void);
 
-    /*
+    /**
      * \brief Intersection Algorithm based on Moller-Trumbore Method
      *
      *
