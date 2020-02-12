@@ -61,47 +61,52 @@ vector<unsigned> MainWindow::test_cou_bunny_contour()
     //    truc = UtilsMesh::get_vertex_of_point(&mesh, p, 1);
     //    if (truc >= 0)  tmpVertices.push_back(truc);
 
-    // TEST 3
+    // TEST 3 (Quart de cercle)
     p = MyMesh::Point(0.139f, 0.029f, 0.227f);
     truc = UtilsMesh::get_vertex_of_point(&mesh, p, precision);
-    if (truc >= 0) {
-        tmpVertices.push_back(truc);
-        VertexHandle vh = mesh.vertex_handle(truc);
-        mesh.data(vh).thickness = 15;
-        mesh.set_color(vh, MyMesh::Color(255, 0, 0));
-    }
+    if (truc >= 0)  tmpVertices.push_back(truc);
     else qDebug() << "nope";
 
     p = MyMesh::Point(0.240f, 0.001f, 0.247f);
     truc = UtilsMesh::get_vertex_of_point(&mesh, p, precision);
-    if (truc >= 0) {
-        tmpVertices.push_back(truc);
-        VertexHandle vh = mesh.vertex_handle(truc);
-        mesh.data(vh).thickness = 15;
-        mesh.set_color(vh, MyMesh::Color(255, 0, 0));
-    }
+    if (truc >= 0)  tmpVertices.push_back(truc);
     else qDebug() << "nope";
 
     p = MyMesh::Point(0.289f, -0.092f, 0.258f);
     truc = UtilsMesh::get_vertex_of_point(&mesh, p, precision);
-    if (truc >= 0) {
-        tmpVertices.push_back(truc);
-        VertexHandle vh = mesh.vertex_handle(truc);
-        mesh.data(vh).thickness = 15;
-        mesh.set_color(vh, MyMesh::Color(255, 0, 0));
-    }
+    if (truc >= 0)  tmpVertices.push_back(truc);
     else qDebug() << "nope";
 
     p = MyMesh::Point(0.269f, -0.199f, 0.244f);
     truc = UtilsMesh::get_vertex_of_point(&mesh, p, precision);
-    if (truc >= 0) {
-        tmpVertices.push_back(truc);
-        VertexHandle vh = mesh.vertex_handle(truc);
-        mesh.data(vh).thickness = 15;
-        mesh.set_color(vh, MyMesh::Color(255, 0, 0));
-    }
+    if (truc >= 0)  tmpVertices.push_back(truc);
     else qDebug() << "nope";
 
+    p = MyMesh::Point(0.022f, -0.129f, 0.198f);
+    truc = UtilsMesh::get_vertex_of_point(&mesh, p, precision);
+    if (truc >= 0)  tmpVertices.push_back(truc);
+    else qDebug() << "nope";
+
+    // TEST 4
+    //    p = MyMesh::Point(0.147f, 0.035f, 0.208f);
+    //    truc = UtilsMesh::get_vertex_of_point(&mesh, p, precision);
+    //    if (truc >= 0)  tmpVertices.push_back(truc);
+    //    else qDebug() << "nope";
+
+    //    p = MyMesh::Point(0.289f, -0.092f, 0.258f);
+    //    truc = UtilsMesh::get_vertex_of_point(&mesh, p, precision);
+    //    if (truc >= 0)  tmpVertices.push_back(truc);
+    //    else qDebug() << "nope";
+
+    //    p = MyMesh::Point(0.219f, -0.286f, 0.236f);
+    //    truc = UtilsMesh::get_vertex_of_point(&mesh, p, precision);
+    //    if (truc >= 0)  tmpVertices.push_back(truc);
+    //    else qDebug() << "nope";
+
+    //    p = MyMesh::Point(0.022f, -0.129f, 0.198f);
+    //    truc = UtilsMesh::get_vertex_of_point(&mesh, p, precision);
+    //    if (truc >= 0)  tmpVertices.push_back(truc);
+    //    else qDebug() << "nope";
 
     return tmpVertices;
 }

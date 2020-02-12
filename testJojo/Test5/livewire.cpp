@@ -259,7 +259,7 @@ double LiveWire::criterion_curvature(EdgeHandle eh)
     K_commun = (K_commun-minCurv)/(maxCurv-minCurv);
     K_suivant = (K_suivant-minCurv)/(maxCurv-minCurv);
     double cost = (K_commun+K_suivant)/2.0;
-    cost = 1 - cost;
+    cost = 1.0 - cost;
     return cost;
 }
 
