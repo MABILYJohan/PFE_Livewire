@@ -21,30 +21,60 @@ vector<unsigned> MainWindow::test_cou_bunny_contour()
     int truc;
     MyMesh::Point p;
 
-    p = MyMesh::Point(-0.288f, 0.082f, 0.148f);
-    truc = UtilsMesh::get_vertex_of_point(&mesh, p, 1);
-    if (truc >= 0)  tmpVertices.push_back(truc);
+    // TEST 1
+    //    p = MyMesh::Point(-0.288f, 0.082f, 0.148f);
+    //    truc = UtilsMesh::get_vertex_of_point(&mesh, p, 1);
+    //    if (truc >= 0)  tmpVertices.push_back(truc);
 
-    p = MyMesh::Point(-0.105f, 0.133f, 0.133f);
-    truc = UtilsMesh::get_vertex_of_point(&mesh, p, 1);
-    if (truc >= 0)  tmpVertices.push_back(truc);
+    //    p = MyMesh::Point(-0.105f, 0.133f, 0.133f);
+    //    truc = UtilsMesh::get_vertex_of_point(&mesh, p, 1);
+    //    if (truc >= 0)  tmpVertices.push_back(truc);
 
-    p = MyMesh::Point(-0.069f, 0.201f, 0.001f);
-    truc = UtilsMesh::get_vertex_of_point(&mesh, p, 1);
-    if (truc >= 0)  tmpVertices.push_back(truc);
+    //    p = MyMesh::Point(-0.069f, 0.201f, 0.001f);
+    //    truc = UtilsMesh::get_vertex_of_point(&mesh, p, 1);
+    //    if (truc >= 0)  tmpVertices.push_back(truc);
 
-    p = MyMesh::Point(-0.149f, 0.174f, -0.095f);
-    truc = UtilsMesh::get_vertex_of_point(&mesh, p, 1);
-    if (truc >= 0)  tmpVertices.push_back(truc);
+    //    p = MyMesh::Point(-0.149f, 0.174f, -0.095f);
+    //    truc = UtilsMesh::get_vertex_of_point(&mesh, p, 1);
+    //    if (truc >= 0)  tmpVertices.push_back(truc);
 
-    p = MyMesh::Point(-0.313f, 0.085f, -0.031f);
+    //    p = MyMesh::Point(-0.313f, 0.085f, -0.031f);
+    //    truc = UtilsMesh::get_vertex_of_point(&mesh, p, 1);
+    //    if (truc >= 0) {
+    //        tmpVertices.push_back(truc);
+    //        //        VertexHandle vh = mesh.vertex_handle(truc);
+    //        //        mesh.data(vh).thickness = 15;
+    //        //        mesh.set_color(vh, MyMesh::Color(255, 0, 0));
+    //    }
+
+    // TEST 2
+    p = MyMesh::Point(-0.263f, 0.075f, 0.165f);
     truc = UtilsMesh::get_vertex_of_point(&mesh, p, 1);
     if (truc >= 0) {
         tmpVertices.push_back(truc);
-        //        VertexHandle vh = mesh.vertex_handle(truc);
-        //        mesh.data(vh).thickness = 15;
-        //        mesh.set_color(vh, MyMesh::Color(255, 0, 0));
+        VertexHandle vh = mesh.vertex_handle(truc);
+        mesh.data(vh).thickness = 15;
+        mesh.set_color(vh, MyMesh::Color(255, 0, 0));
     }
+
+    p = MyMesh::Point(-0.105f, 0.133f, 0.133f);
+    truc = UtilsMesh::get_vertex_of_point(&mesh, p, 1);
+    if (truc >= 0) {
+        tmpVertices.push_back(truc);
+        VertexHandle vh = mesh.vertex_handle(truc);
+        mesh.data(vh).thickness = 15;
+        mesh.set_color(vh, MyMesh::Color(255, 0, 0));
+    }
+
+    p = MyMesh::Point(-0.069f, 0.201f, 0.001f);
+    truc = UtilsMesh::get_vertex_of_point(&mesh, p, 1);
+    if (truc >= 0) {
+        tmpVertices.push_back(truc);
+        VertexHandle vh = mesh.vertex_handle(truc);
+        mesh.data(vh).thickness = 15;
+        mesh.set_color(vh, MyMesh::Color(255, 0, 0));
+    }
+
 
     return tmpVertices;
 }
