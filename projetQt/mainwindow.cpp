@@ -11,7 +11,102 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::test_pt_de_vue()
+/*------------------------------------------------------------------------------
+ * A utiliser seulement avec le bunnyLowPoly.
+ * Fait pour être modiifiée comme on le souhaite.
+ * ----------------------------------------------------------------------------*/
+vector<unsigned> MainWindow::test_cou_bunny_contour()
+{
+    vector<unsigned> tmpVertices;
+    int truc;
+    MyMesh::Point p;
+    int precision = 1;
+
+    // TEST 1
+    //    p = MyMesh::Point(-0.288f, 0.082f, 0.148f);
+    //    truc = UtilsMesh::get_vertex_of_point(&mesh, p, 1);
+    //    if (truc >= 0)  tmpVertices.push_back(truc);
+
+    //    p = MyMesh::Point(-0.105f, 0.133f, 0.133f);
+    //    truc = UtilsMesh::get_vertex_of_point(&mesh, p, 1);
+    //    if (truc >= 0)  tmpVertices.push_back(truc);
+
+    //    p = MyMesh::Point(-0.069f, 0.201f, 0.001f);
+    //    truc = UtilsMesh::get_vertex_of_point(&mesh, p, 1);
+    //    if (truc >= 0)  tmpVertices.push_back(truc);
+
+    //    p = MyMesh::Point(-0.149f, 0.174f, -0.095f);
+    //    truc = UtilsMesh::get_vertex_of_point(&mesh, p, 1);
+    //    if (truc >= 0)  tmpVertices.push_back(truc);
+
+    //    p = MyMesh::Point(-0.313f, 0.085f, -0.031f);
+    //    truc = UtilsMesh::get_vertex_of_point(&mesh, p, 1);
+    //    if (truc >= 0) {
+    //        tmpVertices.push_back(truc);
+    //        //        VertexHandle vh = mesh.vertex_handle(truc);
+    //        //        mesh.data(vh).thickness = 15;
+    //        //        mesh.set_color(vh, MyMesh::Color(255, 0, 0));
+    //    }
+
+    // TEST 2
+    //    p = MyMesh::Point(-0.263f, 0.075f, 0.165f);
+    //    truc = UtilsMesh::get_vertex_of_point(&mesh, p, 1);
+    //    if (truc >= 0)  tmpVertices.push_back(truc);
+
+    //    p = MyMesh::Point(-0.105f, 0.133f, 0.133f);
+    //    truc = UtilsMesh::get_vertex_of_point(&mesh, p, 1);
+    //    if (truc >= 0)  tmpVertices.push_back(truc);
+
+    //    p = MyMesh::Point(-0.069f, 0.201f, 0.001f);
+    //    truc = UtilsMesh::get_vertex_of_point(&mesh, p, 1);
+    //    if (truc >= 0)  tmpVertices.push_back(truc);
+
+    // TEST 3
+    p = MyMesh::Point(0.139f, 0.029f, 0.227f);
+    truc = UtilsMesh::get_vertex_of_point(&mesh, p, precision);
+    if (truc >= 0) {
+        tmpVertices.push_back(truc);
+        VertexHandle vh = mesh.vertex_handle(truc);
+        mesh.data(vh).thickness = 15;
+        mesh.set_color(vh, MyMesh::Color(255, 0, 0));
+    }
+    else qDebug() << "nope";
+
+    p = MyMesh::Point(0.240f, 0.001f, 0.247f);
+    truc = UtilsMesh::get_vertex_of_point(&mesh, p, precision);
+    if (truc >= 0) {
+        tmpVertices.push_back(truc);
+        VertexHandle vh = mesh.vertex_handle(truc);
+        mesh.data(vh).thickness = 15;
+        mesh.set_color(vh, MyMesh::Color(255, 0, 0));
+    }
+    else qDebug() << "nope";
+
+    p = MyMesh::Point(0.289f, -0.092f, 0.258f);
+    truc = UtilsMesh::get_vertex_of_point(&mesh, p, precision);
+    if (truc >= 0) {
+        tmpVertices.push_back(truc);
+        VertexHandle vh = mesh.vertex_handle(truc);
+        mesh.data(vh).thickness = 15;
+        mesh.set_color(vh, MyMesh::Color(255, 0, 0));
+    }
+    else qDebug() << "nope";
+
+    p = MyMesh::Point(0.269f, -0.199f, 0.244f);
+    truc = UtilsMesh::get_vertex_of_point(&mesh, p, precision);
+    if (truc >= 0) {
+        tmpVertices.push_back(truc);
+        VertexHandle vh = mesh.vertex_handle(truc);
+        mesh.data(vh).thickness = 15;
+        mesh.set_color(vh, MyMesh::Color(255, 0, 0));
+    }
+    else qDebug() << "nope";
+
+
+    return tmpVertices;
+}
+
+MyMesh::Point MainWindow::get_pt_de_vue()
 {
     ui->displayWidget->my_view();
     OpenMesh::Vec3f center3F = ui->displayWidget->myCenter;
@@ -25,6 +120,7 @@ void MainWindow::test_pt_de_vue()
     //        QVector3D myV (p[0], p[1], p[2]);
     //        qDebug() << myV;
     //    }
+    return (MyMesh::Point(center.x(), center.y(), center.z()));
 }
 
 /* **** début de la partie boutons et IHM **** */
@@ -33,14 +129,18 @@ void MainWindow::on_pushButton_livewire_clicked()
 {
     qDebug() <<"<" << __FUNCTION__ << "The event sender is" << sender() << ">";
 
-    vector<unsigned> tmpEdges = {0, 4, 6, 15};
-    Contour myContour(tmpEdges);
-
     mesh.update_normals();
     // initialisation des couleurs et épaisseurs (sommets et arêtes) du mesh
     resetAllColorsAndThickness(&mesh);
 
-    myContour.draw(&mesh);
+
+    //    vector<unsigned> tmpVertices = {0, 4, 6, 7};
+    //    vector<unsigned> tmpVertices = {0, 4};
+    vector<unsigned> tmpVertices = test_cou_bunny_contour();
+    Contour myContour(tmpVertices);
+
+    MyMesh::Point _sightPoint = get_pt_de_vue();
+    myContour.draw_contour(&mesh, _sightPoint);
 
     // on affiche le maillage
     displayMesh(&mesh);
@@ -54,7 +154,9 @@ void MainWindow::on_pushButton_livewire_clicked()
 void MainWindow::on_pushButton_chargement_clicked()
 {
     // fenêtre de sélection des fichiers
-    QString fileName = QFileDialog::getOpenFileName(this, tr("Open Mesh"), "", tr("Mesh Files (*.obj)"));
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Open Mesh"),
+                                                    "../../MGM/meshFiles/",
+                                                    tr("Mesh Files (*.obj)"));
 
     // chargement du fichier .obj dans la variable globale "mesh"
     OpenMesh::IO::read_mesh(mesh, fileName.toUtf8().constData());

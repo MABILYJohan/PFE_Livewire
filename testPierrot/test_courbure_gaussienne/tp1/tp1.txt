@@ -1,0 +1,24 @@
+TP1 - indicateurs globaux
+
+.(choix des groupes de projet)
+
+.préparer son environnement de travail : OpenMesh, C++, Meshlab, "Livre" d'Ametice (cf l'enseignant)
+
+.vérifier l'ouverture de quelques fichiers 3D disponibles sur le site avec OpenMesh : affiche du nombre de faces, de sommets. Pour le cube affichage de la liste point et faces, vérifier les données
+
+.vérifier que les fichiers contiennent des faces triangulaires (ou seulement des points 3D), qu'il n'y a pas de faces sans voisines, de point n'appartenant pas à une arête, et qu'il n'y a pas d'arêtes n'appartenant pas à une face. Tester sur le fichier "chapiteau" et sur un fichier "cube" ou "sphere" modifié.
+
+.calculer les éléments simples : boîte englobante (toujours vérifier avec sphère et cube, ou en ouvrant le maillage dans un logiciel), centre gravité (barycentre de tous les sommets de l'objet)
+
+.implémenter le calcul de normales des faces et des normales aux sommets (moyenne des normales aux faces concourantes)
+    
+.implémenter le calcul d'aire des faces (produit vectoriel A(p0,p1,p2)=12∥p0p1−→−∧p0p2−→−∥).
+ Afficher l'aire totale du maillage de l'objet (vérifier avec la surface du cube et de la sphère)
+premier indicateurs (globaux) sur un maillage :
+
+	- fréquences des aires de triangles. Obtenu par exemple en calculant les aires min, max puis en comptant le nombre de triangles à min+10, 20%, 30% jusqu'à 100% (max). 
+		Reporter la moyenne (histogramme)
+	- valences : compter le nombre de sommets connectés par les arêtes de faces à 2, 3, 4, 5, .... n voisins (histogramme).
+	- déviation des normales : pour chaque sommet donner l'écart angulaire maximum entre la normale calculée et les normales aux faces concourantes.
+		Colorer les sommets selon cette déviation maximale (d'une couleur claire à foncée), cela peut être fait en modifiant le fichier 3D et en insérant ces couleurs ou dans une application.
+	- angles dièdres : pour chaque arête calculer l'angle entre les 2 normales des 2 faces concourantes, en faire un histogramme par occurence d'angles (de 0° à 360° par pas de 10°)
