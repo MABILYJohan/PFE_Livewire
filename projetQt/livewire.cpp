@@ -99,11 +99,13 @@ void LiveWire::display_criterions(int profDisplay)
 {
     if (profDisplay<0)  profDisplay=0;
     if (profDisplay>5)  profDisplay=5;
-    char prof[profDisplay];
+    char prof[profDisplay+1];
     for (int i=0; i< profDisplay; i++) {
         prof[i] = '\t';
     }
+    prof[profDisplay] = '\0';
     char *cprof = prof;
+
 
     qDebug() << cprof << "<" << __FUNCTION__ << ">";
 
