@@ -223,7 +223,9 @@ double LiveWire::criterion_curvature(EdgeHandle eh)
     //plage [0,1]
     K_commun = (K_commun-minCurv)/(maxCurv-minCurv);
     K_suivant = (K_suivant-minCurv)/(maxCurv-minCurv);
-    return (K_commun+K_suivant)/2.0;
+    double cost = (K_commun+K_suivant)/2.0;
+    cost = 1 - cost;
+    return cost;
 }
 
 //////////////////////////////////  CRITERES PRELOAD  //////////////////////////////////
@@ -234,7 +236,8 @@ double LiveWire::criterion_length(EdgeHandle eh) {
 
 double LiveWire::criterion_diedral_angle(EdgeHandle eh) {
     // Voir si besoin que le coût inférieur soit l'angle le plus grand
-    return fabs(mesh.calc_dihedral_angle(eh));
+    return fabs(2*M_PI - mesh.calc_dihedral_angle(eh));
+    //    return fabs(mesh.calc_dihedral_angle(eh));
 }
 
 double LiveWire::criterion_normal_orientation(EdgeHandle eh, MyMesh::Point _sightPoint)
@@ -276,25 +279,45 @@ double LiveWire::criterion_visibility(EdgeHandle eh)
 
     vector<int> pathEdges = myDijkstra.get_currentPath();
     int numEdge = eh.idx();
-    double bestCost = static_cast<double>(INT_MAX);
+    double distMin = static_cast<double>(INT_MAX);
     MyMesh::Point myP = mesh.calc_edge_midpoint(eh);
 
-    for (auto id : pathEdges)
+    //    for (auto id : pathEdges)
+    //    {
+    //        if (id==numEdge) {
+    //            return 0.0;
+    //        }
+    //        EdgeHandle ehTest = mesh.edge_handle(id);
+    //        MyMesh::Point pTest = mesh.calc_edge_midpoint(ehTest);
+    //        double distEuclid = Utils::distance_euclidienne(myP[0], pTest[0],
+    //                myP[1], pTest[1],
+    //                myP[2], pTest[2]);
+    //        if (bestCost >= distEuclid) {
+    //            bestCost = distEuclid;
+    //        }
+    //    }
+
+
+    double distMax = 100.0;
+    for (auto idEdgePath : pathEdges)
     {
-        if (id==numEdge) {
-            return 0.0;
+        if (idEdgePath==numEdge) {
+            //            return static_cast<double>(INT_MAX)-1.0;
+            return distMax;
         }
-        EdgeHandle ehTest = mesh.edge_handle(id);
-        MyMesh::Point pTest = mesh.calc_edge_midpoint(ehTest);
+        EdgeHandle ehPath = mesh.edge_handle(idEdgePath);
+        MyMesh::Point pTest = mesh.calc_edge_midpoint(ehPath);
         double distEuclid = Utils::distance_euclidienne(myP[0], pTest[0],
                 myP[1], pTest[1],
                 myP[2], pTest[2]);
-        if (bestCost >= distEuclid) {
-            bestCost = distEuclid;
+        if (distMin >= distEuclid) {
+            distMin = distEuclid;
         }
     }
 
-    return bestCost;
+    //    double cost = ((static_cast<double>(INT_MAX)-1.0)/2.0) - distMin;
+    double cost = (distMax -(distMin+5));
+    return cost;
 }
 
 

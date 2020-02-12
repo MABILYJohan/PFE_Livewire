@@ -20,6 +20,7 @@ vector<unsigned> MainWindow::test_cou_bunny_contour()
     vector<unsigned> tmpVertices;
     int truc;
     MyMesh::Point p;
+    int precision = 1;
 
     // TEST 1
     //    p = MyMesh::Point(-0.288f, 0.082f, 0.148f);
@@ -48,32 +49,58 @@ vector<unsigned> MainWindow::test_cou_bunny_contour()
     //    }
 
     // TEST 2
-    p = MyMesh::Point(-0.263f, 0.075f, 0.165f);
-    truc = UtilsMesh::get_vertex_of_point(&mesh, p, 1);
-    if (truc >= 0) {
-        tmpVertices.push_back(truc);
-        VertexHandle vh = mesh.vertex_handle(truc);
-        mesh.data(vh).thickness = 15;
-        mesh.set_color(vh, MyMesh::Color(255, 0, 0));
-    }
+    //    p = MyMesh::Point(-0.263f, 0.075f, 0.165f);
+    //    truc = UtilsMesh::get_vertex_of_point(&mesh, p, 1);
+    //    if (truc >= 0)  tmpVertices.push_back(truc);
 
-    p = MyMesh::Point(-0.105f, 0.133f, 0.133f);
-    truc = UtilsMesh::get_vertex_of_point(&mesh, p, 1);
-    if (truc >= 0) {
-        tmpVertices.push_back(truc);
-        VertexHandle vh = mesh.vertex_handle(truc);
-        mesh.data(vh).thickness = 15;
-        mesh.set_color(vh, MyMesh::Color(255, 0, 0));
-    }
+    //    p = MyMesh::Point(-0.105f, 0.133f, 0.133f);
+    //    truc = UtilsMesh::get_vertex_of_point(&mesh, p, 1);
+    //    if (truc >= 0)  tmpVertices.push_back(truc);
 
-    p = MyMesh::Point(-0.069f, 0.201f, 0.001f);
-    truc = UtilsMesh::get_vertex_of_point(&mesh, p, 1);
+    //    p = MyMesh::Point(-0.069f, 0.201f, 0.001f);
+    //    truc = UtilsMesh::get_vertex_of_point(&mesh, p, 1);
+    //    if (truc >= 0)  tmpVertices.push_back(truc);
+
+    // TEST 3
+    p = MyMesh::Point(0.139f, 0.029f, 0.227f);
+    truc = UtilsMesh::get_vertex_of_point(&mesh, p, precision);
     if (truc >= 0) {
         tmpVertices.push_back(truc);
         VertexHandle vh = mesh.vertex_handle(truc);
         mesh.data(vh).thickness = 15;
         mesh.set_color(vh, MyMesh::Color(255, 0, 0));
     }
+    else qDebug() << "nope";
+
+    p = MyMesh::Point(0.240f, 0.001f, 0.247f);
+    truc = UtilsMesh::get_vertex_of_point(&mesh, p, precision);
+    if (truc >= 0) {
+        tmpVertices.push_back(truc);
+        VertexHandle vh = mesh.vertex_handle(truc);
+        mesh.data(vh).thickness = 15;
+        mesh.set_color(vh, MyMesh::Color(255, 0, 0));
+    }
+    else qDebug() << "nope";
+
+    p = MyMesh::Point(0.289f, -0.092f, 0.258f);
+    truc = UtilsMesh::get_vertex_of_point(&mesh, p, precision);
+    if (truc >= 0) {
+        tmpVertices.push_back(truc);
+        VertexHandle vh = mesh.vertex_handle(truc);
+        mesh.data(vh).thickness = 15;
+        mesh.set_color(vh, MyMesh::Color(255, 0, 0));
+    }
+    else qDebug() << "nope";
+
+    p = MyMesh::Point(0.269f, -0.199f, 0.244f);
+    truc = UtilsMesh::get_vertex_of_point(&mesh, p, precision);
+    if (truc >= 0) {
+        tmpVertices.push_back(truc);
+        VertexHandle vh = mesh.vertex_handle(truc);
+        mesh.data(vh).thickness = 15;
+        mesh.set_color(vh, MyMesh::Color(255, 0, 0));
+    }
+    else qDebug() << "nope";
 
 
     return tmpVertices;
@@ -126,7 +153,9 @@ void MainWindow::on_pushButton_livewire_clicked()
 void MainWindow::on_pushButton_chargement_clicked()
 {
     // fenêtre de sélection des fichiers
-    QString fileName = QFileDialog::getOpenFileName(this, tr("Open Mesh"), "", tr("Mesh Files (*.obj)"));
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Open Mesh"),
+                                                    "../../MGM/meshFiles/",
+                                                    tr("Mesh Files (*.obj)"));
 
     // chargement du fichier .obj dans la variable globale "mesh"
     OpenMesh::IO::read_mesh(mesh, fileName.toUtf8().constData());
