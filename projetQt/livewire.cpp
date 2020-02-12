@@ -435,6 +435,7 @@ void LiveWire::draw(unsigned vertex2)
     //        return;
     //    }
 
+
     int red = Utils::randInt(0, 255);
     int blue = Utils::randInt(0, 255);
     int green = Utils::randInt(0, 255);

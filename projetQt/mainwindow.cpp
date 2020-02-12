@@ -140,14 +140,13 @@ void MainWindow::on_pushButton_livewire_clicked()
     Contour myContour(tmpVertices);
 
     MyMesh::Point _sightPoint = get_pt_de_vue();
+
     myContour.draw_contour(&mesh, _sightPoint);
 
     // on affiche le maillage
     displayMesh(&mesh);
 
     qDebug() << "</" << __FUNCTION__ << ">";
-
-    test_pt_de_vue();
 }
 
 // exemple pour charger un fichier .obj
