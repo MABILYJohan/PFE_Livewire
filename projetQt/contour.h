@@ -27,11 +27,11 @@ public:
     unsigned get_end();
     vector<unsigned> get_contour();
 
-    SelectedPoints selected_points;
-
     void add_edge(unsigned numEdge);
     void add_vertex(unsigned numVertex);
     void draw_contour(MyMesh *_mesh, MyMesh::Point _sightPoint);
+
+    double half_thickness = 2; //Radius of pre-supposed brush radius which "draws" the stroke
 
 protected:
     int startPoint;

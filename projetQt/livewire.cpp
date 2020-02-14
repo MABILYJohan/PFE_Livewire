@@ -268,6 +268,7 @@ double LiveWire::criterion_normal_orientation(EdgeHandle eh, MyMesh::Point _sigh
 
 //////////////////////////////////  CRITERES AUTRES //////////////////////////////////
 
+
 double LiveWire::criterion_visibility(EdgeHandle eh)
 {
     vector<int> dijkstraPaths = myDijkstra.get_paths();

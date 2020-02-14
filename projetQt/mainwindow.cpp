@@ -147,7 +147,7 @@ void MainWindow::on_pushButton_livewire_clicked()
 
     qDebug() << "</" << __FUNCTION__ << ">";
 
-    test_pt_de_vue();
+    //test_pt_de_vue();
 }
 
 // exemple pour charger un fichier .obj
