@@ -62,12 +62,11 @@ vector<unsigned> MainWindow::test_cou_bunny_contour()
     //    if (truc >= 0)  tmpVertices.push_back(truc);
 
     // TEST 3 (Quart de cercle)
-    /*
+
     p = MyMesh::Point(0.139f, 0.029f, 0.227f);
     truc = UtilsMesh::get_vertex_of_point(&mesh, p, precision);
     if (truc >= 0)  tmpVertices.push_back(truc);
     else qDebug() << "nope";
-    */
 
     p = MyMesh::Point(0.240f, 0.001f, 0.247f);
     truc = UtilsMesh::get_vertex_of_point(&mesh, p, precision);
@@ -134,7 +133,6 @@ void MainWindow::on_pushButton_livewire_clicked()
     displayMesh(&mesh);
 
     qDebug() << "</" << __FUNCTION__ << ">";
-
 }
 
 // exemple pour charger un fichier .obj

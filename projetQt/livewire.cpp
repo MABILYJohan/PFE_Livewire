@@ -318,7 +318,6 @@ double LiveWire::criterion_visibility(EdgeHandle eh)
 
 double LiveWire::criterion_stroke_distance(EdgeHandle eh)
 {
-    //qDebug() << "islalm empire " << endl;
     vector<int> dijkstraPaths = myDijkstra.get_paths();
     if (dijkstraPaths.empty()) {
         qWarning() << "Warning in " << __FUNCTION__
@@ -331,7 +330,7 @@ double LiveWire::criterion_stroke_distance(EdgeHandle eh)
     double distMin = static_cast<double>(INT_MAX);
     MyMesh::Point myP = mesh.calc_edge_midpoint(eh);
 
-    double distMax = -1;
+    double distMax = 100.0;
     for (auto idEdgePath : pathEdges)
     {
         if (idEdgePath==numEdge) {
