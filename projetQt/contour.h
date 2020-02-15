@@ -33,6 +33,8 @@ public:
 
     double half_thickness = 2; //Radius of pre-supposed brush radius which "draws" the stroke
 
+    void display(int profDisplay);
+
 protected:
     int startPoint;
     int endPoint;
