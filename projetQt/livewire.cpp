@@ -313,6 +313,13 @@ double LiveWire::criterion_visibility(EdgeHandle eh)
         cost = rad_thickness/(distMin);
     }
 
+    /*
+     *
+     *
+     *     double cost = (distMax -(distMin+5));
+     *     return cost;
+     */
+
     return cost;
 }
 
