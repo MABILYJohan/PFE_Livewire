@@ -14,6 +14,7 @@ Contour::Contour(unsigned _begin)
 
 Contour::Contour(vector<unsigned> _vertices)
 {
+    verticesContour.clear();
     for (auto v : _vertices) {
         add_vertex(v);
     }
@@ -22,7 +23,7 @@ Contour::Contour(vector<unsigned> _vertices)
 unsigned Contour::get_start()   {   return startPoint;  }
 unsigned Contour::get_end()     {   return endPoint;    }
 
-vector<unsigned> Contour::get_contour() {   return edgesContour; }
+vector<unsigned> Contour::get_contour() {   return verticesContour; }
 
 /* Attention obsolète: à remanier.*/
 void Contour::add_edge(unsigned numEdge)
@@ -52,7 +53,7 @@ void Contour::draw_contour(MyMesh *_mesh, MyMesh::Point _sightPoint)
     unsigned cpt=0;
     unsigned curVertex2 = verticesContour[cpt+1];
 
-    qDebug() << "\t\tchargement draw:" << cpt++<<"/"<<verticesContour.size();
+    qDebug() << "\t\tchargement draw:" << cpt<<"/"<<verticesContour.size();
     LiveWire lW(*_mesh, curVertex, _sightPoint);
 
     while (static_cast<int>(curVertex2) != endPoint)
@@ -68,16 +69,17 @@ void Contour::draw_contour(MyMesh *_mesh, MyMesh::Point _sightPoint)
     lW.update_vertexSeed(endPoint, startPoint);
     lW.draw(startPoint);
     qDebug() << "\t\tchargement draw:" << cpt+1<<"/"<<verticesContour.size();
+
     qDebug() << "\t</" << __FUNCTION__ << ">";
 }
 
+#if 0
 
 void SelectedPoints::add_point(float x, float y)
 {
     on_screen_points.append(MyMesh::Point(x, y, 0));
 }
 
-#if 0
 MyMesh::Point Contour::raycast_on_screen_point(float x, float y) //TODO
 {
     QVector3D intersection_p, raydir;

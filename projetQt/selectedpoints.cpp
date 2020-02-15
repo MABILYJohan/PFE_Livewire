@@ -21,12 +21,12 @@ MyMesh::Point SelectedPoints::raycast_on_screen_point(float x, float y)
     QVector3D intersection_p, raydir;
 
 
-        Raycasting::disable_backface_culling();
+//        Raycasting::disable_backface_culling();
         //if(Raycasting::intersects_triangle(screen_pov, raydir, fv, intersection_p))
         {
 
         }
-        Raycasting::enable_backface_culling();
+//        Raycasting::enable_backface_culling();
 
 }
 
@@ -45,8 +45,9 @@ void SelectedPoints::raycast_selected_points()
 
         for(auto p_iter = on_screen_points.begin(); p_iter != on_screen_points.end() ; p_iter++)
         {
-            Raycasting::disable_backface_culling();
-            bool intersection = Raycasting::intersects_triangle(screen_pov, raydir, fv, intersection_p);
+//            Raycasting::disable_backface_culling();
+//            bool intersection = Raycasting::intersects_triangle(screen_pov, raydir, fv, intersection_p);
+            bool intersection;
 
             if(intersection)
             {

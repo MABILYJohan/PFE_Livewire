@@ -38,6 +38,7 @@ protected:
     int endPoint;
     vector<unsigned> edgesContour;
     vector<unsigned> verticesContour;
+
 };
 
 #endif // CONTOUR_H
