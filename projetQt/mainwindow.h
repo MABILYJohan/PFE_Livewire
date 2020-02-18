@@ -27,6 +27,7 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
     
+    int testChoice=1;
 	MyMesh::Point get_pt_de_vue();
 
     void displayMesh(MyMesh *_mesh, bool isTemperatureMap = false, float mapRange = -1);
@@ -39,13 +40,18 @@ private slots:
 
     void on_pushButton_livewire_clicked();
 
+    void on_spinBox_valueChanged(int value);
+
 private:
 
     MyMesh mesh;
 
     Ui::MainWindow *ui;
 
-    vector<unsigned> test_cou_bunny_contour();
+    vector<unsigned> get_verticesID(int _testChoice);
+    vector<unsigned> test_contour(vector<MyMesh::Point> points, int precision);
+
+    void make_livewire();
 };
 
 #endif // MAINWINDOW_H

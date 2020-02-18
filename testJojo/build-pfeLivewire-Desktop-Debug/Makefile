@@ -703,7 +703,8 @@ mainwindow.o: ../Test6/mainwindow.cpp ../Test6/mainwindow.h \
 		../Test6/raycasting.h \
 		../Test6/livewire.h \
 		../Test6/dijkstra.h \
-		ui_mainwindow.h
+		ui_mainwindow.h \
+		../Test6/meshviewerwidget.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mainwindow.o ../Test6/mainwindow.cpp
 
 meshviewerwidget.o: ../Test6/meshviewerwidget.cpp ../Test6/meshviewerwidget.h \

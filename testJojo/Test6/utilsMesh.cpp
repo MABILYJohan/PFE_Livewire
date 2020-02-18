@@ -58,7 +58,7 @@ int UtilsMesh::get_vertex_of_point(MyMesh *_mesh, MyMesh::Point p, int precision
 {
     int numVertex = -1;
     float fPrec = 0.f;
-    for (unsigned i=0; i<precision; i++) {
+    for (int i=0; i<precision; i++) {
         fPrec += 0.01f;
     }
 

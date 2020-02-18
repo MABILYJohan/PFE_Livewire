@@ -11,95 +11,73 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-/*------------------------------------------------------------------------------
- * A utiliser seulement avec le bunnyLowPoly.
- * Fait pour être modiifiée comme on le souhaite.
- * ----------------------------------------------------------------------------*/
-vector<unsigned> MainWindow::test_cou_bunny_contour()
+vector<unsigned> MainWindow::test_contour(vector<MyMesh::Point> points, int precision)
 {
     vector<unsigned> tmpVertices;
-    int truc;
-    MyMesh::Point p;
-    int precision = 1;
+    int vertexID;
+    for (auto p : points)
+    {
+        vertexID = UtilsMesh::get_vertex_of_point(&mesh, p, precision);
+        if (vertexID >= 0)  tmpVertices.push_back(vertexID);
+        else qDebug() << "point P(" << p[0]<<","<<p[1]<<","<<p[2]<<") not found";
+    }
+    return tmpVertices;
+}
 
-    // TEST 1
-    //    p = MyMesh::Point(-0.288f, 0.082f, 0.148f);
-    //    truc = UtilsMesh::get_vertex_of_point(&mesh, p, 1);
-    //    if (truc >= 0)  tmpVertices.push_back(truc);
+/*------------------------------------------------------------------------------
+ * Fonction utilitaire pour choisir des sommets à utiliser pour le contour
+ * selon une liste de points.
+ * ----------------------------------------------------------------------------*/
+vector<unsigned> MainWindow::get_verticesID(int _testChoice)
+{
+    vector<unsigned> tmpVertices;
 
-    //    p = MyMesh::Point(-0.105f, 0.133f, 0.133f);
-    //    truc = UtilsMesh::get_vertex_of_point(&mesh, p, 1);
-    //    if (truc >= 0)  tmpVertices.push_back(truc);
+    vector<MyMesh::Point> tmpPoints;
 
-    //    p = MyMesh::Point(-0.069f, 0.201f, 0.001f);
-    //    truc = UtilsMesh::get_vertex_of_point(&mesh, p, 1);
-    //    if (truc >= 0)  tmpVertices.push_back(truc);
+    switch(_testChoice)
+    {
+    //////////////////  BUNNY   /////////////////////
+    case(1):
+        tmpPoints.push_back(MyMesh::Point(-0.288f, 0.082f, 0.148f));
+        tmpPoints.push_back(MyMesh::Point(-0.105f, 0.133f, 0.133f));
+        tmpPoints.push_back(MyMesh::Point(-0.069f, 0.201f, 0.001f));
+        tmpPoints.push_back(MyMesh::Point(-0.149f, 0.174f, -0.095f));
+        tmpPoints.push_back(MyMesh::Point(-0.313f, 0.085f, -0.031f));
+        break;
+    case(2):
+        tmpPoints.push_back(MyMesh::Point(-0.263f, 0.075f, 0.165f));
+        tmpPoints.push_back(MyMesh::Point(-0.105f, 0.133f, 0.133f));
+        tmpPoints.push_back(MyMesh::Point(-0.069f, 0.201f, 0.001f));
+        break;
+    case(3):
+        tmpPoints.push_back(MyMesh::Point(0.139f, 0.029f, 0.227f));
+        tmpPoints.push_back(MyMesh::Point(0.240f, 0.001f, 0.247f));
+        tmpPoints.push_back(MyMesh::Point(0.289f, -0.092f, 0.258f));
+        tmpPoints.push_back(MyMesh::Point(0.269f, -0.199f, 0.244f));
+        tmpPoints.push_back(MyMesh::Point(0.022f, -0.129f, 0.198f));
+        break;
+    case(4):
+        tmpPoints.push_back(MyMesh::Point(-0.167f, 0.360f, -0.006f));
+        tmpPoints.push_back(MyMesh::Point(-0.107f, 0.281f, -0.000f));
+        break;
+    case(5):
+        tmpPoints.push_back(MyMesh::Point(0.464f, -0.126f, 0.019f));
+        tmpPoints.push_back(MyMesh::Point(0.424f, -0.198f, 0.122f));
+        tmpPoints.push_back(MyMesh::Point(0.355f, -0.330f, 0.107f));
+        break;
 
-    //    p = MyMesh::Point(-0.149f, 0.174f, -0.095f);
-    //    truc = UtilsMesh::get_vertex_of_point(&mesh, p, 1);
-    //    if (truc >= 0)  tmpVertices.push_back(truc);
+    //////////////////  AUTRES   /////////////////////
 
-    //    p = MyMesh::Point(-0.313f, 0.085f, -0.031f);
-    //    truc = UtilsMesh::get_vertex_of_point(&mesh, p, 1);
-    //    if (truc >= 0) {
-    //        tmpVertices.push_back(truc);
-    //        //        VertexHandle vh = mesh.vertex_handle(truc);
-    //        //        mesh.data(vh).thickness = 15;
-    //        //        mesh.set_color(vh, MyMesh::Color(255, 0, 0));
-    //    }
+    default:
+        qDebug() << "TEST NOT DEFINED";
+        break;
+    }
 
-    // TEST 2
-    //    p = MyMesh::Point(-0.263f, 0.075f, 0.165f);
-    //    truc = UtilsMesh::get_vertex_of_point(&mesh, p, 1);
-    //    if (truc >= 0)  tmpVertices.push_back(truc);
-
-    //    p = MyMesh::Point(-0.105f, 0.133f, 0.133f);
-    //    truc = UtilsMesh::get_vertex_of_point(&mesh, p, 1);
-    //    if (truc >= 0)  tmpVertices.push_back(truc);
-
-    //    p = MyMesh::Point(-0.069f, 0.201f, 0.001f);
-    //    truc = UtilsMesh::get_vertex_of_point(&mesh, p, 1);
-    //    if (truc >= 0)  tmpVertices.push_back(truc);
-
-    // TEST 3 (Quart de cercle)
-    p = MyMesh::Point(0.139f, 0.029f, 0.227f);
-    truc = UtilsMesh::get_vertex_of_point(&mesh, p, precision);
-    if (truc >= 0)  tmpVertices.push_back(truc);
-    else qDebug() << "nope";
-
-    p = MyMesh::Point(0.240f, 0.001f, 0.247f);
-    truc = UtilsMesh::get_vertex_of_point(&mesh, p, precision);
-    if (truc >= 0)  tmpVertices.push_back(truc);
-    else qDebug() << "nope";
-
-    p = MyMesh::Point(0.289f, -0.092f, 0.258f);
-    truc = UtilsMesh::get_vertex_of_point(&mesh, p, precision);
-    if (truc >= 0)  tmpVertices.push_back(truc);
-    else qDebug() << "nope";
-
-    p = MyMesh::Point(0.269f, -0.199f, 0.244f);
-    truc = UtilsMesh::get_vertex_of_point(&mesh, p, precision);
-    if (truc >= 0)  tmpVertices.push_back(truc);
-    else qDebug() << "nope";
-
-    p = MyMesh::Point(0.022f, -0.129f, 0.198f);
-    truc = UtilsMesh::get_vertex_of_point(&mesh, p, precision);
-    if (truc >= 0)  tmpVertices.push_back(truc);
-    else qDebug() << "nope";
-
-    // TEST 5
-    //    p = MyMesh::Point(-0.167f, 0.360f, -0.006f);
-    //    truc = UtilsMesh::get_vertex_of_point(&mesh, p, precision);
-    //    if (truc >= 0)  tmpVertices.push_back(truc);
-    //    else qDebug() << "nope";
-
-    //    p = MyMesh::Point(-0.107f, 0.281f, -0.000f);
-    //    truc = UtilsMesh::get_vertex_of_point(&mesh, p, precision);
-    //    if (truc >= 0)  tmpVertices.push_back(truc);
-    //    else qDebug() << "nope";
+    tmpVertices = test_contour(tmpPoints, 1);
 
     return tmpVertices;
 }
+
 
 MyMesh::Point MainWindow::get_pt_de_vue()
 {
@@ -118,11 +96,9 @@ MyMesh::Point MainWindow::get_pt_de_vue()
     return (MyMesh::Point(center.x(), center.y(), center.z()));
 }
 
-/* **** début de la partie boutons et IHM **** */
-
-void MainWindow::on_pushButton_livewire_clicked()
+void MainWindow::make_livewire()
 {
-    qDebug() <<"<" << __FUNCTION__ << "The event sender is" << sender() << ">";
+    qDebug() << "<" << __FUNCTION__ << ">";
 
     mesh.update_normals();
     // initialisation des couleurs et épaisseurs (sommets et arêtes) du mesh
@@ -131,7 +107,8 @@ void MainWindow::on_pushButton_livewire_clicked()
 
     //    vector<unsigned> tmpVertices = {0, 4, 6, 7};
     //    vector<unsigned> tmpVertices = {0, 4};
-    vector<unsigned> tmpVertices = test_cou_bunny_contour();
+
+    vector<unsigned> tmpVertices = get_verticesID(testChoice);
     Contour myContour(tmpVertices);
 
     MyMesh::Point _sightPoint = get_pt_de_vue();
@@ -141,6 +118,25 @@ void MainWindow::on_pushButton_livewire_clicked()
     // on affiche le maillage
     displayMesh(&mesh);
 
+    qDebug() << "</" << __FUNCTION__ << ">";
+}
+
+/* **** début de la partie boutons et IHM **** */
+
+void MainWindow::on_pushButton_livewire_clicked()
+{
+    qDebug() <<"<" << __FUNCTION__ << "The event sender is" << sender() << ">";
+
+    make_livewire();
+
+    qDebug() << "</" << __FUNCTION__ << ">";
+}
+
+void MainWindow::on_spinBox_valueChanged(int value)
+{
+    qDebug() <<"<" << __FUNCTION__ << "The event sender is" << sender() << ">";
+    testChoice = value;
+    qDebug() <<"\ttestChoice =" << testChoice;
     qDebug() << "</" << __FUNCTION__ << ">";
 }
 

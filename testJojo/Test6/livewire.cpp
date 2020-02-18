@@ -285,34 +285,53 @@ double LiveWire::criterion_visibility(EdgeHandle eh)
     int numEdge = eh.idx();
     double distMin = static_cast<double>(INT_MAX);
     MyMesh::Point myP = mesh.calc_edge_midpoint(eh);
-
     double distMax = 10000000.0;
+
+    //    for (auto idEdgePath : pathEdges)
+    //    {
+    //        if (idEdgePath==numEdge) {
+    //            return distMax;
+    //        }
+    //        EdgeHandle ehPath = mesh.edge_handle(idEdgePath);
+    //        MyMesh::Point pTest = mesh.calc_edge_midpoint(ehPath);
+    //        double myDist = fabs(pTest[2] - myP[2]);
+    //        if (distMin >= myDist) {
+    //            distMin = myDist;
+    //        }
+    //    }
+    //    return (1.0/distMin) * 1000.f;
+
     for (auto idEdgePath : pathEdges)
     {
         if (idEdgePath==numEdge) {
             //            return static_cast<double>(INT_MAX)-1.0;
-            return distMax;
+            //            return distMax;
+            return 0.0;
         }
         EdgeHandle ehPath = mesh.edge_handle(idEdgePath);
         MyMesh::Point pTest = mesh.calc_edge_midpoint(ehPath);
         double distEuclid = Utils::distance_euclidienne(myP[0], pTest[0],
                 myP[1], pTest[1],
                 myP[2], pTest[2]);
+
+        if (pTest[2] > myP[2])  distMin*=2.f;
         if (distMin >= distEuclid) {
             distMin = distEuclid;
         }
     }
 
-    double cost = 0;
-    if(distMin >= rad_thickness)
-    {
-       cost = rad_thickness/(distMin*distMin);
-    }
+    return distMin;
 
-    else
-    {
-        cost = rad_thickness/(distMin);
-    }
+    //    double cost = 0;
+    //    if(distMin >= rad_thickness)
+    //    {
+    //       cost = rad_thickness/(distMin*distMin);
+    //    }
+
+    //    else
+    //    {
+    //        cost = rad_thickness/(distMin);
+    //    }
 
     /*
      *
@@ -321,7 +340,7 @@ double LiveWire::criterion_visibility(EdgeHandle eh)
      *     return cost;
      */
 
-    return cost;
+    //    return cost;
 }
 
 double LiveWire::criterion_stroke_distance(EdgeHandle eh)

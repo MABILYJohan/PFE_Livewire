@@ -15,10 +15,12 @@
 #include <QtWidgets/QButtonGroup>
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QHeaderView>
+#include <QtWidgets/QLabel>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QSpacerItem>
+#include <QtWidgets/QSpinBox>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QToolBar>
 #include <QtWidgets/QVBoxLayout>
@@ -31,12 +33,15 @@ class Ui_MainWindow
 {
 public:
     QWidget *centralWidget;
-    QHBoxLayout *horizontalLayout;
+    QHBoxLayout *horizontalLayout_2;
     QWidget *widget_2;
     QVBoxLayout *verticalLayout;
     QPushButton *pushButton_chargement;
     QPushButton *pushButton_generer;
     QPushButton *pushButton_livewire;
+    QHBoxLayout *horizontalLayout;
+    QLabel *label;
+    QSpinBox *spinBox;
     QSpacerItem *verticalSpacer;
     MeshViewerWidget *displayWidget;
     QMenuBar *menuBar;
@@ -50,10 +55,10 @@ public:
         MainWindow->resize(632, 408);
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
-        horizontalLayout = new QHBoxLayout(centralWidget);
-        horizontalLayout->setSpacing(6);
-        horizontalLayout->setContentsMargins(11, 11, 11, 11);
-        horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
+        horizontalLayout_2 = new QHBoxLayout(centralWidget);
+        horizontalLayout_2->setSpacing(6);
+        horizontalLayout_2->setContentsMargins(11, 11, 11, 11);
+        horizontalLayout_2->setObjectName(QStringLiteral("horizontalLayout_2"));
         widget_2 = new QWidget(centralWidget);
         widget_2->setObjectName(QStringLiteral("widget_2"));
         QSizePolicy sizePolicy(QSizePolicy::Maximum, QSizePolicy::Preferred);
@@ -83,17 +88,41 @@ public:
 
         verticalLayout->addWidget(pushButton_livewire);
 
+        horizontalLayout = new QHBoxLayout();
+        horizontalLayout->setSpacing(6);
+        horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
+        label = new QLabel(widget_2);
+        label->setObjectName(QStringLiteral("label"));
+        QSizePolicy sizePolicy1(QSizePolicy::Expanding, QSizePolicy::Preferred);
+        sizePolicy1.setHorizontalStretch(0);
+        sizePolicy1.setVerticalStretch(0);
+        sizePolicy1.setHeightForWidth(label->sizePolicy().hasHeightForWidth());
+        label->setSizePolicy(sizePolicy1);
+        label->setAlignment(Qt::AlignCenter);
+
+        horizontalLayout->addWidget(label);
+
+        spinBox = new QSpinBox(widget_2);
+        spinBox->setObjectName(QStringLiteral("spinBox"));
+        spinBox->setMinimum(1);
+        spinBox->setMaximum(100);
+
+        horizontalLayout->addWidget(spinBox);
+
+
+        verticalLayout->addLayout(horizontalLayout);
+
         verticalSpacer = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
 
         verticalLayout->addItem(verticalSpacer);
 
 
-        horizontalLayout->addWidget(widget_2);
+        horizontalLayout_2->addWidget(widget_2);
 
         displayWidget = new MeshViewerWidget(centralWidget);
         displayWidget->setObjectName(QStringLiteral("displayWidget"));
 
-        horizontalLayout->addWidget(displayWidget);
+        horizontalLayout_2->addWidget(displayWidget);
 
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
@@ -117,7 +146,8 @@ public:
         MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", Q_NULLPTR));
         pushButton_chargement->setText(QApplication::translate("MainWindow", "Charger OBJ", Q_NULLPTR));
         pushButton_generer->setText(QApplication::translate("MainWindow", "G\303\251n\303\251rer mesh", Q_NULLPTR));
-        pushButton_livewire->setText(QApplication::translate("MainWindow", "Tmp-Lvewire", Q_NULLPTR));
+        pushButton_livewire->setText(QApplication::translate("MainWindow", "Lvewire", Q_NULLPTR));
+        label->setText(QApplication::translate("MainWindow", "Choix test:", Q_NULLPTR));
     } // retranslateUi
 
 };
