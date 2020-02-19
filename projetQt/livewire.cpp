@@ -90,7 +90,8 @@ void LiveWire::init_criterions()
 void LiveWire::update_vertexSeed(int _vertexSeed, int vertexNext)
 {
     vertexSeed = _vertexSeed;
-    if (Utils::is_in_vector(criteres, static_cast<int>(VISIBILITY))) {
+    if (Utils::is_in_vector(criteres, static_cast<int>(VISIBILITY))
+            || Utils::is_in_vector(criteres, static_cast<int>(STROKE_DIST))) {
         myDijkstra.dijkstra(&mesh, vertexSeed);
         //        vector<int> dijkstraPaths = myDijkstra.get_paths();
     }
@@ -294,9 +295,8 @@ double LiveWire::criterion_visibility(EdgeHandle eh)
         }
         EdgeHandle ehPath = mesh.edge_handle(idEdgePath);
         MyMesh::Point pTest = mesh.calc_edge_midpoint(ehPath);
-        double distEuclid = Utils::distance_euclidienne(myP[0], pTest[0],
-                myP[1], pTest[1],
-                myP[2], pTest[2]);
+        double distEuclid = Utils::distance_euclidienne(myP[0], myP[1], myP[2],
+                pTest[0], pTest[1], pTest[2]);
         if (distMin >= distEuclid) {
             distMin = distEuclid;
         }
@@ -347,9 +347,8 @@ double LiveWire::criterion_stroke_distance(EdgeHandle eh)
 
         EdgeHandle ehPath = mesh.edge_handle(idEdgePath);
         MyMesh::Point pTest = mesh.calc_edge_midpoint(ehPath);
-        double distEuclid = Utils::distance_euclidienne(myP[0], pTest[0],
-                myP[1], pTest[1],
-                myP[2], pTest[2]);
+        double distEuclid = Utils::distance_euclidienne(myP[0], myP[1], myP[2],
+                pTest[0], pTest[1], pTest[2]);
 
         //Looking for approximative maximal distance from the edge to the center-line of the stroke
         if (distMax < distEuclid) {
@@ -426,7 +425,8 @@ void LiveWire::build_paths(int vertexNext)
     vector<int> activeList;   activeList.push_back(edgeSeed);
     paths = vector<int>(mesh.n_edges(), -1);
 
-    if (Utils::is_in_vector(criteres, static_cast<int>(VISIBILITY))) {
+    if (Utils::is_in_vector(criteres, static_cast<int>(VISIBILITY))
+            || Utils::is_in_vector(criteres, static_cast<int>(STROKE_DIST))) {
         myDijkstra.calc_path(&mesh, vertexNext);
     }
 
