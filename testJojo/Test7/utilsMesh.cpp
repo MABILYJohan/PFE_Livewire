@@ -239,9 +239,9 @@ EdgeHandle UtilsMesh::get_next_eh_of_vh(MyMesh *_mesh, int numVertex)
     return eh;
 }
 
-VertexHandle UtilsMesh::find_near_vertex_of_point(MyMesh *_mesh, MyMesh::Point P)
+int UtilsMesh::find_near_vertex_of_point(MyMesh *_mesh, MyMesh::Point P)
 {
-    VertexHandle vh;
+    int vertexID = -1;;
 
     double minDist = static_cast<double>(INT_MAX);
 
@@ -249,10 +249,15 @@ VertexHandle UtilsMesh::find_near_vertex_of_point(MyMesh *_mesh, MyMesh::Point P
     {
         VertexHandle vhTmp = *curVert;
         MyMesh::Point tmpP = _mesh->point(vhTmp);
-        //double min = Utils::distance_euclidienne(P[0])
+        double val = Utils::distance_euclidienne(P[0], P[1], P[2],
+                tmpP[0], tmpP[1], tmpP[2]);
+        if (minDist > val) {
+            minDist = val;
+            vertexID = vhTmp.idx();
+        }
     }
 
-    return vh;
+    return vertexID;
 }
 
 ////////////////////////    TRANSFOS    ///////////////////////////////////

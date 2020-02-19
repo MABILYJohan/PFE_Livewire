@@ -65,7 +65,7 @@ public:
 	static vector<EdgeHandle> get_edgeEdge_circulator(MyMesh *_mesh, int numEdge);
     static EdgeHandle get_next_eh_of_vh(MyMesh *_mesh, int numVertex);
 
-    static VertexHandle find_near_vertex_of_point(MyMesh *_mesh, MyMesh::Point P);
+    static int find_near_vertex_of_point(MyMesh *_mesh, MyMesh::Point P);
 
 
     ////////////////////////    TRANSFOS    ///////////////////////////////////

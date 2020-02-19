@@ -27,6 +27,12 @@ Contour::Contour(char *path)
 {
     MyMesh myMeshContour;
     OpenMesh::IO::read_mesh(myMeshContour, path);
+
+    for (MyMesh::VertexIter curVert = myMeshContour.vertices_begin(); curVert != myMeshContour.vertices_end(); curVert++)
+    {
+        VertexHandle vh = *curVert;
+        add_vertex(vh.idx());
+    }
 }
 
 unsigned Contour::get_start()   {   return startPoint;  }
