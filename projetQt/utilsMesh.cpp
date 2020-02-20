@@ -58,7 +58,7 @@ int UtilsMesh::get_vertex_of_point(MyMesh *_mesh, MyMesh::Point p, int precision
 {
     int numVertex = -1;
     float fPrec = 0.f;
-    for (unsigned i=0; i<precision; i++) {
+    for (int i=0; i<precision; i++) {
         fPrec += 0.01f;
     }
 
@@ -239,6 +239,29 @@ EdgeHandle UtilsMesh::get_next_eh_of_vh(MyMesh *_mesh, int numVertex)
     return eh;
 }
 
+int UtilsMesh::find_near_vertex_of_point(MyMesh *_mesh, MyMesh::Point P)
+{
+    int vertexID = -1;
+
+    double minDist = static_cast<double>(INT_MAX);
+
+    for (MyMesh::VertexIter curVert = _mesh->vertices_begin(); curVert != _mesh->vertices_end(); curVert++)
+    {
+        VertexHandle vhTmp = *curVert;
+        MyMesh::Point tmpP = _mesh->point(vhTmp);
+        MyMesh::Point vec = tmpP - P;
+        double val = vec.length();
+//        double val = Utils::distance_euclidienne(P[0], P[1], P[2],
+//                tmpP[0], tmpP[1], tmpP[2]);
+        if (minDist > val) {
+            minDist = val;
+            vertexID = vhTmp.idx();
+        }
+    }
+    return vertexID;
+}
+
+
 ////////////////////////    TRANSFOS    ///////////////////////////////////
 
 void UtilsMesh::add_triangle_face(MyMesh *_mesh,
@@ -361,5 +384,67 @@ MyMesh::Point UtilsMesh::middle_edge(MyMesh *_mesh, int edgeID)
     MyMesh::Point myP(X, Y, Z);
     return myP;
 }
+
+////////////////////////////// COMPOSANTE CONNEXE   ///////////////////////////
+void init_parcours(std::vector<bool> *parcours, int taille)
+{
+    parcours->clear();
+    for (int v=0; v<taille; v++) {
+        parcours->push_back(false);
+    }
+}
+
+int get_vertex_non_visite (std::vector<bool> parcours)
+{
+    for (unsigned v=0; v<parcours.size(); v++) {
+        if (!parcours[v]) return v;
+    }
+    return -1;
+}
+
+void colorier_comp_connexe(MyMesh* _mesh, int sommet, std::vector<bool> &vertexParcours)
+{
+    VertexHandle vh = _mesh->vertex_handle(sommet);
+    vertexParcours[sommet] = true;
+    //    nbSommetsComposante+=1;
+    for (MyMesh::VertexVertexIter vv_it = _mesh->vv_iter(vh); vv_it.is_valid(); vv_it++)
+    {
+        VertexHandle vh = *vv_it;
+        int prochainSommet = vh.idx();
+        if (!vertexParcours[prochainSommet]) {
+            colorier_comp_connexe(_mesh, prochainSommet, vertexParcours);
+        }
+    }
+}
+
+unsigned UtilsMesh::nb_connexity_componenents(MyMesh *_mesh)
+{
+    qDebug() << "<" << __FUNCTION__ << ">";
+
+    //    int nbSommetsComposante=0;
+    std::vector<bool> vertexParcours;
+    init_parcours(&vertexParcours, _mesh->n_vertices());
+    unsigned nbComposantes=0;
+
+    int v = get_vertex_non_visite(vertexParcours);
+    while (v>=0)
+    {
+        //        nbSommetsComposante=0;
+        colorier_comp_connexe(_mesh, v, vertexParcours);
+        v = get_vertex_non_visite(vertexParcours);
+        //        qDebug () << "Composante " << nbComposantes+1 << " " << nbSommetsComposante << " sommets" ;
+        nbComposantes++;
+    }
+
+    qDebug() << "</" << __FUNCTION__ << ">";
+    return nbComposantes;
+}
+
+
+
+
+
+
+
 
 

@@ -421,19 +421,18 @@ unsigned UtilsMesh::nb_connexity_componenents(MyMesh *_mesh)
 {
     qDebug() << "<" << __FUNCTION__ << ">";
 
-    int nbSommetsComposante=0;
+    //    int nbSommetsComposante=0;
     std::vector<bool> vertexParcours;
     init_parcours(&vertexParcours, _mesh->n_vertices());
-    int nbComposantes=0;
+    unsigned nbComposantes=0;
 
     int v = get_vertex_non_visite(vertexParcours);
     while (v>=0)
     {
-        // Composante i
-        nbSommetsComposante=0;
+        //        nbSommetsComposante=0;
         colorier_comp_connexe(_mesh, v, vertexParcours);
         v = get_vertex_non_visite(vertexParcours);
-        qDebug () << "Composante " << nbComposantes+1 << " " << nbSommetsComposante << " sommets" ;
+        //        qDebug () << "Composante " << nbComposantes+1 << " " << nbSommetsComposante << " sommets" ;
         nbComposantes++;
     }
 

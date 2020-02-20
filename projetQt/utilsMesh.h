@@ -65,6 +65,8 @@ public:
 	static vector<EdgeHandle> get_edgeEdge_circulator(MyMesh *_mesh, int numEdge);
     static EdgeHandle get_next_eh_of_vh(MyMesh *_mesh, int numVertex);
 
+    static int find_near_vertex_of_point(MyMesh *_mesh, MyMesh::Point P);
+
 
     ////////////////////////    TRANSFOS    ///////////////////////////////////
 
@@ -84,6 +86,8 @@ public:
     static MyMesh::Point middle_edge(MyMesh *_mesh, int edgeID);
     static MyMesh::Point barycentre_triangle(MyMesh *_mesh, int faceID);
     static float angle_diedre(MyMesh *_mesh);
+
+    static unsigned nb_connexity_componenents(MyMesh *_mesh);
 
 
     ////////////////////////    DOCS    /////////////////////////////////////
