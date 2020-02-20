@@ -127,6 +127,10 @@ void MainWindow::make_livewire()
 
     MyMesh::Point _sightPoint = get_pt_de_vue();
 
+
+    int nbConComp = UtilsMesh::nb_connexity_componenents(&mesh);
+    qDebug() << "nb de composantes connexes =" << nbConComp;
+
     //    myContour.draw_contour(&mesh, _sightPoint);
 
     // on affiche le maillage

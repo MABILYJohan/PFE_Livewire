@@ -386,3 +386,58 @@ MyMesh::Point UtilsMesh::middle_edge(MyMesh *_mesh, int edgeID)
 }
 
 
+void init_parcours(std::vector<bool> *parcours, int taille)
+{
+    parcours->clear();
+    for (int v=0; v<taille; v++) {
+        parcours->push_back(false);
+    }
+}
+
+int get_vertex_non_visite (std::vector<bool> parcours)
+{
+    for (unsigned v=0; v<parcours.size(); v++) {
+        if (!parcours[v]) return v;
+    }
+    return -1;
+}
+
+void colorier_comp_connexe(MyMesh* _mesh, int sommet, std::vector<bool> &vertexParcours)
+{
+    VertexHandle vh = _mesh->vertex_handle(sommet);
+    vertexParcours[sommet] = true;
+    //    nbSommetsComposante+=1;
+    for (MyMesh::VertexVertexIter vv_it = _mesh->vv_iter(vh); vv_it.is_valid(); vv_it++)
+    {
+        VertexHandle vh = *vv_it;
+        int prochainSommet = vh.idx();
+        if (!vertexParcours[prochainSommet]) {
+            colorier_comp_connexe(_mesh, prochainSommet, vertexParcours);
+        }
+    }
+}
+
+unsigned UtilsMesh::nb_connexity_componenents(MyMesh *_mesh)
+{
+    qDebug() << "<" << __FUNCTION__ << ">";
+
+    int nbSommetsComposante=0;
+    std::vector<bool> vertexParcours;
+    init_parcours(&vertexParcours, _mesh->n_vertices());
+    int nbComposantes=0;
+
+    int v = get_vertex_non_visite(vertexParcours);
+    while (v>=0)
+    {
+        // Composante i
+        nbSommetsComposante=0;
+        colorier_comp_connexe(_mesh, v, vertexParcours);
+        v = get_vertex_non_visite(vertexParcours);
+        qDebug () << "Composante " << nbComposantes+1 << " " << nbSommetsComposante << " sommets" ;
+        nbComposantes++;
+    }
+
+    qDebug() << "</" << __FUNCTION__ << ">";
+    return nbComposantes;
+}
+

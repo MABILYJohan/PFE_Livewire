@@ -87,6 +87,8 @@ public:
     static MyMesh::Point barycentre_triangle(MyMesh *_mesh, int faceID);
     static float angle_diedre(MyMesh *_mesh);
 
+    static unsigned nb_connexity_componenents(MyMesh *_mesh);
+
 
     ////////////////////////    DOCS    /////////////////////////////////////
 
