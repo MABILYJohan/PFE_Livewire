@@ -19,9 +19,10 @@ using namespace std;
 class Contour
 {
 public:
-    Contour();
-    Contour(unsigned _begin);
-    Contour(vector<unsigned> _vertices);
+    Contour(MyMesh &_mesh);
+    Contour(MyMesh &_mesh, unsigned _begin);
+    Contour(MyMesh &_mesh, vector<unsigned> _vertices);
+    Contour(MyMesh &_mesh, char *path);
 
     unsigned get_start();
     unsigned get_end();
@@ -31,11 +32,16 @@ public:
     void add_vertex(unsigned numVertex);
     void draw_contour(MyMesh *_mesh, MyMesh::Point _sightPoint);
 
+    //    MyMesh load_points_with_mesh(char *path);
+
     double half_thickness = 2; //Radius of pre-supposed brush radius which "draws" the stroke
 
-    void display(int profDisplay);
+    void display(int profDisplay, bool flagColor=false);
 
 protected:
+
+    MyMesh &mesh;
+
     int startPoint;
     int endPoint;
     vector<unsigned> edgesContour;

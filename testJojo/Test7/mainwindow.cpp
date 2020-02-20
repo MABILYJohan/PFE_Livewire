@@ -107,15 +107,17 @@ void MainWindow::make_livewire()
 
     //    vector<unsigned> tmpVertices = {0, 4, 6, 7};
     //    vector<unsigned> tmpVertices = {0, 4};
-    //    vector<unsigned> tmpVertices = get_verticesID(testChoice);
-    //    Contour myContour(tmpVertices);
+    vector<unsigned> tmpVertices = get_verticesID(testChoice);
+    Contour myContour(mesh, tmpVertices);
 
-    char path[50] = {"../../donneesPFE M2GIG/MySon/Test/contour.obj\0"};
-    Contour myContour(path);
+    //    char path[70] = {"../../donneesPFE M2GIG/MySon/Test/contour_visibleVersion.obj\0"};
+    //    Contour myContour(mesh, path);
+
+    myContour.display(1);
 
     MyMesh::Point _sightPoint = get_pt_de_vue();
 
-    //    myContour.draw_contour(&mesh, _sightPoint);
+    myContour.draw_contour(&mesh, _sightPoint);
 
     // on affiche le maillage
     displayMesh(&mesh);

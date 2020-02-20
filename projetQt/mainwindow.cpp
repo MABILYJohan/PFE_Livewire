@@ -108,7 +108,7 @@ void MainWindow::make_livewire()
     //    vector<unsigned> tmpVertices = {0, 4};
 
     vector<unsigned> tmpVertices = get_verticesID(testChoice);
-    Contour myContour(tmpVertices);
+    Contour myContour(mesh, tmpVertices);
 
     MyMesh::Point _sightPoint = get_pt_de_vue();
 

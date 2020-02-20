@@ -1,22 +1,45 @@
 #include "contour.h"
 
 
-Contour::Contour()
+Contour::Contour(MyMesh &_mesh) :
+    mesh(_mesh)
 {
     startPoint=-1;
     endPoint=-1;
 }
 
-Contour::Contour(unsigned _begin)
+Contour::Contour(MyMesh &_mesh, unsigned _begin) :
+    mesh(_mesh)
 {
     add_vertex(_begin);
 }
 
-Contour::Contour(vector<unsigned> _vertices)
+Contour::Contour(MyMesh &_mesh, vector<unsigned> _vertices) :
+    mesh(_mesh)
 {
     verticesContour.clear();
     for (auto v : _vertices) {
         add_vertex(v);
+    }
+}
+
+/*---------------------------------------------------------------------
+ * Pour charger un contour à partir d'un maillage / nuage de points
+ * ------------------------------------------------------------------*/
+Contour::Contour(MyMesh &_mesh, char *path) :
+    mesh(_mesh)
+{
+    MyMesh myMeshContour;
+    OpenMesh::IO::read_mesh(myMeshContour, path);
+
+    for (MyMesh::VertexIter curVert = myMeshContour.vertices_begin(); curVert != myMeshContour.vertices_end(); curVert++)
+    {
+        VertexHandle vh = *curVert;
+        MyMesh::Point P = myMeshContour.point(vh);
+        int numVertex = UtilsMesh::find_near_vertex_of_point(&mesh, P);
+        if ( ! Utils::is_in_vector(this->verticesContour, static_cast<unsigned>(numVertex))) {
+            this->add_vertex(numVertex);
+        }
     }
 }
 
@@ -25,7 +48,7 @@ unsigned Contour::get_end()     {   return endPoint;    }
 
 vector<unsigned> Contour::get_contour() {   return verticesContour; }
 
-void Contour::display(int profDisplay)
+void Contour::display(int profDisplay, bool flagColor)
 {
     if (profDisplay<0)  profDisplay=0;
     if (profDisplay>5)  profDisplay=5;
@@ -41,7 +64,12 @@ void Contour::display(int profDisplay)
     qDebug() << cprof << "\tstart =" << startPoint;
     for (auto p : verticesContour)
     {
-        qDebug() << cprof << "\tpoint =" << p;
+        qDebug() << cprof << "\tsommet =" << p;
+        if (flagColor) {
+            VertexHandle vh = mesh.vertex_handle(p);
+            mesh.data(vh).thickness = 10;
+            mesh.set_color(vh, MyMesh::Color(0, 255, 0));
+        }
     }
     qDebug() << cprof << "\tend =" << endPoint;
 
@@ -76,15 +104,15 @@ void Contour::draw_contour(MyMesh *_mesh, MyMesh::Point _sightPoint)
 
     unsigned curVertex = startPoint;
     unsigned cpt=0;
-    unsigned curVertex2 = verticesContour[cpt+1];
+    int curVertex2 = verticesContour[cpt+1];
 
-    //    qDebug() << "\t\tchargement draw:" << cpt<<"/"<<verticesContour.size();
+    qDebug() << "\t\tchargement draw: INIT ->" << verticesContour.size() << "sommets à calculer";
     LiveWire lW(*_mesh, curVertex, _sightPoint);
 
     if (curVertex2==endPoint && curVertex2!=startPoint)
     {
         //        qDebug() << "\t\tpremier if";
-        //        qDebug() << "\t\tchargement draw:" << cpt<<"/"<<verticesContour.size();
+        qDebug() << "\t\tchargement draw:" << cpt<<"/"<<verticesContour.size();
         curVertex2 = verticesContour[cpt+1];
         lW.update_vertexSeed(curVertex, curVertex2);
         lW.draw(curVertex2);
@@ -95,8 +123,8 @@ void Contour::draw_contour(MyMesh *_mesh, MyMesh::Point _sightPoint)
     {
         while (static_cast<int>(curVertex2) != endPoint)
         {
-            qDebug() << "\t\tboucle cpt=" << cpt;
-            //            qDebug() << "\t\tchargement draw:" << cpt<<"/"<<verticesContour.size();
+            //            qDebug() << "\t\tboucle cpt=" << cpt;
+            qDebug() << "\t\tchargement draw:" << cpt<<"/"<<verticesContour.size();
             curVertex2 = verticesContour[cpt+1];
             lW.update_vertexSeed(curVertex, curVertex2);
             lW.draw(curVertex2);
@@ -106,13 +134,15 @@ void Contour::draw_contour(MyMesh *_mesh, MyMesh::Point _sightPoint)
     }
 
 
-    //    qDebug() << "\t\tchargement draw:" << cpt<<"/"<<verticesContour.size();
+    qDebug() << "\t\tchargement draw:" << cpt<<"/"<<verticesContour.size();
     lW.update_vertexSeed(endPoint, startPoint);
     lW.draw(startPoint);
     qDebug() << "\t\tchargement draw:" << verticesContour.size()<<"/"<<verticesContour.size();
 
     qDebug() << "\t</" << __FUNCTION__ << ">";
 }
+
+
 
 #if 0
 
