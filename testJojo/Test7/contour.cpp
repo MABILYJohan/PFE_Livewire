@@ -47,6 +47,12 @@ unsigned Contour::get_start()   {   return startPoint;  }
 unsigned Contour::get_end()     {   return endPoint;    }
 
 vector<unsigned> Contour::get_contour() {   return verticesContour; }
+void Contour::set_contour(vector<unsigned> vec) {
+    verticesContour.clear();
+    for (auto v : vec) {
+        this->add_vertex(v);
+    }
+}
 
 void Contour::display(int profDisplay, bool flagColor)
 {
@@ -100,7 +106,7 @@ void Contour::draw_contour(MyMesh *_mesh, MyMesh::Point _sightPoint)
     qDebug() << "\t<" << __FUNCTION__ << ">";
     if (verticesContour.empty())    return;
 
-    this->display(1);
+    //    this->display(1);
 
     unsigned curVertex = startPoint;
     unsigned cpt=0;
