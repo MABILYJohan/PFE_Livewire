@@ -31,6 +31,23 @@ public:
 
     ////////////////////    VECTOR  ////////////////////////////////
 
+    /*--------------------------------------------------------------
+     * Supprime tous les doublons dans @vec
+     * -----------------------------------------------------------*/
+    template<typename T>
+    static void suppr_occur(vector<T> &vec)
+    {
+        vector<T> vecTmp = vec;
+        vec.clear();
+
+        for (auto v : vecTmp)
+        {
+            if ( ! Utils::is_in_vector(vec, v)) {
+                vec.push_back(v);
+            }
+        }
+    }
+
 	template<typename T>
     static void insert_elt(vector<T> &vec, T elt, unsigned pos)
     {

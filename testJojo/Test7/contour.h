@@ -10,6 +10,7 @@ using namespace OpenMesh::Attributes;
 #include "utilsMesh.h"
 #include "selectedpoints.h"
 #include "livewire.h"
+#include "utils.h"
 
 #include <vector>
 #include <qdebug.h>
@@ -48,6 +49,8 @@ protected:
     vector<unsigned> edgesContour;
     vector<unsigned> verticesContour;
 
+
+    int search_max_dist_vertex_from_vertex(vector<int> tmp, int id);
 };
 
 #endif // CONTOUR_H

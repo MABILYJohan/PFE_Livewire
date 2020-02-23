@@ -113,14 +113,14 @@ void MainWindow::make_livewire()
 
     char path[70] = {"../../donneesPFE M2GIG/MySon/Test/Contour/contour_visibleVersion.obj\0"};
     Contour myContour(mesh, path);
-    vector<unsigned> myVec;
-    for (unsigned i=0; i<myContour.get_contour().size(); i++)
-    {
-        if (i%8==0) {
-            myVec.push_back(myContour.get_contour()[i]);
-        }
-    }
-    myContour.set_contour(myVec);
+    //    vector<unsigned> myVec;
+    //    for (unsigned i=0; i<myContour.get_contour().size(); i++)
+    //    {
+    //        if (i%8==0) {
+    //            myVec.push_back(myContour.get_contour()[i]);
+    //        }
+    //    }
+    //    myContour.set_contour(myVec);
 
 
     myContour.display(1, true);
