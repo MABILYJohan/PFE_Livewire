@@ -47,6 +47,7 @@ protected:
     vector<unsigned> edgesContour;
     vector<unsigned> verticesContour;
 
+    int search_max_dist_vertex_from_vertex(vector<int> tmp, int id);
 };
 
 #endif // CONTOUR_H

@@ -1,6 +1,8 @@
 #include "contour.h"
 
 
+/////////////////////////// CONSTRUCTEURS   //////////////////////////////////////
+
 Contour::Contour(MyMesh &_mesh) :
     mesh(_mesh)
 {
@@ -23,14 +25,50 @@ Contour::Contour(MyMesh &_mesh, vector<unsigned> _vertices) :
     }
 }
 
+/*-------------------------------------------------------------
+ * Cherche le sommet dont l'indice est dans @tmp,
+ * qui est le plus éloigné du sommet d'indice @id.
+ * Le sommet dans @tmp n'est reconnu que s'il n'est pas dans
+ * @verticesContour.
+ * Retourne -1 si aucun sommet compatible.
+ * ----------------------------------------------------------*/
+int Contour::search_max_dist_vertex_from_vertex(vector<int> tmp, int id)
+{
+    float max=0.0;
+    int idRes=-1;
+    VertexHandle vh = mesh.vertex_handle(id);
+    MyMesh::Point p = mesh.point(vh);
+
+    for (auto t : tmp)
+    {
+        // Si sommet déjà dans le contour on saute
+        if (Utils::is_in_vector(verticesContour, static_cast<unsigned>(t))) continue;
+
+        VertexHandle vhTmp = mesh.vertex_handle(t);
+        MyMesh::Point pTmp = mesh.point(vhTmp);
+        pTmp = pTmp - p;
+        float dist = pTmp.length();
+        if (max < dist) {
+            max = dist;
+            idRes = t;
+        }
+    }
+
+    return idRes;
+}
+
 /*---------------------------------------------------------------------
  * Pour charger un contour à partir d'un maillage / nuage de points
  * ------------------------------------------------------------------*/
 Contour::Contour(MyMesh &_mesh, char *path) :
     mesh(_mesh)
 {
+    qDebug() << "\t<" << __FUNCTION__ << ">";
+
     MyMesh myMeshContour;
     OpenMesh::IO::read_mesh(myMeshContour, path);
+    vector<int> tmp;
+    verticesContour.clear();
 
     for (MyMesh::VertexIter curVert = myMeshContour.vertices_begin(); curVert != myMeshContour.vertices_end(); curVert++)
     {
@@ -38,15 +76,40 @@ Contour::Contour(MyMesh &_mesh, char *path) :
         MyMesh::Point P = myMeshContour.point(vh);
         int numVertex = UtilsMesh::find_near_vertex_of_point(&mesh, P);
         if ( ! Utils::is_in_vector(this->verticesContour, static_cast<unsigned>(numVertex))) {
-            this->add_vertex(numVertex);
+            //this->add_vertex(numVertex);
+            tmp.push_back(numVertex);
         }
     }
+    Utils::suppr_occur(tmp);
+
+    qDebug() << "\t\tnb de sommets contour = " << tmp.size();
+    int id = 0;
+    for (unsigned i=0; i<tmp.size()  ; i++)
+    {
+        if (i==0) {
+            this->add_vertex(tmp[i]);
+            id = tmp[i];
+        }
+        else
+        {
+            id = search_max_dist_vertex_from_vertex(tmp, id);
+            if (id<0) {
+                qWarning() << "in" << __FUNCTION__ << ": id < 0";
+                exit (2);
+            }
+            add_vertex(id);
+        }
+    }
+    qDebug() << "\t</" << __FUNCTION__ << ">";
 }
 
 unsigned Contour::get_start()   {   return startPoint;  }
 unsigned Contour::get_end()     {   return endPoint;    }
 
 vector<unsigned> Contour::get_contour() {   return verticesContour; }
+
+
+///////////////////////////// AUTRES   ////////////////////////////////////////
 
 void Contour::display(int profDisplay, bool flagColor)
 {
