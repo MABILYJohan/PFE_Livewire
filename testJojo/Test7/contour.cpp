@@ -34,7 +34,7 @@ Contour::Contour(MyMesh &_mesh, vector<unsigned> _vertices) :
  * ----------------------------------------------------------*/
 int Contour::search_max_dist_vertex_from_vertex(vector<int> tmp, int id)
 {
-    qDebug() << "\t\t<" << __FUNCTION__ << ">";
+    //    qDebug() << "\t\t<" << __FUNCTION__ << ">";
 
     float max=0.0;
     int idRes=-1;
@@ -46,7 +46,7 @@ int Contour::search_max_dist_vertex_from_vertex(vector<int> tmp, int id)
         // Si sommet déjà dans le contour on saute
         if (Utils::is_in_vector(verticesContour, static_cast<unsigned>(t))) continue;
 
-        qDebug() << "\t\t\t" << t;
+        //        qDebug() << "\t\t\t" << t;
 
         VertexHandle vhTmp = mesh.vertex_handle(t);
         MyMesh::Point pTmp = mesh.point(vhTmp);
@@ -58,9 +58,9 @@ int Contour::search_max_dist_vertex_from_vertex(vector<int> tmp, int id)
         }
     }
 
-    qDebug() << "\t\t\t" << verticesContour;
-    qDebug() << "\t\t\t" << id << "-->" << idRes;
-    qDebug() << "\t\t</" << __FUNCTION__ << ">";
+    //    qDebug() << "\t\t\t" << verticesContour;
+    //    qDebug() << "\t\t\t" << id << "-->" << idRes;
+    //    qDebug() << "\t\t</" << __FUNCTION__ << ">";
     return idRes;
 }
 
@@ -96,7 +96,7 @@ Contour::Contour(MyMesh &_mesh, char *path) :
     int id = 0;
     for (unsigned i=0; i<tmp.size()  ; i++)
     {
-        qDebug() << "\t\ti=" << i;
+        //        qDebug() << "\t\ti=" << i;
         if (i==0) {
             this->add_vertex(tmp[i]);
             id = tmp[i];

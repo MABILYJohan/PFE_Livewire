@@ -440,6 +440,75 @@ unsigned UtilsMesh::nb_connexity_componenents(MyMesh *_mesh)
     return nbComposantes;
 }
 
+void UtilsMesh::compter_sommets_comp_connexe(MyMesh* _mesh, int sommet,
+                                             vector<bool> &vertexParcours, vector<VertexHandle> &vecCC)
+{
+    VertexHandle vh = _mesh->vertex_handle(sommet);
+    vertexParcours[sommet] = true;
+    vecCC.push_back(vh);
+    //    nbSommetsComposante+=1;
+    for (MyMesh::VertexVertexIter vv_it = _mesh->vv_iter(vh); vv_it.is_valid(); vv_it++)
+    {
+        VertexHandle vh = *vv_it;
+        int prochainSommet = vh.idx();
+        if (!vertexParcours[prochainSommet]) {
+            compter_sommets_comp_connexe(_mesh, prochainSommet, vertexParcours, vecCC);
+        }
+    }
+}
+
+void UtilsMesh::extract_biggest_connexity_component(MyMesh *_mesh)
+{
+    qDebug() << "<" << __FUNCTION__ << ">";
+
+    int nbSommetsComposante=0;
+    vector<vector<VertexHandle>> listCC;
+    vector<VertexHandle> vecCC;
+
+    std::vector<bool> vertexParcours;
+    init_parcours(&vertexParcours, _mesh->n_vertices());
+    unsigned nbComposantes=0;
+
+    int v = get_vertex_non_visite(vertexParcours);
+    while (v>=0)
+    {
+        vecCC.clear();
+        //        nbSommetsComposante=0;
+        //        explorer_comp_connexe(_mesh, v, vertexParcours);
+        compter_sommets_comp_connexe(_mesh, v, vertexParcours, vecCC);
+        listCC.push_back(vecCC);
+        v = get_vertex_non_visite(vertexParcours);
+        nbComposantes++;
+    }
+
+    int max=0;
+    int idMax=-1;
+    qDebug() << "nb de composantes connexes =" << nbComposantes;
+    for (unsigned i=0; i<listCC.size(); i++)
+    {
+        if (max < static_cast<int>(listCC[i].size())) {
+            max = listCC[i].size();
+            idMax = i;
+        }
+        qDebug() << "\tcomposante of" << listCC[i].size() << "vertices";
+    }
+    qDebug() << "\tbiggest component is the" << idMax;
+
+    for (unsigned i=0; i<listCC.size(); i++)
+    {
+        // Pour garder la plus grande composante
+        if (static_cast<int>(i)==idMax)   continue;
+
+        for (auto vh: listCC[i]){
+            _mesh->delete_vertex(vh, false);
+        }
+        _mesh->garbage_collection();
+    }
+
+    // qDebug () << "Composante " << nbComposantes+1 << " " << nbSommetsComposante << " sommets" ;
+
+    qDebug() << "</" << __FUNCTION__ << ">";
+}
 
 
 

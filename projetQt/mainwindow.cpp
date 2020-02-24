@@ -103,12 +103,22 @@ void MainWindow::make_livewire()
     // initialisation des couleurs et épaisseurs (sommets et arêtes) du mesh
     resetAllColorsAndThickness(&mesh);
 
+    UtilsMesh::extract_biggest_connexity_component(&mesh);
 
-    //    vector<unsigned> tmpVertices = {0, 4, 6, 7};
-    //    vector<unsigned> tmpVertices = {0, 4};
+    int nbConComp = UtilsMesh::nb_connexity_componenents(&mesh);
+    qDebug() << "nb de composantes connexes =" << nbConComp;
 
-    vector<unsigned> tmpVertices = get_verticesID(testChoice);
-    Contour myContour(mesh, tmpVertices);
+
+    //    vector<unsigned> tmpVertices = {0, 15, 65, 75};
+
+    //    vector<unsigned> tmpVertices = get_verticesID(testChoice);
+    //    Contour myContour(mesh, tmpVertices);
+
+    //    char path[70] = {"../donneesPFE M2GIG/MySon/Test/Contour/contour_visibleVersion.obj\0"};
+    char path[80] = {"../donneesPFE M2GIG/MySon/Test/Contour/contour_low_visibleVersion.obj\0"};
+    Contour myContour(mesh, path);
+
+    myContour.display(1, true);
 
     MyMesh::Point _sightPoint = get_pt_de_vue();
 
@@ -144,7 +154,8 @@ void MainWindow::on_pushButton_chargement_clicked()
 {
     // fenêtre de sélection des fichiers
     QString fileName = QFileDialog::getOpenFileName(this, tr("Open Mesh"),
-                                                    "../../MGM/meshFiles/",
+                                                    // "../../../MGM/meshFiles/",
+                                                    "../donneesPFE M2GIG/MySon/Test/",
                                                     tr("Mesh Files (*.obj)"));
 
     // chargement du fichier .obj dans la variable globale "mesh"

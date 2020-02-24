@@ -37,6 +37,10 @@ class UtilsMesh
 private:
     static float middle_edge_coord(float p1, float p2);
 
+    static void compter_sommets_comp_connexe(MyMesh* _mesh, int sommet,
+                                             vector<bool> &vertexParcours, vector<VertexHandle> &vecCC);
+
+
 public:
     UtilsMesh();
 
@@ -88,6 +92,7 @@ public:
     static float angle_diedre(MyMesh *_mesh);
 
     static unsigned nb_connexity_componenents(MyMesh *_mesh);
+    static void extract_biggest_connexity_component(MyMesh *_mesh);
 
 
     ////////////////////////    DOCS    /////////////////////////////////////

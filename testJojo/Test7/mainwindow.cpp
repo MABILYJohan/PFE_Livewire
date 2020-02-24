@@ -103,20 +103,25 @@ void MainWindow::make_livewire()
     // initialisation des couleurs et épaisseurs (sommets et arêtes) du mesh
     resetAllColorsAndThickness(&mesh);
 
+    UtilsMesh::extract_biggest_connexity_component(&mesh);
+
+    int nbConComp = UtilsMesh::nb_connexity_componenents(&mesh);
+    qDebug() << "nb de composantes connexes =" << nbConComp;
 
 
-    //    vector<unsigned> tmpVertices = {0, 4, 6, 7};
+    //    vector<unsigned> tmpVertices = {0, 15, 65, 75};
     //    vector<unsigned> tmpVertices = {0, 4};
 
     //    vector<unsigned> tmpVertices = get_verticesID(testChoice);
     //    Contour myContour(mesh, tmpVertices);
 
-    char path[70] = {"../../donneesPFE M2GIG/MySon/Test/Contour/contour_visibleVersion.obj\0"};
+    //    char path[70] = {"../../donneesPFE M2GIG/MySon/Test/Contour/contour_visibleVersion.obj\0"};
+    char path[80] = {"../../donneesPFE M2GIG/MySon/Test/Contour/contour_low_visibleVersion.obj\0"};
     Contour myContour(mesh, path);
     //    vector<unsigned> myVec;
     //    for (unsigned i=0; i<myContour.get_contour().size(); i++)
     //    {
-    //        if (i%8==0) {
+    //        if (i%10==0) {
     //            myVec.push_back(myContour.get_contour()[i]);
     //        }
     //    }
@@ -127,11 +132,7 @@ void MainWindow::make_livewire()
 
     MyMesh::Point _sightPoint = get_pt_de_vue();
 
-
-    int nbConComp = UtilsMesh::nb_connexity_componenents(&mesh);
-    qDebug() << "nb de composantes connexes =" << nbConComp;
-
-    //    myContour.draw_contour(&mesh, _sightPoint);
+    myContour.draw_contour(&mesh, _sightPoint);
 
     // on affiche le maillage
     displayMesh(&mesh);
