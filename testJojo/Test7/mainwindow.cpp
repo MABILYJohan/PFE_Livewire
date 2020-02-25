@@ -83,7 +83,16 @@ MyMesh::Point MainWindow::get_pt_de_vue()
     ui->displayWidget->my_view();
     OpenMesh::Vec3f center3F = ui->displayWidget->myCenter;
     QVector3D center (center3F[0], center3F[1], center3F[2]);
-    qDebug() << "center = " << center;
+
+    for (MyMesh::VertexIter curVert = mesh.vertices_begin(); curVert != mesh.vertices_end(); curVert++)
+    {
+        VertexHandle vh = *curVert;
+        MyMesh::Point P = mesh.point(vh);
+        if (P[2] > center.z()) {
+            qDebug() << "NOPE !!!";
+            center.setZ(center.z()+2.f);
+        }
+    }
 
     //    for (MyMesh::VertexIter curVert = mesh.vertices_begin(); curVert != mesh.vertices_end(); curVert++)
     //    {
@@ -92,6 +101,8 @@ MyMesh::Point MainWindow::get_pt_de_vue()
     //        QVector3D myV (p[0], p[1], p[2]);
     //        qDebug() << myV;
     //    }
+
+    qDebug() << "center = " << center;
     return (MyMesh::Point(center.x(), center.y(), center.z()));
 }
 
@@ -115,13 +126,14 @@ void MainWindow::make_livewire()
     //    vector<unsigned> tmpVertices = get_verticesID(testChoice);
     //    Contour myContour(mesh, tmpVertices);
 
+    //    char path[70] = {"../../donneesPFE M2GIG/MySon/Test/Contour/contour.obj\0"};
     //    char path[70] = {"../../donneesPFE M2GIG/MySon/Test/Contour/contour_visibleVersion.obj\0"};
     char path[80] = {"../../donneesPFE M2GIG/MySon/Test/Contour/contour_low_visibleVersion.obj\0"};
     Contour myContour(mesh, path);
     vector<unsigned> myVec;
     for (unsigned i=0; i<myContour.get_contour().size(); i++)
     {
-        if (i%4==0) {
+        if (i%5==0) {
             myVec.push_back(myContour.get_contour()[i]);
         }
     }
@@ -131,8 +143,18 @@ void MainWindow::make_livewire()
     myContour.display(1, true);
 
     MyMesh::Point _sightPoint = get_pt_de_vue();
+    //    _sightPoint[2] += 2.f;
+    qDebug() << "sightPoint = ("<<_sightPoint[0]<<","
+             <<_sightPoint[1]<<","
+            <<_sightPoint[2]<<")";
+    // TMP
+    VertexHandle vh;
+    vh = mesh.add_vertex(_sightPoint);
+    mesh.data(vh).thickness = 8;
+    mesh.set_color(vh, MyMesh::Color(0, 0, 255));
 
-    myContour.draw_contour(&mesh, _sightPoint);
+
+    //    myContour.draw_contour(&mesh, _sightPoint);
 
     // on affiche le maillage
     displayMesh(&mesh);

@@ -83,15 +83,17 @@ MyMesh::Point MainWindow::get_pt_de_vue()
     ui->displayWidget->my_view();
     OpenMesh::Vec3f center3F = ui->displayWidget->myCenter;
     QVector3D center (center3F[0], center3F[1], center3F[2]);
-    qDebug() << "center = " << center;
 
-    //    for (MyMesh::VertexIter curVert = mesh.vertices_begin(); curVert != mesh.vertices_end(); curVert++)
-    //    {
-    //        VertexHandle vh = *curVert;
-    //        MyMesh::Point p = mesh.point(vh);
-    //        QVector3D myV (p[0], p[1], p[2]);
-    //        qDebug() << myV;
-    //    }
+    for (MyMesh::VertexIter curVert = mesh.vertices_begin(); curVert != mesh.vertices_end(); curVert++)
+    {
+        VertexHandle vh = *curVert;
+        MyMesh::Point P = mesh.point(vh);
+        if (P[2] > center.z()) {
+            center.setZ(center.z()+2.f);
+        }
+    }
+
+    qDebug() << "center = " << center;
     return (MyMesh::Point(center.x(), center.y(), center.z()));
 }
 

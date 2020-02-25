@@ -36,9 +36,9 @@ vector<int> LiveWire::get_paths()  {   return paths;   }
 void LiveWire::init_criterions()
 {
     criteres.clear();
-    criteres.push_back(LENGTH);
+    //    criteres.push_back(LENGTH);
     //    criteres.push_back(DIEDRAL);
-    //    criteres.push_back(NORMAL_OR);
+    criteres.push_back(NORMAL_OR);
     //    criteres.push_back(VISIBILITY);
     //    criteres.push_back(CURVATURE);
     //    criteres.push_back(STROKE_DIST);
