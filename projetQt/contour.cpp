@@ -27,15 +27,15 @@ Contour::Contour(MyMesh &_mesh, vector<unsigned> _vertices) :
 
 /*-------------------------------------------------------------
  * Cherche le sommet dont l'indice est dans @tmp,
- * qui est le plus éloigné du sommet d'indice @id.
+ * qui est le plus proche du sommet d'indice @id.
  * Le sommet dans @tmp n'est reconnu que s'il n'est pas dans
  * @verticesContour.
  * Retourne -1 si aucun sommet compatible.
  * ----------------------------------------------------------*/
-int Contour::search_max_dist_vertex_from_vertex(vector<int> tmp, int id)
+int Contour::search_min_dist_vertex_from_vertex(vector<int> tmp, int id)
 {
-    float max=0.0;
-    int idRes=-1;
+    float min = static_cast<double>(INT_MAX);
+    int idRes = -1;
     VertexHandle vh = mesh.vertex_handle(id);
     MyMesh::Point p = mesh.point(vh);
 
@@ -48,9 +48,50 @@ int Contour::search_max_dist_vertex_from_vertex(vector<int> tmp, int id)
         MyMesh::Point pTmp = mesh.point(vhTmp);
         pTmp = pTmp - p;
         float dist = pTmp.length();
-        if (max < dist) {
-            max = dist;
+        if (min > dist) {
+            min = dist;
             idRes = t;
+        }
+    }
+
+    return idRes;
+}
+
+/*---------------------------------------------------------------------
+ * Cherche le point dans @tmp qui a, en fonction du boolean @b_max,
+ * la @dim maximale ou minimale
+ * ------------------------------------------------------------------*/
+int Contour::search_borne_dim(vector<int> tmp, int dim, bool b_max)
+{
+    int idRes=-1;
+    float borne;
+    if (dim<0)  dim=0;
+    if (dim>2)  dim=2;
+
+    if (b_max)  borne = -INT_MAX;
+    else        borne = INT_MAX;
+
+    for (auto t : tmp)
+    {
+        // Si sommet déjà dans le contour on saute
+        if (Utils::is_in_vector(verticesContour, static_cast<unsigned>(t))) continue;
+
+        VertexHandle vhTmp = mesh.vertex_handle(t);
+        MyMesh::Point pTmp = mesh.point(vhTmp);
+
+        if (b_max)
+        {
+            if (borne < pTmp[dim]) {
+                borne = pTmp[dim];
+                idRes = t;
+            }
+        }
+        else
+        {
+            if (borne > pTmp[dim]) {
+                borne = pTmp[dim];
+                idRes = t;
+            }
         }
     }
 
@@ -83,16 +124,29 @@ Contour::Contour(MyMesh &_mesh, char *path) :
     Utils::suppr_occur(tmp);
 
     qDebug() << "\t\tnb de sommets contour = " << tmp.size();
+
+    /////////////// V1 ////////////////
+    //    int id=-1;
+    //    if (tmp.size()>=4)
+    //    {
+    //        id = add_vertex(search_borne_dim(tmp, 0, false));
+    //        id = add_vertex(search_borne_dim(tmp, 1, true));
+    //        id = add_vertex(search_borne_dim(tmp, 0, true));
+    //        id = add_vertex(search_borne_dim(tmp, 1, false));
+    //    }
+
+    /////////////// V2 ////////////////
     int id = 0;
     for (unsigned i=0; i<tmp.size()  ; i++)
     {
+        //        qDebug() << "\t\ti=" << i;
         if (i==0) {
             this->add_vertex(tmp[i]);
             id = tmp[i];
         }
         else
         {
-            id = search_max_dist_vertex_from_vertex(tmp, id);
+            id = search_min_dist_vertex_from_vertex(tmp, id);
             if (id<0) {
                 qWarning() << "in" << __FUNCTION__ << ": id < 0";
                 exit (2);
@@ -100,6 +154,7 @@ Contour::Contour(MyMesh &_mesh, char *path) :
             add_vertex(id);
         }
     }
+
     qDebug() << "\t</" << __FUNCTION__ << ">";
 }
 
@@ -125,13 +180,14 @@ void Contour::display(int profDisplay, bool flagColor)
     qDebug() << cprof << "<" << __FUNCTION__ << ">";
 
     qDebug() << cprof << "\tstart =" << startPoint;
+    int cpt=0;
     for (auto p : verticesContour)
     {
         qDebug() << cprof << "\tsommet =" << p;
         if (flagColor) {
             VertexHandle vh = mesh.vertex_handle(p);
             mesh.data(vh).thickness = 10;
-            mesh.set_color(vh, MyMesh::Color(0, 255, 0));
+            mesh.set_color(vh, MyMesh::Color(cpt, 255 - (4*cpt++), 0));
         }
     }
     qDebug() << cprof << "\tend =" << endPoint;

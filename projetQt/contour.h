@@ -47,7 +47,8 @@ protected:
     vector<unsigned> edgesContour;
     vector<unsigned> verticesContour;
 
-    int search_max_dist_vertex_from_vertex(vector<int> tmp, int id);
+    int search_borne_dim(vector<int> tmp, int dim, bool b_max=true);
+    int search_min_dist_vertex_from_vertex(vector<int> tmp, int id);
 };
 
 #endif // CONTOUR_H
