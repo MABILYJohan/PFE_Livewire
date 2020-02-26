@@ -139,10 +139,10 @@ Contour::Contour(MyMesh &_mesh, char *path) :
     //    int id=-1;
     //    if (tmp.size()>=4)
     //    {
-    //        id = add_vertex(search_borne_dim(tmp, 0, false));
-    //        id = add_vertex(search_borne_dim(tmp, 1, true));
-    //        id = add_vertex(search_borne_dim(tmp, 0, true));
-    //        id = add_vertex(search_borne_dim(tmp, 1, false));
+    //        add_vertex(search_borne_dim(tmp, 0, false));
+    //        add_vertex(search_borne_dim(tmp, 1, true));
+    //        add_vertex(search_borne_dim(tmp, 0, true));
+    //        add_vertex(search_borne_dim(tmp, 1, false));
     //    }
 
     /////////////// V2 ////////////////
@@ -204,6 +204,7 @@ void Contour::display(int profDisplay, bool flagColor)
             VertexHandle vh = mesh.vertex_handle(p);
             mesh.data(vh).thickness = 10;
             mesh.set_color(vh, MyMesh::Color(cpt, 255 - (4*cpt++), 0));
+            //            mesh.set_color(vh, MyMesh::Color(cpt, 255, 0));
         }
     }
     qDebug() << cprof << "\tend =" << endPoint;

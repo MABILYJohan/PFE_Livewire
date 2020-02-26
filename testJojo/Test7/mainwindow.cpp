@@ -130,29 +130,19 @@ void MainWindow::make_livewire()
     //    char path[70] = {"../../donneesPFE M2GIG/MySon/Test/Contour/contour_visibleVersion.obj\0"};
     char path[80] = {"../../donneesPFE M2GIG/MySon/Test/Contour/contour_low_visibleVersion.obj\0"};
     Contour myContour(mesh, path);
-    vector<unsigned> myVec;
-    for (unsigned i=0; i<myContour.get_contour().size(); i++)
-    {
-        if (i%5==0) {
-            myVec.push_back(myContour.get_contour()[i]);
-        }
-    }
-    myContour.set_contour(myVec);
+    //    vector<unsigned> myVec;
+    //    for (unsigned i=0; i<myContour.get_contour().size(); i++)
+    //    {
+    //        if (i%5==0) {
+    //            myVec.push_back(myContour.get_contour()[i]);
+    //        }
+    //    }
+    //    myContour.set_contour(myVec);
 
 
     myContour.display(1, true);
 
     MyMesh::Point _sightPoint = get_pt_de_vue();
-    //    _sightPoint[2] += 2.f;
-    qDebug() << "sightPoint = ("<<_sightPoint[0]<<","
-             <<_sightPoint[1]<<","
-            <<_sightPoint[2]<<")";
-    // TMP
-    VertexHandle vh;
-    vh = mesh.add_vertex(_sightPoint);
-    mesh.data(vh).thickness = 8;
-    mesh.set_color(vh, MyMesh::Color(0, 0, 255));
-
 
     //    myContour.draw_contour(&mesh, _sightPoint);
 

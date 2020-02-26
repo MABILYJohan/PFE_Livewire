@@ -38,10 +38,10 @@ void LiveWire::init_criterions()
     criteres.clear();
     //    criteres.push_back(LENGTH);
     //    criteres.push_back(DIEDRAL);
-    criteres.push_back(NORMAL_OR);
+    //    criteres.push_back(NORMAL_OR);
     //    criteres.push_back(VISIBILITY);
     //    criteres.push_back(CURVATURE);
-    //    criteres.push_back(STROKE_DIST);
+    criteres.push_back(STROKE_DIST);
 
     unsigned nb_criterions_preload=0;
     for(auto c : criteres) {
@@ -433,9 +433,28 @@ void LiveWire::build_paths(int vertexNext)
     }
 
     // WARNING --> BEGIN PAS INITIALISE DANS PATHS...
-
+    int cpt=0;
+    int test=-1;
     while (!activeList.empty())
     {
+        // TMP
+        //        if (cpt>=10000) cpt=0;
+        //        if (cpt%10==0)
+        //            qDebug() << "\t\t\tactiveList.size() =" << activeList.size() ;
+        if (activeList.size() == test)  cpt++;
+        else    cpt=0;
+        test = activeList.size();
+        if (cpt>=50)
+        {
+            qDebug() << "edgeSeed =" << edgeSeed;
+            qDebug() <<"\nACTIVE_LIST\n"<< activeList;
+            qDebug() <<"\nPATHS\n"<< paths;
+            qDebug() <<"\nCOST_EDGES\n"<< costEdges;
+            qDebug() <<"\nEDGES_VISITED\n"<< edgesVisited;
+            qDebug() <<"\n"<< "\t\t\tARRET_TEST_PROGRAMME";
+            exit(2);
+        }
+
         int curEdge = get_minCostEdge_from_activeList(activeList, costEdges);
         Utils::erase_elt(activeList, curEdge);
         edgesVisited[curEdge] = true;
