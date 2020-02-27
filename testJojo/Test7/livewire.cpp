@@ -36,12 +36,12 @@ vector<int> LiveWire::get_paths()  {   return paths;   }
 void LiveWire::init_criterions()
 {
     criteres.clear();
-    //    criteres.push_back(LENGTH);
-    //    criteres.push_back(DIEDRAL);
-    //    criteres.push_back(NORMAL_OR);
+    criteres.push_back(LENGTH);
+    criteres.push_back(DIEDRAL);
+    criteres.push_back(NORMAL_OR);
     //    criteres.push_back(VISIBILITY);
-    //    criteres.push_back(CURVATURE);
-    criteres.push_back(STROKE_DIST);
+    criteres.push_back(CURVATURE);
+    //    criteres.push_back(STROKE_DIST);
 
     unsigned nb_criterions_preload=0;
     for(auto c : criteres) {
@@ -79,6 +79,8 @@ void LiveWire::init_criterions()
         if (eh.idx()%1000 == 0)
             qDebug() << "\t\t\tchargement LW:" << eh.idx()+1<<"/"<<mesh.n_edges();
     }
+
+    //    qDebug() <<"\nCOST_EDGES\n"<< tabCosts[0];
     qDebug() << "\t\t\tchargement LW:" << mesh.n_edges()<<"/"<<mesh.n_edges();
 }
 
@@ -162,7 +164,10 @@ double LiveWire::criterion_normal_orientation(EdgeHandle eh, MyMesh::Point _sigh
     MyMesh::HalfedgeHandle heh1 = mesh.halfedge_handle(eh, 0);
     FaceHandle fh1 = mesh.face_handle(heh1);
     MyMesh::Normal n1 = mesh.calc_face_normal(fh1);
-    float angle1 = acos(dot(n1, myVec));
+    //    float angle1 = acos(dot(n1, myVec));
+    QVector3D test1(n1[0], n1[1], n1[2]);
+    QVector3D test2(myVec[0], myVec[1], myVec[2]);
+    float angle1 = QVector3D::dotProduct(test1, test2);
     cost+=angle1;
 
     if ( ! mesh.is_boundary(eh) )
@@ -170,11 +175,15 @@ double LiveWire::criterion_normal_orientation(EdgeHandle eh, MyMesh::Point _sigh
         MyMesh::HalfedgeHandle heh2 = mesh.halfedge_handle(eh, 1);
         FaceHandle fh2 = mesh.face_handle(heh2);
         MyMesh::Normal n2 = mesh.calc_face_normal(fh2);
-        float angle2 = acos(dot(n2, myVec));
+        test1 = QVector3D(n1[0], n1[1], n1[2]);
+        test2 = QVector3D(myVec[0], myVec[1], myVec[2]);
+        float angle2 = QVector3D::dotProduct(test1, test2);
+        //        float angle2 = acos(dot(n2, myVec));
         cost+=angle2;
     }
 
-    return cost;
+    //    return fabs(2*M_PI - cost);
+    return fabs(cost);
 }
 
 float LiveWire::angleEE(MyMesh* _mesh, int vertexID,  int faceID)
