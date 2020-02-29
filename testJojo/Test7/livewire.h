@@ -232,7 +232,7 @@ private:
      *
      * \return : le coût calculé pour cette arête
      */
-    double cost_function(int numEdgeNeigh);
+    double cost_function(int numEdgeNeigh, bool close=false);
 };
 
 #endif // LIVEWIRE_H

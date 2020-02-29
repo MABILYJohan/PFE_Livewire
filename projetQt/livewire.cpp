@@ -173,7 +173,7 @@ double LiveWire::criterion_normal_orientation(EdgeHandle eh, MyMesh::Point _sigh
         MyMesh::HalfedgeHandle heh2 = mesh.halfedge_handle(eh, 1);
         FaceHandle fh2 = mesh.face_handle(heh2);
         MyMesh::Normal n2 = mesh.calc_face_normal(fh2);
-        test1 = QVector3D(n1[0], n1[1], n1[2]);
+        test1 = QVector3D(n2[0], n2[1], n2[2]);
         test2 = QVector3D(myVec[0], myVec[1], myVec[2]);
         float angle2 = QVector3D::dotProduct(test1, test2);
         //        float angle2 = acos(dot(n2, myVec));

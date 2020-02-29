@@ -35,13 +35,14 @@ vector<int> LiveWire::get_paths()  {   return paths;   }
  * ----------------------------------------------------------------------------*/
 void LiveWire::init_criterions()
 {
+    // ATTENTION à l'odre
     criteres.clear();
     criteres.push_back(LENGTH);
     criteres.push_back(DIEDRAL);
-    criteres.push_back(NORMAL_OR);
-    criteres.push_back(VISIBILITY);
     criteres.push_back(CURVATURE);
-    criteres.push_back(STROKE_DIST);
+    criteres.push_back(NORMAL_OR);
+    //    criteres.push_back(VISIBILITY);
+    //    criteres.push_back(STROKE_DIST);
 
     unsigned nb_criterions_preload=0;
     for(auto c : criteres) {
@@ -61,6 +62,7 @@ void LiveWire::init_criterions()
     qDebug() << "\t\t\tchargement LW:" << 0 <<"/"<<mesh.n_edges();
     for (MyMesh::EdgeIter curEdge = mesh.edges_begin(); curEdge != mesh.edges_end(); curEdge++)
     {
+        // DOIVENT ETRE AJOUTES DANS LE MEME ORDRE QUE LE TABLEAU @criteres
         cpt=0;
         EdgeHandle eh = *curEdge;
         if (Utils::is_in_vector(criteres, static_cast<int>(LENGTH))) {
@@ -175,7 +177,7 @@ double LiveWire::criterion_normal_orientation(EdgeHandle eh, MyMesh::Point _sigh
         MyMesh::HalfedgeHandle heh2 = mesh.halfedge_handle(eh, 1);
         FaceHandle fh2 = mesh.face_handle(heh2);
         MyMesh::Normal n2 = mesh.calc_face_normal(fh2);
-        test1 = QVector3D(n1[0], n1[1], n1[2]);
+        test1 = QVector3D(n2[0], n2[1], n2[2]);
         test2 = QVector3D(myVec[0], myVec[1], myVec[2]);
         float angle2 = QVector3D::dotProduct(test1, test2);
         //        float angle2 = acos(dot(n2, myVec));
@@ -374,7 +376,7 @@ double LiveWire::criterion_stroke_distance(EdgeHandle eh)
 }
 ///////////////////////////////////  ALGO   ////////////////////////////////////////////////
 
-double LiveWire::cost_function(int numEdgeNeigh)
+double LiveWire::cost_function(int numEdgeNeigh, bool close)
 {
     //    qDebug() << "\t\t\t<" << __FUNCTION__ << ">";
 
