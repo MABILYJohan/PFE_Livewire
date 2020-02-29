@@ -39,9 +39,9 @@ void LiveWire::init_criterions()
     criteres.push_back(LENGTH);
     criteres.push_back(DIEDRAL);
     criteres.push_back(NORMAL_OR);
-    //    criteres.push_back(VISIBILITY);
+    criteres.push_back(VISIBILITY);
     criteres.push_back(CURVATURE);
-    //    criteres.push_back(STROKE_DIST);
+    criteres.push_back(STROKE_DIST);
 
     unsigned nb_criterions_preload=0;
     for(auto c : criteres) {
@@ -182,8 +182,8 @@ double LiveWire::criterion_normal_orientation(EdgeHandle eh, MyMesh::Point _sigh
         cost+=angle2;
     }
 
-    //    return fabs(2*M_PI - cost);
-    return fabs(cost);
+    return fabs(2*M_PI - cost);
+    //    return fabs(cost);
 }
 
 float LiveWire::angleEE(MyMesh* _mesh, int vertexID,  int faceID)
