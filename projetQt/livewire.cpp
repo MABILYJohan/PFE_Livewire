@@ -35,13 +35,14 @@ vector<int> LiveWire::get_paths()  {   return paths;   }
  * ----------------------------------------------------------------------------*/
 void LiveWire::init_criterions()
 {
+    // ATTENTION à l'odre
     criteres.clear();
     criteres.push_back(LENGTH);
     criteres.push_back(DIEDRAL);
+    //    criteres.push_back(CURVATURE);
     criteres.push_back(NORMAL_OR);
-    criteres.push_back(VISIBILITY);
-    criteres.push_back(CURVATURE);
-    criteres.push_back(STROKE_DIST);
+    //    criteres.push_back(VISIBILITY);
+    //    criteres.push_back(STROKE_DIST);
 
     unsigned nb_criterions_preload=0;
     for(auto c : criteres) {
@@ -61,6 +62,7 @@ void LiveWire::init_criterions()
     qDebug() << "\t\t\tchargement LW:" << 0 <<"/"<<mesh.n_edges();
     for (MyMesh::EdgeIter curEdge = mesh.edges_begin(); curEdge != mesh.edges_end(); curEdge++)
     {
+        // DOIVENT ETRE AJOUTES DANS LE MEME ORDRE QUE LE TABLEAU @criteres
         cpt=0;
         EdgeHandle eh = *curEdge;
         if (Utils::is_in_vector(criteres, static_cast<int>(LENGTH))) {
@@ -69,11 +71,11 @@ void LiveWire::init_criterions()
         if (Utils::is_in_vector(criteres, static_cast<int>(DIEDRAL))) {
             tabCosts[cpt].push_back(criterion_diedral_angle(eh)); cpt++;
         }
-        if (Utils::is_in_vector(criteres, static_cast<int>(NORMAL_OR))) {
-            tabCosts[cpt].push_back(criterion_normal_orientation(eh, sightPoint)); cpt++;
-        }
         if (Utils::is_in_vector(criteres, static_cast<int>(CURVATURE))) {
             tabCosts[cpt].push_back(criterion_curvature(eh)); cpt++;
+        }
+        if (Utils::is_in_vector(criteres, static_cast<int>(NORMAL_OR))) {
+            tabCosts[cpt].push_back(criterion_normal_orientation(eh, sightPoint)); cpt++;
         }
 
         if (eh.idx()%1000 == 0)
@@ -87,15 +89,18 @@ void LiveWire::init_criterions()
  * si critère de visibilité puis refait les chemins avec critères.
  * @vertexNext pour le critère de visibilité avec dijkstra.
  * ----------------------------------------------------------------------------*/
-void LiveWire::update_vertexSeed(int _vertexSeed, int vertexNext)
+void LiveWire::update_vertexSeed(int _vertexSeed, int vertexNext, bool close)
 {
     vertexSeed = _vertexSeed;
-    if (Utils::is_in_vector(criteres, static_cast<int>(VISIBILITY))
-            || Utils::is_in_vector(criteres, static_cast<int>(STROKE_DIST))) {
-        myDijkstra.dijkstra(&mesh, vertexSeed);
-        //        vector<int> dijkstraPaths = myDijkstra.get_paths();
+    if (! close)
+    {
+        if (Utils::is_in_vector(criteres, static_cast<int>(VISIBILITY))
+                || Utils::is_in_vector(criteres, static_cast<int>(STROKE_DIST))) {
+            myDijkstra.dijkstra(&mesh, vertexSeed);
+            //        vector<int> dijkstraPaths = myDijkstra.get_paths();
+        }
     }
-    build_paths(vertexNext);
+    build_paths(vertexNext, close);
 }
 
 void LiveWire::display_criterions(int profDisplay)
@@ -370,7 +375,7 @@ double LiveWire::criterion_stroke_distance(EdgeHandle eh)
 }
 ///////////////////////////////////  ALGO   ////////////////////////////////////////////////
 
-double LiveWire::cost_function(int numEdgeNeigh)
+double LiveWire::cost_function(int numEdgeNeigh, bool close)
 {
     //    qDebug() << "\t\t\t<" << __FUNCTION__ << ">";
 
@@ -379,20 +384,31 @@ double LiveWire::cost_function(int numEdgeNeigh)
     EdgeHandle ehNeigh = mesh.edge_handle(numEdgeNeigh);
 
     /////////////////// COUT CRITERES PRECHARGES ///////////////////////////////////
+    int cpt=LENGTH;
     if (!tabCosts.empty()) {
         for (auto listCout : tabCosts){
+            if (close
+                    &&  Utils::is_in_vector(criteres, static_cast<int>(NORMAL_OR))
+                    &&  cpt==NORMAL_OR) {
+                continue;
+            }
             cost *= listCout[numEdgeNeigh];
         }
+        cpt++;
     }
 
     /////////////////// COUTS AUTRES ///////////////////////////////////
-    if (Utils::is_in_vector(criteres, static_cast<int>(VISIBILITY))) {
-        cost *= criterion_visibility(ehNeigh);
+    if (close)
+    {
+        if (Utils::is_in_vector(criteres, static_cast<int>(VISIBILITY))) {
+            cost *= criterion_visibility(ehNeigh);
+        }
+
+        if (Utils::is_in_vector(criteres, static_cast<int>(STROKE_DIST))) {
+            cost *= criterion_stroke_distance(ehNeigh);
+        }
     }
 
-    if (Utils::is_in_vector(criteres, static_cast<int>(STROKE_DIST))) {
-        cost *= criterion_stroke_distance(ehNeigh);
-    }
     //    qDebug() << "\t\t\t</" << __FUNCTION__ << ">";
     return cost;
 }
@@ -418,7 +434,7 @@ unsigned get_minCostEdge_from_activeList(vector<int> activeList, vector<double> 
  * @vertexNext pour le critère de visibilité avec dijkstra.
  * Pensez au cas où à bien mettre à jour @vertexSeed avant d'utiliser la focntion.
  * ----------------------------------------------------------------------------*/
-void LiveWire::build_paths(int vertexNext)
+void LiveWire::build_paths(int vertexNext, bool close)
 {
     qDebug() << "\t\t<" << __FUNCTION__ << ">";
 
@@ -454,7 +470,7 @@ void LiveWire::build_paths(int vertexNext)
             // Si déjà visité
             if (edgesVisited[edgeNeigh])    continue;
 
-            double tmpCost = costEdges[curEdge] + cost_function(edgeNeigh) ;
+            double tmpCost = costEdges[curEdge] + cost_function(edgeNeigh, close) ;
 
             // Voisin dans liste active ET  coût calculé inférieur au coût enregistré
             if (Utils::is_in_vector(activeList, edgeNeigh) &&  tmpCost < costEdges[edgeNeigh]) {

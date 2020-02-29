@@ -254,7 +254,7 @@ void Contour::draw_contour(MyMesh *_mesh, MyMesh::Point _sightPoint)
 
 
     qDebug() << "\t\tchargement draw:" << cpt<<"/"<<verticesContour.size();
-    lW.update_vertexSeed(endPoint, startPoint);
+    lW.update_vertexSeed(endPoint, startPoint, true);
     lW.draw(startPoint);
     qDebug() << "\t\tchargement draw:" << verticesContour.size()<<"/"<<verticesContour.size();
 

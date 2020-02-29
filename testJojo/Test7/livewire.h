@@ -24,7 +24,7 @@ using namespace std;
 using namespace OpenMesh;
 using namespace OpenMesh::Attributes;
 
-enum enum_criteres {LENGTH, DIEDRAL, NORMAL_OR, VISIBILITY, CURVATURE, STROKE_DIST};
+enum enum_criteres {LENGTH, DIEDRAL, CURVATURE, NORMAL_OR, VISIBILITY, STROKE_DIST};
 
 /*! \class LiveWire
    * \brief classe representant le LiveWire
@@ -64,8 +64,9 @@ public:
      * @vertexNext pour le critère de visibilité avec dijkstra.
      *
      * \param vertexNext : vertex suivant pour le critère de visibilité utilisant Dijkstra
+     * \param close : boolean pour savoir si le chemin qui va être calculé fermera le contour
      */
-    void update_vertexSeed(int _vertexSeed, int vertexNext);
+    void update_vertexSeed(int _vertexSeed, int vertexNext, bool close=false);
 
     /**
      * \brief Dessine le chemin calculé par le LiveWire
@@ -84,8 +85,9 @@ public:
      * Pensez au cas où à bien mettre à jour @vertexSeed avant d'utiliser la focntion.
      *
      * \param vertexNext : vertex suivant pour le critère de visibilité utilisant Dijkstra
-     */
-    void build_paths(int vertexNext);
+     * \param close : boolean pour savoir si le chemin qui va être calculé fermera le contour
+    */
+    void build_paths(int vertexNext, bool close=false);
 
     /**
      * \brief Accesseur chemins calculés
@@ -229,6 +231,7 @@ private:
      * à cette arête (en fonction du chemin courant)
      *
      * \param numEdgeNeigh : l'id d'une arête
+     * \param close : boolean pour savoir si le chemin qui va être calculé fermera le contour
      *
      * \return : le coût calculé pour cette arête
      */
