@@ -461,7 +461,7 @@ void UtilsMesh::extract_biggest_connexity_component(MyMesh *_mesh)
 {
     qDebug() << "<" << __FUNCTION__ << ">";
 
-    int nbSommetsComposante=0;
+    //    int nbSommetsComposante=0;
     vector<vector<VertexHandle>> listCC;
     vector<VertexHandle> vecCC;
 
@@ -483,7 +483,7 @@ void UtilsMesh::extract_biggest_connexity_component(MyMesh *_mesh)
 
     int max=0;
     int idMax=-1;
-    qDebug() << "nb de composantes connexes =" << nbComposantes;
+    qDebug() << "\tbase number of connexity components =" << nbComposantes;
     for (unsigned i=0; i<listCC.size(); i++)
     {
         if (max < static_cast<int>(listCC[i].size())) {

@@ -80,6 +80,7 @@ vector<unsigned> MainWindow::get_verticesID(int _testChoice)
 
 MyMesh::Point MainWindow::get_pt_de_vue()
 {
+    qDebug() << "<" << __FUNCTION__ << ">";
     ui->displayWidget->my_view();
     OpenMesh::Vec3f center3F = ui->displayWidget->myCenter;
     QVector3D center (center3F[0], center3F[1], center3F[2]);
@@ -89,11 +90,12 @@ MyMesh::Point MainWindow::get_pt_de_vue()
         VertexHandle vh = *curVert;
         MyMesh::Point P = mesh.point(vh);
         if (P[2] > center.z()) {
-            center.setZ(center.z()+2.f);
+            center.setZ(P[2]+2.f);
         }
     }
 
-    qDebug() << "center = " << center;
+    qDebug() << "\tcenter = " << center;
+    qDebug() << "</" << __FUNCTION__ << ">";
     return (MyMesh::Point(center.x(), center.y(), center.z()));
 }
 
@@ -132,6 +134,32 @@ void MainWindow::make_livewire()
     qDebug() << "</" << __FUNCTION__ << ">";
 }
 
+/*-------------------------------------------------------------------------
+ * @displayDist valeur pour modifier la distance d'affichage z des points
+ * pour ne pas qu'ils se confondent sur le maillage
+ * -----------------------------------------------------------------------*/
+void MainWindow::vizuContour(int displayDist)
+{
+    char path[80] = {"../donneesPFE M2GIG/MySon/Test/Contour/contour_low_visibleVersion.obj\0"};
+    MyMesh myMeshContour;
+    OpenMesh::IO::read_mesh(myMeshContour, path);
+    vector<MyMesh::Point> myPoints;
+    for (MyMesh::VertexIter curVert = myMeshContour.vertices_begin(); curVert != myMeshContour.vertices_end(); curVert++)
+    {
+        VertexHandle vh = *curVert;
+        MyMesh::Point p = myMeshContour.point(vh);
+        myPoints.push_back(p);
+    }
+    for (auto p : myPoints)
+    {
+        p[2] += displayDist*0.01f;
+        VertexHandle vh = mesh.add_vertex(p);
+        mesh.data(vh).thickness = 8;
+        mesh.set_color(vh, MyMesh::Color(0, 0, 255));
+    }
+    displayMesh(&mesh);
+}
+
 /* **** début de la partie boutons et IHM **** */
 
 void MainWindow::on_pushButton_livewire_clicked()
@@ -140,6 +168,13 @@ void MainWindow::on_pushButton_livewire_clicked()
 
     make_livewire();
 
+    qDebug() << "</" << __FUNCTION__ << ">";
+}
+
+void MainWindow::on_pushButton_vizuContour_clicked()
+{
+    qDebug() <<"<" << __FUNCTION__ << "The event sender is" << sender() << ">";
+    vizuContour(3);
     qDebug() << "</" << __FUNCTION__ << ">";
 }
 

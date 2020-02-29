@@ -39,6 +39,7 @@ private slots:
     void on_pushButton_generer_clicked();
 
     void on_pushButton_livewire_clicked();
+    void on_pushButton_vizuContour_clicked();
 
     void on_spinBox_valueChanged(int value);
 
@@ -52,6 +53,7 @@ private:
     vector<unsigned> test_contour(vector<MyMesh::Point> points, int precision);
 
     void make_livewire();
+    void vizuContour(int displayDist=0);
 };
 
 #endif // MAINWINDOW_H

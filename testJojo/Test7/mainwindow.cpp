@@ -130,14 +130,14 @@ void MainWindow::make_livewire()
     //    char path[70] = {"../../donneesPFE M2GIG/MySon/Test/Contour/contour_visibleVersion.obj\0"};
     char path[80] = {"../../donneesPFE M2GIG/MySon/Test/Contour/contour_low_visibleVersion.obj\0"};
     Contour myContour(mesh, path);
-    vector<unsigned> myVec;
-    for (unsigned i=0; i<myContour.get_contour().size(); i++)
-    {
-        if (i%4==0) {
-            myVec.push_back(myContour.get_contour()[i]);
-        }
-    }
-    myContour.set_contour(myVec);
+    //    vector<unsigned> myVec;
+    //    for (unsigned i=0; i<myContour.get_contour().size(); i++)
+    //    {
+    //        if (i%4==0) {
+    //            myVec.push_back(myContour.get_contour()[i]);
+    //        }
+    //    }
+    //    myContour.set_contour(myVec);
 
 
     myContour.display(1, true);
@@ -152,6 +152,33 @@ void MainWindow::make_livewire()
     qDebug() << "</" << __FUNCTION__ << ">";
 }
 
+/*-------------------------------------------------------------------------
+ * @displayDist valeur pour modifier la distance d'affichage z des points
+ * pour ne pas qu'ils se confondent sur le maillage
+ * -----------------------------------------------------------------------*/
+void MainWindow::vizuContour(int displayDist)
+{
+    char path[80] = {"../../donneesPFE M2GIG/MySon/Test/Contour/contour_low_visibleVersion.obj\0"};
+    MyMesh myMeshContour;
+    OpenMesh::IO::read_mesh(myMeshContour, path);
+    vector<MyMesh::Point> myPoints;
+    for (MyMesh::VertexIter curVert = myMeshContour.vertices_begin(); curVert != myMeshContour.vertices_end(); curVert++)
+    {
+        VertexHandle vh = *curVert;
+        MyMesh::Point p = myMeshContour.point(vh);
+        myPoints.push_back(p);
+    }
+    for (auto p : myPoints)
+    {
+        p[2] += displayDist*0.01f;
+        VertexHandle vh = mesh.add_vertex(p);
+        mesh.data(vh).thickness = 8;
+        mesh.set_color(vh, MyMesh::Color(0, 0, 255));
+    }
+    displayMesh(&mesh);
+}
+
+
 /* **** début de la partie boutons et IHM **** */
 
 void MainWindow::on_pushButton_livewire_clicked()
@@ -161,6 +188,11 @@ void MainWindow::on_pushButton_livewire_clicked()
     make_livewire();
 
     qDebug() << "</" << __FUNCTION__ << ">";
+}
+
+void MainWindow::on_pushButton_vizuContour_clicked()
+{
+    vizuContour(3);
 }
 
 void MainWindow::on_spinBox_valueChanged(int value)

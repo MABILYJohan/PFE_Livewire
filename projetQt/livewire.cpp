@@ -59,6 +59,7 @@ void LiveWire::init_criterions()
 
     unsigned cpt=0;
 
+    qDebug() << "\t\t\tchargement LW POIDS DE CRITERES A PRECHARGER";
     qDebug() << "\t\t\tchargement LW:" << 0 <<"/"<<mesh.n_edges();
     for (MyMesh::EdgeIter curEdge = mesh.edges_begin(); curEdge != mesh.edges_end(); curEdge++)
     {
@@ -346,7 +347,7 @@ double LiveWire::criterion_stroke_distance(EdgeHandle eh)
 
     vector<int> pathEdges = myDijkstra.get_currentPath();
     int numEdge = eh.idx();
-    double distMin = static_cast<double>(INT_MAX);
+    //    double distMin = static_cast<double>(INT_MAX);
     MyMesh::Point myP = mesh.calc_edge_midpoint(eh);
 
     double distMax = 100.0;

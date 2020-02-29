@@ -187,7 +187,8 @@ void Contour::display(int profDisplay, bool flagColor)
         if (flagColor) {
             VertexHandle vh = mesh.vertex_handle(p);
             mesh.data(vh).thickness = 10;
-            mesh.set_color(vh, MyMesh::Color(cpt, 255 - (4*cpt++), 0));
+            mesh.set_color(vh, MyMesh::Color(cpt, 255 - (4*cpt), 0));
+            cpt++;
         }
     }
     qDebug() << cprof << "\tend =" << endPoint;
@@ -219,7 +220,7 @@ void Contour::draw_contour(MyMesh *_mesh, MyMesh::Point _sightPoint)
     qDebug() << "\t<" << __FUNCTION__ << ">";
     if (verticesContour.empty())    return;
 
-    this->display(1);
+    //    this->display(1);
 
     unsigned curVertex = startPoint;
     unsigned cpt=0;
