@@ -433,6 +433,11 @@ unsigned get_minCostEdge_from_activeList(vector<int> activeList, vector<double> 
     return numEdge;
 }
 
+EdgeHandle LiveWire::get_edge_seed(int vertexNext)
+{
+    ;
+}
+
 /*------------------------------------------------------------------------------
  * Construit les chemins pour le livewire (dans @paths).
  * @vertexNext pour le critère de visibilité avec dijkstra.

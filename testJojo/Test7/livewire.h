@@ -236,6 +236,9 @@ private:
      * \return : le coût calculé pour cette arête
      */
     double cost_function(int numEdgeNeigh, bool close=false);
+
+    EdgeHandle get_edge_seed(int vertexNext);
+
 };
 
 #endif // LIVEWIRE_H

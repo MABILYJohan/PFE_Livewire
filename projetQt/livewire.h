@@ -238,6 +238,18 @@ private:
      */
     double cost_function(int numEdgeNeigh, bool close=false);
 
+    /**
+     * \brief Initialise l'arête de départ de l'algorithme
+     *
+     * Retourne l'arête autour de @vertexStart, la plus proche du sommet
+     * d'indice @vertexNext
+     *
+     * \param vertexNext : l'id du sommet vers lequel le chemin doit parvenir
+     *
+     * \return : l'arête trouvée
+     */
+    EdgeHandle get_edge_seed(int vertexStart, int vertexEnd);
+
 };
 
 #endif // LIVEWIRE_H

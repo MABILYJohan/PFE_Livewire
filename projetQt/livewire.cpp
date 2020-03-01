@@ -431,6 +431,36 @@ unsigned get_minCostEdge_from_activeList(vector<int> activeList, vector<double> 
 }
 
 /*------------------------------------------------------------------------------
+ * Retourne l'arête autour de @vertexStart, la plus proche du sommet
+ * d'indice @vertexNext
+ * ----------------------------------------------------------------------------*/
+EdgeHandle LiveWire::get_edge_seed(int vertexStart, int vertexEnd)
+{
+    VertexHandle vhStart = mesh.vertex_handle(vertexStart);
+    VertexHandle vhTmp = mesh.vertex_handle(vertexEnd);
+    MyMesh::Point p = mesh.point(vhTmp);
+    QVector3D vp = UtilsMesh::to_qvector3D(p);
+    EdgeHandle eh;
+    float min = static_cast<float>(INT_MAX);
+
+
+    for (MyMesh::VertexEdgeCWIter ve_it = mesh.ve_cwiter(vhStart); ve_it.is_valid(); ve_it++)
+    {
+        EdgeHandle ehTmp = *ve_it;
+        MyMesh::Point pTmp = mesh.calc_edge_midpoint(ehTmp);
+        QVector3D vpTmp = UtilsMesh::to_qvector3D(pTmp);
+
+        float dist = vpTmp.distanceToPoint(vp);
+        if (min >= dist) {
+            min = dist;
+            eh = ehTmp;
+        }
+    }
+
+    return eh;
+}
+
+/*------------------------------------------------------------------------------
  * Construit les chemins pour le livewire (dans @paths).
  * @vertexNext pour le critère de visibilité avec dijkstra.
  * Pensez au cas où à bien mettre à jour @vertexSeed avant d'utiliser la focntion.
@@ -440,7 +470,7 @@ void LiveWire::build_paths(int vertexNext, bool close)
     qDebug() << "\t\t<" << __FUNCTION__ << ">";
 
     // Init
-    EdgeHandle ehTmp = UtilsMesh::get_next_eh_of_vh(&mesh, vertexSeed);
+    EdgeHandle ehTmp = get_edge_seed(vertexSeed, vertexNext);
     edgeSeed = ehTmp.idx();
 
     vector<double> costEdges(mesh.n_edges(), static_cast<double>(INT_MAX));
@@ -510,7 +540,7 @@ void LiveWire::draw(unsigned vertex2)
     int green = Utils::randInt(0, 255);
 
     EdgeHandle eh1 = mesh.edge_handle(edgeSeed);
-    EdgeHandle eh2 = UtilsMesh::get_next_eh_of_vh(&mesh, vertex2);
+    EdgeHandle eh2 = get_edge_seed(vertex2, vertexSeed);
     unsigned curEdge = eh2.idx();
     vector<EdgeHandle> ehs;
 
