@@ -126,14 +126,14 @@ Contour::Contour(MyMesh &_mesh, char *path) :
     qDebug() << "\t\tnb de sommets contour = " << tmp.size();
 
     /////////////// V1 ////////////////
-    //    int id=-1;
-    //    if (tmp.size()>=4)
-    //    {
-    //        id = add_vertex(search_borne_dim(tmp, 0, false));
-    //        id = add_vertex(search_borne_dim(tmp, 1, true));
-    //        id = add_vertex(search_borne_dim(tmp, 0, true));
-    //        id = add_vertex(search_borne_dim(tmp, 1, false));
-    //    }
+    //        int id=-1;
+    //        if (tmp.size()>=4)
+    //        {
+    //             add_vertex(search_borne_dim(tmp, 0, false));
+    //             add_vertex(search_borne_dim(tmp, 1, true));
+    //             add_vertex(search_borne_dim(tmp, 0, true));
+    //             add_vertex(search_borne_dim(tmp, 1, false));
+    //        }
 
     /////////////// V2 ////////////////
     int id = 0;
