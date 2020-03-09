@@ -26,16 +26,16 @@ TEMPLATE = app
 
 unix:!macx {
     LIBS += -lglut -lGLU
-    LIBS += -L$$PWD/../OpenMesh/liblinux/ -lOpenMeshCore
+    LIBS += -L$$PWD/../../OpenMesh/liblinux/ -lOpenMeshCore
 
-    INCLUDEPATH += $$PWD/../OpenMesh/inc/
-    DEPENDPATH += $$PWD/../OpenMesh/inc/
-    DEPENDPATH += $$PWD/../OpenMesh/liblinux/
+    INCLUDEPATH += $$PWD/../../OpenMesh/inc/
+    DEPENDPATH += $$PWD/../../OpenMesh/inc/
+    DEPENDPATH += $$PWD/../../OpenMesh/liblinux/
 }
 
 macx: {
-    INCLUDEPATH += $$PWD/../OpenMesh/inc/
-    LIBS += -L$$PWD/../OpenMesh/libosx/ -lOpenMeshCore -lOpenMeshTools
+    INCLUDEPATH += $$PWD/../../OpenMesh/inc/
+    LIBS += -L$$PWD/../../OpenMesh/libosx/ -lOpenMeshCore -lOpenMeshTools
 }
 
 SOURCES += \

@@ -162,6 +162,11 @@ unsigned Contour::get_start()   {   return startPoint;  }
 unsigned Contour::get_end()     {   return endPoint;    }
 
 vector<unsigned> Contour::get_contour() {   return verticesContour; }
+void Contour::set_contour(vector<unsigned> tmp)
+{
+    verticesContour.clear();
+    verticesContour = tmp;
+}
 
 
 ///////////////////////////// AUTRES   ////////////////////////////////////////

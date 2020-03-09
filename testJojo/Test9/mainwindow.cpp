@@ -118,11 +118,20 @@ void MainWindow::make_livewire()
     //    vector<unsigned> tmpVertices = get_verticesID(testChoice);
     //    Contour myContour(mesh, tmpVertices);
 
-    //    char path[70] = {"../donneesPFE M2GIG/MySon/Test/Contour/contour_visibleVersion.obj\0"};
-    char path[80] = {"../donneesPFE M2GIG/MySon/Test/Contour/contour_low_visibleVersion.obj\0"};
+    //    char path[70] = {"../../donneesPFE M2GIG/MySon/Test/Contour/contour_visibleVersion.obj\0"};
+    char path[80] = {"../../donneesPFE M2GIG/MySon/Test/Contour/contour_low_visibleVersion.obj\0"};
     Contour myContour(mesh, path);
+    vector<unsigned> tmp;
+    for (unsigned i=0; i<myContour.get_contour().size(); i++)
+    {
+        if (i%3==0) {
+            tmp.push_back(myContour.get_contour()[i]);
+        }
+    }
+    myContour.set_contour(tmp);
 
-    myContour.display(1, true);
+
+    //    myContour.display(1, true);
 
     MyMesh::Point _sightPoint = get_pt_de_vue();
 
