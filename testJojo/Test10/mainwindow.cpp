@@ -119,7 +119,7 @@ void MainWindow::make_livewire()
     //    Contour myContour(mesh, tmpVertices);
 
     //    char path[70] = {"../donneesPFE M2GIG/MySon/Test/Contour/contour_visibleVersion.obj\0"};
-    char path[80] = {"../donneesPFE M2GIG/MySon/Test/Contour/contour_low_visibleVersion.obj\0"};
+    char path[80] = {"../tmp.obj\0"};
     Contour myContour(mesh, path);
 
     myContour.display(1, true);
