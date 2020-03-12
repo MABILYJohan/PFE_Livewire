@@ -27,6 +27,7 @@ public:
     unsigned get_start();
     unsigned get_end();
     vector<unsigned> get_contour();
+    void set_contour(vector<unsigned> tmp);
 
     void add_edge(unsigned numEdge);
     void add_vertex(unsigned numVertex);

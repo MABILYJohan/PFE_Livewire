@@ -119,8 +119,16 @@ void MainWindow::make_livewire()
     //    Contour myContour(mesh, tmpVertices);
 
     //    char path[70] = {"../donneesPFE M2GIG/MySon/Test/Contour/contour_visibleVersion.obj\0"};
-    char path[80] = {"../tmp.obj\0"};
+    char path[80] = {"../masks3D_Myson_02_contour.obj\0"};
     Contour myContour(mesh, path);
+    vector<unsigned> tmp;
+    for (unsigned v=0; v<myContour.get_contour().size(); v++)
+    {
+        if (v>1==0) {
+            tmp.push_back(v);
+        }
+    }
+    myContour.set_contour(tmp);
 
     myContour.display(1, true);
 
@@ -201,6 +209,11 @@ void MainWindow::on_pushButton_chargement_clicked()
     mesh.update_normals();
 
     // initialisation des couleurs et épaisseurs (sommets et arêtes) du mesh
+    resetAllColorsAndThickness(&mesh);
+
+    // TMP
+    mesh.triangulate();
+    mesh.update_normals();
     resetAllColorsAndThickness(&mesh);
 
     // on affiche le maillage

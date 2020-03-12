@@ -111,6 +111,7 @@ Contour::Contour(MyMesh &_mesh, char *path) :
     vector<int> tmp;
     verticesContour.clear();
 
+    // Appariement des points aux sommets les plus proches
     for (MyMesh::VertexIter curVert = myMeshContour.vertices_begin(); curVert != myMeshContour.vertices_end(); curVert++)
     {
         VertexHandle vh = *curVert;
@@ -162,6 +163,13 @@ unsigned Contour::get_start()   {   return startPoint;  }
 unsigned Contour::get_end()     {   return endPoint;    }
 
 vector<unsigned> Contour::get_contour() {   return verticesContour; }
+void Contour::set_contour(vector<unsigned> tmp)
+{
+    verticesContour.clear();
+    for (auto v : tmp) {
+        add_vertex(v);
+    }
+}
 
 
 ///////////////////////////// AUTRES   ////////////////////////////////////////
