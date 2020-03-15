@@ -49,7 +49,7 @@ void printHelp (int, char **argv)
     print_error ("Syntax is: %s input.xyz output.pcd\n", argv[0]);
 }
 
-bool loadCloud (const string &filename, PointCloud<PointXYZ> &cloud)
+bool loadCloud_from_xyzFile (const string &filename, PointCloud<PointXYZ> &cloud)
 {
     ifstream fs;
     fs.open (filename.c_str (), ios::binary);
@@ -129,7 +129,7 @@ int main (int argc, char** argv)
 
     // Load the first file
     PointCloud<PointXYZ> cloud;
-    if (!loadCloud (argv[xyz_file_indices[0]], cloud))
+    if (!loadCloud_from_xyzFile (argv[xyz_file_indices[0]], cloud))
         return (-1);
 
     // Convert to PCD and save
