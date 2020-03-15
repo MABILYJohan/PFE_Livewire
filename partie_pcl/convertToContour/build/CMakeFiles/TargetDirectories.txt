@@ -1,3 +1,0 @@
-/home/djohlan/Bureau/pcl_test/testContour/build/CMakeFiles/rebuild_cache.dir
-/home/djohlan/Bureau/pcl_test/testContour/build/CMakeFiles/contourDetect.dir
-/home/djohlan/Bureau/pcl_test/testContour/build/CMakeFiles/edit_cache.dir

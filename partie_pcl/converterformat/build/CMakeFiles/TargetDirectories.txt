@@ -1,3 +1,0 @@
-/home/djohlan/Bureau/pcl_test/converter/build/CMakeFiles/rebuild_cache.dir
-/home/djohlan/Bureau/pcl_test/converter/build/CMakeFiles/pclConverter.dir
-/home/djohlan/Bureau/pcl_test/converter/build/CMakeFiles/edit_cache.dir

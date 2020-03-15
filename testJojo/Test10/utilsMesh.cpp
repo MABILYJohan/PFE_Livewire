@@ -245,6 +245,8 @@ int UtilsMesh::find_near_vertex_of_point(MyMesh *_mesh, MyMesh::Point P)
 
     double minDist = static_cast<double>(INT_MAX);
 
+    int cpt=0;
+
     for (MyMesh::VertexIter curVert = _mesh->vertices_begin(); curVert != _mesh->vertices_end(); curVert++)
     {
         VertexHandle vhTmp = *curVert;
@@ -257,6 +259,7 @@ int UtilsMesh::find_near_vertex_of_point(MyMesh *_mesh, MyMesh::Point P)
             minDist = val;
             vertexID = vhTmp.idx();
         }
+        cpt++;
     }
     return vertexID;
 }
@@ -492,7 +495,7 @@ void UtilsMesh::extract_biggest_connexity_component(MyMesh *_mesh)
         }
         qDebug() << "\tcomposante of" << listCC[i].size() << "vertices";
     }
-    qDebug() << "\tbiggest component is the" << idMax;
+    qDebug() << "\tbiggest component is the number" << idMax+1;
 
     for (unsigned i=0; i<listCC.size(); i++)
     {

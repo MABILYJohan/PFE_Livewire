@@ -1,6 +1,5 @@
 #include "contour.h"
 
-
 /////////////////////////// CONSTRUCTEURS   //////////////////////////////////////
 
 Contour::Contour(MyMesh &_mesh) :
@@ -101,21 +100,126 @@ int Contour::search_borne_dim(vector<int> tmp, int dim, bool b_max)
 /*---------------------------------------------------------------------
  * Pour charger un contour à partir d'un maillage / nuage de points
  * ------------------------------------------------------------------*/
-Contour::Contour(MyMesh &_mesh, char *path) :
-    mesh(_mesh)
+//Contour::Contour(MyMesh &_mesh, char *path) :
+//    mesh(_mesh)
+//{
+//    qDebug() << "\t<" << __FUNCTION__ << ">";
+
+//    MyMesh myMeshContour;
+//    OpenMesh::IO::read_mesh(myMeshContour, path);
+//    vector<int> tmp;
+//    verticesContour.clear();
+
+//    // Appariement des points aux sommets les plus proches
+//    for (MyMesh::VertexIter curVert = myMeshContour.vertices_begin(); curVert != myMeshContour.vertices_end(); curVert++)
+//    {
+//        VertexHandle vh = *curVert;
+//        MyMesh::Point P = myMeshContour.point(vh);
+//        int numVertex = UtilsMesh::find_near_vertex_of_point(&mesh, P);
+//        if ( ! Utils::is_in_vector(this->verticesContour, static_cast<unsigned>(numVertex))) {
+//            //this->add_vertex(numVertex);
+//            tmp.push_back(numVertex);
+//        }
+//    }
+//    Utils::suppr_occur(tmp);
+
+//    qDebug() << "\t\tnb de sommets contour = " << tmp.size();
+
+//    /////////////// V1 ////////////////
+//    //        int id=-1;
+//    //        if (tmp.size()>=4)
+//    //        {
+//    //             add_vertex(search_borne_dim(tmp, 0, false));
+//    //             add_vertex(search_borne_dim(tmp, 1, true));
+//    //             add_vertex(search_borne_dim(tmp, 0, true));
+//    //             add_vertex(search_borne_dim(tmp, 1, false));
+//    //        }
+
+//    /////////////// V2 ////////////////
+//    int id = 0;
+//    for (unsigned i=0; i<tmp.size()  ; i++)
+//    {
+//        //        qDebug() << "\t\ti=" << i;
+//        if (i==0) {
+//            this->add_vertex(tmp[i]);
+//            id = tmp[i];
+//        }
+//        else
+//        {
+//            id = search_min_dist_vertex_from_vertex(tmp, id);
+//            if (id<0) {
+//                qWarning() << "in" << __FUNCTION__ << ": id < 0";
+//                exit (2);
+//            }
+//            add_vertex(id);
+//        }
+//    }
+
+//    qDebug() << "\t</" << __FUNCTION__ << ">";
+//}
+
+/*------------------------------------------------------------------------------
+ * Charge un fichier .txt ou .xyz à partir de @filename
+ * (attention ne gère pas encore les couleurs).
+ * ----------------------------------------------------------------------------*/
+vector<QVector3D> Contour::loadCloud(const string &filename)
 {
     qDebug() << "\t<" << __FUNCTION__ << ">";
 
-    MyMesh myMeshContour;
-    OpenMesh::IO::read_mesh(myMeshContour, path);
-    vector<int> tmp;
-    verticesContour.clear();
+    ifstream monFlux(filename);  //Ouverture d'un fichier en lecture
+    if(!monFlux) {
+        qWarning()<< "ERREUR: Impossible d'ouvrir le fichier en lecture." << endl;
+    }
 
-    // Appariement des points aux sommets les plus proches
-    for (MyMesh::VertexIter curVert = myMeshContour.vertices_begin(); curVert != myMeshContour.vertices_end(); curVert++)
+    vector<QVector3D> myVec;
+
+    QVector3D P;
+    int dim=0;
+    double tmp;
+    while (monFlux >> tmp)
     {
-        VertexHandle vh = *curVert;
-        MyMesh::Point P = myMeshContour.point(vh);
+        if (dim>=3)
+        {
+            myVec.push_back(P);
+            dim=0;
+        }
+        switch(dim)
+        {
+        case 0:
+            P.setX(tmp);
+            //            cout << "x = " << tmp << "\t";
+            break;
+        case 1:
+            P.setY(tmp);
+            //            cout << "y = " << tmp << "\t";
+            break;
+        case 2:
+            P.setZ(tmp);
+            //            cout << "z = " << tmp << endl;
+        default:
+            break;
+        }
+        dim++;
+    }
+
+
+    qDebug() << "\t</" << __FUNCTION__ << ">";
+
+    return myVec;
+}
+
+Contour::Contour(MyMesh &_mesh, char *path) :
+    mesh(_mesh)
+{
+    qDebug() << "<" << __FUNCTION__ << ">";
+
+    vector<QVector3D> myVec = loadCloud(path);
+
+    vector<int> tmp;
+
+    for (auto v : myVec)
+    {
+        MyMesh::Point P (v.x(), v.y(), v.z());
         int numVertex = UtilsMesh::find_near_vertex_of_point(&mesh, P);
         if ( ! Utils::is_in_vector(this->verticesContour, static_cast<unsigned>(numVertex))) {
             //this->add_vertex(numVertex);
@@ -124,39 +228,11 @@ Contour::Contour(MyMesh &_mesh, char *path) :
     }
     Utils::suppr_occur(tmp);
 
-    qDebug() << "\t\tnb de sommets contour = " << tmp.size();
-
-    /////////////// V1 ////////////////
-    //        int id=-1;
-    //        if (tmp.size()>=4)
-    //        {
-    //             add_vertex(search_borne_dim(tmp, 0, false));
-    //             add_vertex(search_borne_dim(tmp, 1, true));
-    //             add_vertex(search_borne_dim(tmp, 0, true));
-    //             add_vertex(search_borne_dim(tmp, 1, false));
-    //        }
-
-    /////////////// V2 ////////////////
-    int id = 0;
-    for (unsigned i=0; i<tmp.size()  ; i++)
-    {
-        //        qDebug() << "\t\ti=" << i;
-        if (i==0) {
-            this->add_vertex(tmp[i]);
-            id = tmp[i];
-        }
-        else
-        {
-            id = search_min_dist_vertex_from_vertex(tmp, id);
-            if (id<0) {
-                qWarning() << "in" << __FUNCTION__ << ": id < 0";
-                exit (2);
-            }
-            add_vertex(id);
-        }
+    for (auto t : tmp) {
+        this->add_vertex(t);
     }
 
-    qDebug() << "\t</" << __FUNCTION__ << ">";
+    qDebug() << "</" << __FUNCTION__ << ">";
 }
 
 unsigned Contour::get_start()   {   return startPoint;  }

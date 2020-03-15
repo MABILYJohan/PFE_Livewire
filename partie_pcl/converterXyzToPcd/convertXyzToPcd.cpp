@@ -44,14 +44,12 @@ using namespace pcl;
 using namespace pcl::io;
 using namespace pcl::console;
 
-void
-printHelp (int, char **argv)
+void printHelp (int, char **argv)
 {
     print_error ("Syntax is: %s input.xyz output.pcd\n", argv[0]);
 }
 
-bool
-loadCloud (const string &filename, PointCloud<PointXYZ> &cloud)
+bool loadCloud (const string &filename, PointCloud<PointXYZ> &cloud)
 {
     ifstream fs;
     fs.open (filename.c_str (), ios::binary);
@@ -65,8 +63,12 @@ loadCloud (const string &filename, PointCloud<PointXYZ> &cloud)
     string line;
     std::vector<string> st;
 
+    //    int cpt=0;
+
     while (!fs.eof ())
     {
+        //        if (cpt > 100)  break;
+        //        cout << "ligne " << ++cpt << endl;
         getline (fs, line);
         // Ignore empty lines
         if (line.empty())
@@ -74,22 +76,36 @@ loadCloud (const string &filename, PointCloud<PointXYZ> &cloud)
 
         // Tokenize the line
         boost::trim (line);
-        boost::split (st, line, boost::is_any_of ("\t\r "), boost::token_compress_on);
+        boost::split (st, line, boost::is_any_of ("\t\r ")/*, boost::token_compress_on*/);
 
         if (st.size () != 3)
             continue;
 
+        //        cout << "\tA : line = " << st[0] << " " << st[1] << " " << st[2] <<  endl;
+
         cloud.push_back (PointXYZ (float (atof (st[0].c_str ())), float (atof (st[1].c_str ())), float (atof (st[2].c_str ()))));
+
+        //        cout << "\t" << float (atof (st[0].c_str ()))
+        //                << " " << float (atof (st[1].c_str ()))
+        //                << " " << float (atof (st[2].c_str ())) << endl;
+
+        //        cout << "\t" << strtod( st[0].c_str(), NULL )
+        //                << " " << strtod( st[1].c_str(), NULL )
+        //                << " " << strtod( st[2].c_str(), NULL ) << endl;
+
+        //        cout << "\t" << st[0].c_str()
+        //                << " " << st[1].c_str()
+        //                << " " << st[2].c_str() << endl;
+
     }
     fs.close ();
 
-    cloud.width = std::uint32_t (cloud.size ()); cloud.height = 1; cloud.is_dense = true;
+    //    cloud.width = std::uint32_t (cloud.size ()); cloud.height = 1; cloud.is_dense = true;
     return (true);
 }
 
 /* ---[ */
-int
-main (int argc, char** argv)
+int main (int argc, char** argv)
 {
     print_info ("Convert a simple XYZ file to PCD format. For more information, use: %s -h\n", argv[0]);
 

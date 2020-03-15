@@ -74,6 +74,8 @@ int main(int argc, char *argv[])
 	viewer.setCameraPosition (-3.68332, 2.94092, 5.71266, 0.289847, 0.921947, -0.256907, 0);
 	viewer.setSize (1280, 1024);  // Visualiser window size
 	
+	viewer.setPointCloudRenderingProperties(pcl::visualization::PCL_VISUALIZER_POINT_SIZE, 5, "mycloud");
+	
 	// Display the visualiser
 	while (!viewer.wasStopped ())
 	{

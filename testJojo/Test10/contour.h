@@ -1,6 +1,12 @@
 #ifndef CONTOUR_H
 #define CONTOUR_H
 
+#include <iostream>
+#include <fstream>
+#include <boost/algorithm/string.hpp>
+
+#include <QVector3D>
+
 #include <OpenMesh/Core/IO/MeshIO.hh>
 #include <OpenMesh/Core/Mesh/TriMesh_ArrayKernelT.hh>
 
@@ -47,6 +53,8 @@ protected:
     int endPoint;
     vector<unsigned> edgesContour;
     vector<unsigned> verticesContour;
+
+    vector<QVector3D> loadCloud(const string &filename);
 
     int search_borne_dim(vector<int> tmp, int dim, bool b_max=true);
     int search_min_dist_vertex_from_vertex(vector<int> tmp, int id);

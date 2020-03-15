@@ -192,30 +192,36 @@ main (int argc, char** argv)
     pcl::visualization::PointCloudColorHandlerCustom<pcl::PointWithRange> border_points_color_handler (border_points_ptr, 0, 255, 0);
     viewer.addPointCloud<pcl::PointWithRange> (border_points_ptr, border_points_color_handler, "border points");
     viewer.setPointCloudRenderingProperties (pcl::visualization::PCL_VISUALIZER_POINT_SIZE, 7, "border points");
-    //    pcl::visualization::PointCloudColorHandlerCustom<pcl::PointWithRange> veil_points_color_handler (veil_points_ptr, 255, 0, 0);
-    //    viewer.addPointCloud<pcl::PointWithRange> (veil_points_ptr, veil_points_color_handler, "veil points");
-    //    viewer.setPointCloudRenderingProperties (pcl::visualization::PCL_VISUALIZER_POINT_SIZE, 7, "veil points");
-    //    pcl::visualization::PointCloudColorHandlerCustom<pcl::PointWithRange> shadow_points_color_handler (shadow_points_ptr, 0, 255, 255);
-    //    viewer.addPointCloud<pcl::PointWithRange> (shadow_points_ptr, shadow_points_color_handler, "shadow points");
-    //    viewer.setPointCloudRenderingProperties (pcl::visualization::PCL_VISUALIZER_POINT_SIZE, 7, "shadow points");
+    
+    bool b_vizu = false;
+    if (b_vizu)
+    {
+        pcl::visualization::PointCloudColorHandlerCustom<pcl::PointWithRange> veil_points_color_handler (veil_points_ptr, 255, 0, 0);
+        viewer.addPointCloud<pcl::PointWithRange> (veil_points_ptr, veil_points_color_handler, "veil points");
+        viewer.setPointCloudRenderingProperties (pcl::visualization::PCL_VISUALIZER_POINT_SIZE, 7, "veil points");
+        pcl::visualization::PointCloudColorHandlerCustom<pcl::PointWithRange> shadow_points_color_handler (shadow_points_ptr, 0, 255, 255);
+        viewer.addPointCloud<pcl::PointWithRange> (shadow_points_ptr, shadow_points_color_handler, "shadow points");
+        viewer.setPointCloudRenderingProperties (pcl::visualization::PCL_VISUALIZER_POINT_SIZE, 7, "shadow points");
 
-    //-------------------------------------
-    // -----Show points on range image-----
-    // ------------------------------------
-    //    pcl::visualization::RangeImageVisualizer* range_image_borders_widget = NULL;
-    //    range_image_borders_widget =
-    //            pcl::visualization::RangeImageVisualizer::getRangeImageBordersWidget (range_image, -std::numeric_limits<float>::infinity (), std::numeric_limits<float>::infinity (), false,
-    //                                                                                  border_descriptions, "Range image with borders");
-    // -------------------------------------
+        //-------------------------------------
+        // -----Show points on range image-----
+        // ------------------------------------
+        pcl::visualization::RangeImageVisualizer* range_image_borders_widget = NULL;
+        range_image_borders_widget =
+                pcl::visualization::RangeImageVisualizer::getRangeImageBordersWidget (range_image, -std::numeric_limits<float>::infinity (), std::numeric_limits<float>::infinity (), false,
+                                                                                      border_descriptions, "Range image with borders");
+        // -------------------------------------
 
 
-    //--------------------
-    // -----Main loop-----
-    //--------------------
-    //    while (!viewer.wasStopped ())
-    //    {
-    //        range_image_borders_widget->spinOnce ();
-    //        viewer.spinOnce ();
-    //        pcl_sleep(0.01);
-    //    }
+        //--------------------
+        // -----Main loop-----
+        //--------------------
+        while (!viewer.wasStopped ())
+        {
+            range_image_borders_widget->spinOnce ();
+            viewer.spinOnce ();
+            pcl_sleep(0.01);
+        }
+    }
+    
 }

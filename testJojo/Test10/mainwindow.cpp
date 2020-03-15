@@ -119,13 +119,14 @@ void MainWindow::make_livewire()
     //    Contour myContour(mesh, tmpVertices);
 
     //    char path[70] = {"../donneesPFE M2GIG/MySon/Test/Contour/contour_visibleVersion.obj\0"};
-    char path[80] = {"../masks3D_Myson_02_contour.obj\0"};
+    //    char path[80] = {"../masks3D_Myson_02_contour.obj\0"};
+    char path[80] = {"../../donneesPFE M2GIG/Siva/Test/mask_048_1_contour.xyz\0"};
     Contour myContour(mesh, path);
     vector<unsigned> tmp;
     for (unsigned v=0; v<myContour.get_contour().size(); v++)
     {
-        if (v>1==0) {
-            tmp.push_back(v);
+        if (v%6==0) {
+            tmp.push_back(myContour.get_contour()[v]);
         }
     }
     myContour.set_contour(tmp);
@@ -148,7 +149,7 @@ void MainWindow::make_livewire()
  * -----------------------------------------------------------------------*/
 void MainWindow::vizuContour(int displayDist)
 {
-    char path[80] = {"../donneesPFE M2GIG/MySon/Test/Contour/contour_low_visibleVersion.obj\0"};
+    char path[80] = {"../../donneesPFE M2GIG/Siva/Test/mask_048_1_contour.obj\0"};
     MyMesh myMeshContour;
     OpenMesh::IO::read_mesh(myMeshContour, path);
     vector<MyMesh::Point> myPoints;
@@ -182,7 +183,7 @@ void MainWindow::on_pushButton_livewire_clicked()
 void MainWindow::on_pushButton_vizuContour_clicked()
 {
     qDebug() <<"<" << __FUNCTION__ << "The event sender is" << sender() << ">";
-    vizuContour(3);
+    vizuContour(5);
     qDebug() << "</" << __FUNCTION__ << ">";
 }
 
@@ -200,7 +201,8 @@ void MainWindow::on_pushButton_chargement_clicked()
     // fenêtre de sélection des fichiers
     QString fileName = QFileDialog::getOpenFileName(this, tr("Open Mesh"),
                                                     // "../../../MGM/meshFiles/",
-                                                    "../donneesPFE M2GIG/MySon/Test/",
+                                                    "../../donneesPFE M2GIG/Siva/Test/",
+                                                    // "../../donneesPFE M2GIG/MySon/Test/",
                                                     tr("Mesh Files (*.obj)"));
 
     // chargement du fichier .obj dans la variable globale "mesh"
