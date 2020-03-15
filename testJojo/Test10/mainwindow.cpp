@@ -122,14 +122,7 @@ void MainWindow::make_livewire()
     //    char path[80] = {"../masks3D_Myson_02_contour.obj\0"};
     char path[80] = {"../../donneesPFE M2GIG/Siva/Test/mask_048_1_contour.xyz\0"};
     Contour myContour(mesh, path);
-    vector<unsigned> tmp;
-    for (unsigned v=0; v<myContour.get_contour().size(); v++)
-    {
-        if (v%6==0) {
-            tmp.push_back(myContour.get_contour()[v]);
-        }
-    }
-    myContour.set_contour(tmp);
+    myContour.reduct(6);
 
     myContour.display(1, true);
 

@@ -250,6 +250,27 @@ void Contour::set_contour(vector<unsigned> tmp)
 
 ///////////////////////////// AUTRES   ////////////////////////////////////////
 
+/*------------------------------------------------------------------------------
+ * Réduit le nombre de sommets dans @verticesContour
+ * à partir d'une valeur modulo.
+ * (exemple: on ne garde que les id de sommets (dans le tableau@verticesContour)
+ * dont le modulo @moduloVal vaut 0)
+ * ----------------------------------------------------------------------------*/
+void Contour::reduct(int moduloVal)
+{
+    if (moduloVal < 0)     moduloVal *= -1;
+    if (moduloVal == 0)    moduloVal = 1;
+
+    vector<unsigned> tmp;
+    for (unsigned v=0; v<verticesContour.size(); v++)
+    {
+        if (v%moduloVal==0) {
+            tmp.push_back(verticesContour[v]);
+        }
+    }
+    this->set_contour(tmp);
+}
+
 void Contour::display(int profDisplay, bool flagColor)
 {
     if (profDisplay<0)  profDisplay=0;

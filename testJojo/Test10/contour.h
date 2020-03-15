@@ -35,6 +35,8 @@ public:
     vector<unsigned> get_contour();
     void set_contour(vector<unsigned> tmp);
 
+    void reduct(int modulo);
+
     void add_edge(unsigned numEdge);
     void add_vertex(unsigned numVertex);
     void draw_contour(MyMesh *_mesh, MyMesh::Point _sightPoint);

@@ -7,6 +7,9 @@
 using namespace OpenMesh;
 using namespace OpenMesh::Attributes;
 
+#include <fstream>
+#include <QVector3D>
+
 #include "utilsMesh.h"
 #include "selectedpoints.h"
 #include "livewire.h"
@@ -27,6 +30,9 @@ public:
     unsigned get_start();
     unsigned get_end();
     vector<unsigned> get_contour();
+    void set_contour(vector<unsigned> tmp);
+
+    void reduct(int modulo);
 
     void add_edge(unsigned numEdge);
     void add_vertex(unsigned numVertex);
@@ -46,6 +52,8 @@ protected:
     int endPoint;
     vector<unsigned> edgesContour;
     vector<unsigned> verticesContour;
+
+    vector<QVector3D> loadCloud(const string &filename);
 
     int search_borne_dim(vector<int> tmp, int dim, bool b_max=true);
     int search_min_dist_vertex_from_vertex(vector<int> tmp, int id);
