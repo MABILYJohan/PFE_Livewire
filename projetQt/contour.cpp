@@ -98,23 +98,68 @@ int Contour::search_borne_dim(vector<int> tmp, int dim, bool b_max)
     return idRes;
 }
 
-/*---------------------------------------------------------------------
- * Pour charger un contour à partir d'un maillage / nuage de points
- * ------------------------------------------------------------------*/
-Contour::Contour(MyMesh &_mesh, char *path) :
-    mesh(_mesh)
+/*------------------------------------------------------------------------------
+ * Charge un fichier .txt ou .xyz à partir de @filename
+ * (attention ne gère pas encore les couleurs).
+ * ----------------------------------------------------------------------------*/
+vector<QVector3D> Contour::loadCloud(const string &filename)
 {
     qDebug() << "\t<" << __FUNCTION__ << ">";
 
-    MyMesh myMeshContour;
-    OpenMesh::IO::read_mesh(myMeshContour, path);
-    vector<int> tmp;
-    verticesContour.clear();
+    ifstream monFlux(filename);  //Ouverture d'un fichier en lecture
+    if(!monFlux) {
+        qWarning()<< "ERREUR: Impossible d'ouvrir le fichier en lecture." << endl;
+    }
 
-    for (MyMesh::VertexIter curVert = myMeshContour.vertices_begin(); curVert != myMeshContour.vertices_end(); curVert++)
+    vector<QVector3D> myVec;
+
+    QVector3D P;
+    int dim=0;
+    double tmp;
+    while (monFlux >> tmp)
     {
-        VertexHandle vh = *curVert;
-        MyMesh::Point P = myMeshContour.point(vh);
+        if (dim>=3)
+        {
+            myVec.push_back(P);
+            dim=0;
+        }
+        switch(dim)
+        {
+        case 0:
+            P.setX(tmp);
+            //            cout << "x = " << tmp << "\t";
+            break;
+        case 1:
+            P.setY(tmp);
+            //            cout << "y = " << tmp << "\t";
+            break;
+        case 2:
+            P.setZ(tmp);
+            //            cout << "z = " << tmp << endl;
+        default:
+            break;
+        }
+        dim++;
+    }
+
+
+    qDebug() << "\t</" << __FUNCTION__ << ">";
+
+    return myVec;
+}
+
+Contour::Contour(MyMesh &_mesh, char *path) :
+    mesh(_mesh)
+{
+    qDebug() << "<" << __FUNCTION__ << ">";
+
+    vector<QVector3D> myVec = loadCloud(path);
+
+    vector<int> tmp;
+
+    for (auto v : myVec)
+    {
+        MyMesh::Point P (v.x(), v.y(), v.z());
         int numVertex = UtilsMesh::find_near_vertex_of_point(&mesh, P);
         if ( ! Utils::is_in_vector(this->verticesContour, static_cast<unsigned>(numVertex))) {
             //this->add_vertex(numVertex);
@@ -123,48 +168,48 @@ Contour::Contour(MyMesh &_mesh, char *path) :
     }
     Utils::suppr_occur(tmp);
 
-    qDebug() << "\t\tnb de sommets contour = " << tmp.size();
-
-    /////////////// V1 ////////////////
-    //    int id=-1;
-    //    if (tmp.size()>=4)
-    //    {
-    //        id = add_vertex(search_borne_dim(tmp, 0, false));
-    //        id = add_vertex(search_borne_dim(tmp, 1, true));
-    //        id = add_vertex(search_borne_dim(tmp, 0, true));
-    //        id = add_vertex(search_borne_dim(tmp, 1, false));
-    //    }
-
-    /////////////// V2 ////////////////
-    int id = 0;
-    for (unsigned i=0; i<tmp.size()  ; i++)
-    {
-        //        qDebug() << "\t\ti=" << i;
-        if (i==0) {
-            this->add_vertex(tmp[i]);
-            id = tmp[i];
-        }
-        else
-        {
-            id = search_min_dist_vertex_from_vertex(tmp, id);
-            if (id<0) {
-                qWarning() << "in" << __FUNCTION__ << ": id < 0";
-                exit (2);
-            }
-            add_vertex(id);
-        }
+    for (auto t : tmp) {
+        this->add_vertex(t);
     }
 
-    qDebug() << "\t</" << __FUNCTION__ << ">";
+    qDebug() << "</" << __FUNCTION__ << ">";
 }
 
 unsigned Contour::get_start()   {   return startPoint;  }
 unsigned Contour::get_end()     {   return endPoint;    }
 
 vector<unsigned> Contour::get_contour() {   return verticesContour; }
+void Contour::set_contour(vector<unsigned> tmp)
+{
+    verticesContour.clear();
+    for (auto v : tmp) {
+        add_vertex(v);
+    }
+}
 
 
 ///////////////////////////// AUTRES   ////////////////////////////////////////
+
+/*------------------------------------------------------------------------------
+ * Réduit le nombre de sommets dans @verticesContour
+ * à partir d'une valeur modulo.
+ * (exemple: on ne garde que les id de sommets (dans le tableau@verticesContour)
+ * dont le modulo @moduloVal vaut 0)
+ * ----------------------------------------------------------------------------*/
+void Contour::reduct(int moduloVal)
+{
+    if (moduloVal < 0)     moduloVal *= -1;
+    if (moduloVal == 0)    moduloVal = 1;
+
+    vector<unsigned> tmp;
+    for (unsigned v=0; v<verticesContour.size(); v++)
+    {
+        if (v%moduloVal==0) {
+            tmp.push_back(verticesContour[v]);
+        }
+    }
+    this->set_contour(tmp);
+}
 
 void Contour::display(int profDisplay, bool flagColor)
 {
@@ -194,16 +239,6 @@ void Contour::display(int profDisplay, bool flagColor)
     qDebug() << cprof << "\tend =" << endPoint;
 
     qDebug() << cprof << "</" << __FUNCTION__ << ">";
-}
-
-/* Attention obsolète: à remanier.*/
-void Contour::add_edge(unsigned numEdge)
-{
-    if (edgesContour.empty())
-        startPoint = numEdge;
-
-    edgesContour.push_back(numEdge);
-    endPoint = numEdge;
 }
 
 void Contour::add_vertex(unsigned numVertex)

@@ -1,0 +1,9 @@
+A voir si on fusionne avec le projet Qt.
+
+En attendant tout ce qui touche au contour et nuage de points sera mis ici.
+
+Compilation:
+	aller dans le répertoire buil d'un projet et entrer la commande
+	$ cmake ..
+	Ensuite:
+	$ make [-j]

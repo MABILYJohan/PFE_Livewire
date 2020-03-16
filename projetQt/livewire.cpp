@@ -10,16 +10,6 @@ LiveWire::LiveWire(MyMesh &_mesh, int _vertexSeed, MyMesh::Point _sightPoint) :
 {
     qDebug() << "\t\t<" << __FUNCTION__ << ">";
 
-    // INIT MIN ET MAX CURVATURE pour plage [0,1]
-    vector<double> tabcurv;
-    for (MyMesh::VertexIter curVert = mesh.vertices_begin(); curVert != mesh.vertices_end(); curVert++)
-    {
-        VertexHandle vh = *curVert;
-        tabcurv.push_back(abs(K_Curv(&mesh, vh.idx())));
-    }
-    this->minCurv = *std::min_element(tabcurv.begin(), tabcurv.end());
-    this->maxCurv = *std::max_element(tabcurv.begin(), tabcurv.end());
-
     qsrand(time(NULL));
     init_criterions();
     display_criterions(3);
@@ -35,11 +25,11 @@ vector<int> LiveWire::get_paths()  {   return paths;   }
  * ----------------------------------------------------------------------------*/
 void LiveWire::init_criterions()
 {
-    // ATTENTION à l'odre
+    // ATTENTION à l'ordre
     criteres.clear();
     criteres.push_back(LENGTH);
     criteres.push_back(DIEDRAL);
-    //    criteres.push_back(CURVATURE);
+    criteres.push_back(CURVATURE);
     criteres.push_back(NORMAL_OR);
     criteres.push_back(VISIBILITY);
     criteres.push_back(STROKE_DIST);
@@ -50,6 +40,16 @@ void LiveWire::init_criterions()
             nb_criterions_preload++;
         }
     }
+
+    // INIT MIN ET MAX CURVATURE pour plage [0,1]
+    vector<double> tabcurv;
+    for (MyMesh::VertexIter curVert = mesh.vertices_begin(); curVert != mesh.vertices_end(); curVert++)
+    {
+        VertexHandle vh = *curVert;
+        tabcurv.push_back(abs(K_Curv(&mesh, vh.idx())));
+    }
+    this->minCurv = *std::min_element(tabcurv.begin(), tabcurv.end());
+    this->maxCurv = *std::max_element(tabcurv.begin(), tabcurv.end());
 
     tabCosts.clear();
     vector<double> tmpVec;
@@ -190,42 +190,30 @@ double LiveWire::criterion_normal_orientation(EdgeHandle eh, MyMesh::Point _sigh
     //    return fabs(cost);
 }
 
-float LiveWire::angleEE(MyMesh* _mesh, int vertexID,  int faceID)
+float LiveWire::angleEE(MyMesh* _mesh, int vertexID, int faceID)
 {
-    MyMesh::Point v1;
-    MyMesh::Point v2;
-    FaceHandle fhId = _mesh->face_handle(faceID);
-    VertexHandle vhId = _mesh->vertex_handle(vertexID);
-    std::vector<VertexHandle> vh;
-    for (MyMesh::FaceVertexCWIter fv_it = _mesh->fv_cwiter(fhId); fv_it.is_valid(); fv_it++)
-    {
-        vh.push_back(*fv_it);
-    }
+    FaceHandle face_h = _mesh->face_handle(faceID);
+    QVector<QVector3D> points;
+    QVector3D point_origine;
 
-    MyMesh::Point A;
-    MyMesh::Point B;
-    MyMesh::Point C;
-    for (unsigned i=0; i<vh.size(); i++)
-    {
-        if (vh[i] == vhId) {
-            A = _mesh->point (vh[i]);
-            int k=i+1;
-            if (k>=static_cast<int>(vh.size())) k=0;
-            B = _mesh->point (vh[k]);
-            k++;
-            if (k>=static_cast<int>(vh.size())) k=0;
-            C = _mesh->point (vh[k]);
-            break;
+    // on cherche le point d'origine
+    for(MyMesh::FaceVertexIter curVer = _mesh->fv_begin(face_h); curVer.is_valid(); curVer++) {
+        VertexHandle vertex_h = *curVer;
+
+        if(vertex_h.idx() == vertexID) {
+            point_origine = QVector3D(_mesh->point(vertex_h)[0],_mesh->point(vertex_h)[1],_mesh->point(vertex_h)[2]);
+        }
+        else {
+            points.push_back(QVector3D(_mesh->point(vertex_h)[0],_mesh->point(vertex_h)[1],_mesh->point(vertex_h)[2]));
         }
     }
-    v1 = B-A;
-    v2 = C-A;
-    v1.normalize();
-    v2.normalize();
 
-    float angle = acos((v1 | v2));
+    QVector3D vecteur1 = points[1] - point_origine;
+    QVector3D vecteur2 = points[0] - point_origine;
+    vecteur1.normalize();
+    vecteur2.normalize();
 
-    return angle;
+    return acos(QVector3D::dotProduct(vecteur1, vecteur2));
 }
 
 float LiveWire::faceArea(MyMesh* _mesh, int faceID)

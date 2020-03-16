@@ -153,7 +153,7 @@ public:
         pushButton_chargement->setText(QApplication::translate("MainWindow", "Charger OBJ", Q_NULLPTR));
         pushButton_generer->setText(QApplication::translate("MainWindow", "G\303\251n\303\251rer mesh", Q_NULLPTR));
         pushButton_livewire->setText(QApplication::translate("MainWindow", "Lvewire", Q_NULLPTR));
-        pushButton_vizuContour->setText(QApplication::translate("MainWindow", "Vizu contour nuage de points", Q_NULLPTR));
+        pushButton_vizuContour->setText(QApplication::translate("MainWindow", "Vizu Contour nuageDePoints", Q_NULLPTR));
         label->setText(QApplication::translate("MainWindow", "testChoice", Q_NULLPTR));
     } // retranslateUi
 
