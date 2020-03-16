@@ -4,6 +4,15 @@
 #ifndef EXTRACTCONTOUR_H
 #define EXTRACTCONTOUR_H
 
+/*!
+ * \file extractContour.h
+ * \brief contains class of border extraction.
+ * \author Johan MABILY
+ * \author Erwan LERIA
+ * \author Pierre MATTIOLI
+ * \version 1.0
+ */
+
 #include <iostream>
 #include <fstream>
 
@@ -28,40 +37,42 @@ using namespace pcl::search;
 
 typedef pcl::PointXYZ PointType;
 
+/*! \class ExtractContour
+   * \brief class which extract borders of a .pcd file
+   */
 class ExtractContour
 {
 public:
+
+    /**
+     * \brief Builder
+     *
+     * \param _angular_resolution : angular resolution in degrees
+     * \param _setUnseenToMaxRange : Treat all unseen points to max range
+     * \param _b_vizu : display or not the viewer
+     *
+     * \return a pointer on the points cloud of type PointCloud<PointXYZ>::Ptr
+     */
     ExtractContour (float _angular_resolution=0.5, bool _setUnseenToMaxRange=true,
                     bool _b_vizu=false);
 
     bool b_vizu = false;
 
-    void read_pcd_file(int argc, char** argv);
+    //    void read_pcd_file(int argc, char** argv);
 
+    /**
+     * \brief extract borders
+     *
+     * extract borders of the points cloud, and put it into a .xyz file
+     *
+     * \param filename : the path of the file
+     */
     void extract(const string &filename);
 
 private:
     float angular_resolution = 0.5f;
     pcl::RangeImage::CoordinateFrame coordinate_frame = pcl::RangeImage::CAMERA_FRAME;
     bool setUnseenToMaxRange = true;
-
-    //    pcl::PointCloud<PointType>& truc;
-    //    pcl::PointCloud<PointType>::Ptr point_cloud_ptr;
-    //    pcl::PointCloud<pcl::PointWithViewpoint> far_ranges;
-    //    Eigen::Affine3f scene_sensor_pose;
-
-    //    pcl::RangeImage::Ptr range_image_ptr;
-
-    //    pcl::visualization::PCLVisualizer viewer;
-
-    //    pcl::PointCloud<pcl::BorderDescription> border_descriptions;
-    //    pcl::PointCloud<pcl::PointWithRange>::Ptr border_points_ptr;
-    //    pcl::PointCloud<pcl::PointWithRange>::Ptr veil_points_ptr;
-    //    pcl::PointCloud<pcl::PointWithRange>::Ptr shadow_points_ptr;
-
-    void create_range_image();
-    void set_viewer_3D();
-    void extract_borders();
 };
 
 

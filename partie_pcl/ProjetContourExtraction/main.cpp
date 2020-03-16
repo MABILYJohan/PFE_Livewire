@@ -1,3 +1,11 @@
+/*!
+ * \file main.cpp
+ * \brief module principal pour lancer le programme
+ * \author Johan MABILY
+ * \author Erwan LERIA
+ * \author Pierre MATTIOLI
+ * \version 1.0
+ */
 
 #include <iostream>
 #include <fstream>
@@ -5,14 +13,21 @@
 #include "extractContour.h"
 #include "utilsPcl.h"
 
+/**
+* \brief Display help
+*
+* Display how to use the program
+*/
 void printHelp (int, char **argv)
 {
     print_error ("Syntax is: %s input.xyz[or .txt] output.pcd\n", argv[0]);
 }
 
-// --------------
-// -----Main-----
-// --------------
+/**
+* \brief Main function of the program
+*
+* Read .xyz file, and convert into .pcd file, and extract borders into an other .xyz file.
+*/
 int main(int argc, char** argv)
 {
 
