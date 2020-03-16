@@ -54,7 +54,7 @@ vector<unsigned> MainWindow::get_verticesID(int _testChoice)
         tmpPoints.push_back(MyMesh::Point(0.240f, 0.001f, 0.247f));
         tmpPoints.push_back(MyMesh::Point(0.289f, -0.092f, 0.258f));
         tmpPoints.push_back(MyMesh::Point(0.269f, -0.199f, 0.244f));
-        tmpPoints.push_back(MyMesh::Point(0.022f, -0.129f, 0.198f));
+        //tmpPoints.push_back(MyMesh::Point(0.022f, -0.129f, 0.198f));
         break;
     case(4):
         tmpPoints.push_back(MyMesh::Point(-0.167f, 0.360f, -0.006f));
@@ -115,12 +115,12 @@ void MainWindow::make_livewire()
 
     //    vector<unsigned> tmpVertices = {0, 15, 65, 75};
 
-    //    vector<unsigned> tmpVertices = get_verticesID(testChoice);
-    //    Contour myContour(mesh, tmpVertices);
+    vector<unsigned> tmpVertices = get_verticesID(testChoice);
+    Contour myContour(mesh, tmpVertices);
 
     //    char path[70] = {"../donneesPFE M2GIG/MySon/Test/Contour/contour_visibleVersion.obj\0"};
-    char path[80] = {"../donneesPFE M2GIG/MySon/Test/Contour/contour_low_visibleVersion.obj\0"};
-    Contour myContour(mesh, path);
+    //char path[80] = {"../donneesPFE M2GIG/MySon/Test/Contour/contour_low_visibleVersion.obj\0"};
+    //Contour myContour(mesh, path);
 
     myContour.display(1, true);
 

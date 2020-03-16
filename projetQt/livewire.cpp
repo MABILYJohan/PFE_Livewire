@@ -41,8 +41,8 @@ void LiveWire::init_criterions()
     criteres.push_back(DIEDRAL);
     //    criteres.push_back(CURVATURE);
     criteres.push_back(NORMAL_OR);
-    //    criteres.push_back(VISIBILITY);
-    //    criteres.push_back(STROKE_DIST);
+    criteres.push_back(VISIBILITY);
+    criteres.push_back(STROKE_DIST);
 
     unsigned nb_criterions_preload=0;
     for(auto c : criteres) {
@@ -306,13 +306,46 @@ double LiveWire::criterion_visibility(EdgeHandle eh)
             //            return static_cast<double>(INT_MAX)-1.0;
             return distMax;
         }
+
         EdgeHandle ehPath = mesh.edge_handle(idEdgePath);
         MyMesh::Point pTest = mesh.calc_edge_midpoint(ehPath);
         double distEuclid = Utils::distance_euclidienne(myP[0], myP[1], myP[2],
                 pTest[0], pTest[1], pTest[2]);
+
         if (distMin >= distEuclid) {
             distMin = distEuclid;
         }
+
+        HalfedgeHandle heh = mesh.halfedge_handle(ehPath, 0);
+        MyMesh::Point from, to;
+        to = mesh.point(mesh.to_vertex_handle(heh));
+        from = mesh.point(mesh.from_vertex_handle(heh));
+
+        HalfedgeHandle start = mesh.halfedge_handle(EdgeHandle(pathEdges.front()), 0);
+        MyMesh::Point start_from, start_to;
+        start_to = mesh.point(mesh.to_vertex_handle(start));
+        start_from = mesh.point(mesh.from_vertex_handle(start));
+
+        HalfedgeHandle end = mesh.halfedge_handle(EdgeHandle(pathEdges.back()), 0);
+        MyMesh::Point end_from, end_to;
+        end_to = mesh.point(mesh.to_vertex_handle(end));
+        end_from = mesh.point(mesh.from_vertex_handle(end));
+
+        QVector3D a(to.data()[0], to.data()[1], to.data()[2]);
+        QVector3D b(start_to.data()[0], start_to.data()[2], start_to.data()[3]);
+
+        double max_dist = Utils::distance_euclidienne(to.data()[0], to.data()[1], to.data()[2], start_to.data()[0], start_to.data()[2], start_to.data()[3]);
+
+        max_dist = max(max_dist, Utils::distance_euclidienne(to.data()[0], to.data()[1], to.data()[2], start_from.data()[0], start_from.data()[2], start_from.data()[3]));
+        max_dist = max(max_dist, Utils::distance_euclidienne(to.data()[0], to.data()[1], to.data()[2], end_from.data()[0], end_from.data()[2], end_from.data()[3]));
+        max_dist = max(max_dist, Utils::distance_euclidienne(to.data()[0], to.data()[1], to.data()[2], end_to.data()[0], end_to.data()[2], end_to.data()[3]));
+
+        max_dist = max(max_dist, Utils::distance_euclidienne(from.data()[0], from.data()[1], from.data()[2], end_to.data()[0], end_to.data()[2], end_to.data()[3]));
+        max_dist = max(max_dist, Utils::distance_euclidienne(from.data()[0], from.data()[1], from.data()[2], start_to.data()[0], start_to.data()[2], start_to.data()[3]));
+        max_dist = max(max_dist, Utils::distance_euclidienne(from.data()[0], from.data()[1], from.data()[2], start_from.data()[0], start_from.data()[2], start_from.data()[3]));
+        max_dist = max(max_dist, Utils::distance_euclidienne(from.data()[0], from.data()[1], from.data()[2], end_from.data()[0], end_from.data()[2], end_from.data()[3]));
+
+        distMin = max(max_dist, distMin);
     }
 
     double cost = 0;
@@ -326,12 +359,6 @@ double LiveWire::criterion_visibility(EdgeHandle eh)
         cost = rad_thickness/(distMin);
     }
 
-    /*
-     *
-     *
-     *     double cost = (distMax -(distMin+5));
-     *     return cost;
-     */
 
     return cost;
 }
@@ -519,7 +546,75 @@ void LiveWire::build_paths(int vertexNext, bool close)
     qDebug() << "\t\t</" << __FUNCTION__ << ">";
 }
 
+void LiveWire::build_paths_noEdgeSeed(int vertexNext, bool close)
+{
+    qDebug() << "\t\t<" << __FUNCTION__ << ">";
 
+    // Init
+
+    vector<double> costEdges(mesh.n_edges(), static_cast<double>(INT_MAX));
+    vector<bool> edgesVisited(mesh.n_edges(), false);
+    vector<int> activeList;
+
+    int first_edge = 0;
+    int tmp = INT_MAX;
+    for(auto ve = mesh.ve_iter(VertexHandle(vertexNext)) ; ve.is_valid() ; ve++)
+    {
+
+        int cost_tmp = cost_function(ve->idx(), close);
+        if(cost_tmp < tmp)
+        {
+            first_edge = ve->idx();
+            tmp = cost_tmp;
+        }
+    }
+
+    edgeSeed = first_edge;
+    costEdges[edgeSeed] = 0.0;
+
+    activeList.push_back(edgeSeed);
+
+    paths = vector<int>(mesh.n_edges(), -1);
+
+    if (Utils::is_in_vector(criteres, static_cast<int>(VISIBILITY))
+            || Utils::is_in_vector(criteres, static_cast<int>(STROKE_DIST))) {
+        myDijkstra.calc_path(&mesh, vertexNext);
+    }
+
+    // WARNING --> BEGIN PAS INITIALISE DANS PATHS...
+
+    while (!activeList.empty())
+    {
+        int curEdge = get_minCostEdge_from_activeList(activeList, costEdges);
+        Utils::erase_elt(activeList, curEdge);
+        edgesVisited[curEdge] = true;
+
+        // Voisinage
+        vector<EdgeHandle> ehs = UtilsMesh::get_edgeEdge_circulator(&mesh, curEdge);
+        for (auto eh : ehs)
+        {
+            int edgeNeigh = eh.idx();
+
+            // Si déjà visité
+            if (edgesVisited[edgeNeigh])    continue;
+
+            double tmpCost = costEdges[curEdge] + cost_function(edgeNeigh, close) ;
+
+            // Voisin dans liste active ET  coût calculé inférieur au coût enregistré
+            if (Utils::is_in_vector(activeList, edgeNeigh) &&  tmpCost < costEdges[edgeNeigh]) {
+                Utils::erase_elt(activeList, edgeNeigh);
+            }
+            // Voisin pas dans la lsite active
+            else if ( ! Utils::is_in_vector(activeList, edgeNeigh)) {
+                costEdges[edgeNeigh] = tmpCost;
+                paths[edgeNeigh] = curEdge;
+                activeList.push_back(edgeNeigh);
+            }
+        }
+    }
+
+    qDebug() << "\t\t</" << __FUNCTION__ << ">";
+}
 ///////////////////////////////////  AUTRES   ////////////////////////////////////////////////
 
 /*------------------------------------------------------------------------------

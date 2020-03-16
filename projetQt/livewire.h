@@ -88,6 +88,8 @@ public:
      * \param close : boolean pour savoir si le chemin qui va être calculé fermera le contour
     */
     void build_paths(int vertexNext, bool close=false);
+    void build_paths_noEdgeSeed(int vertexNext, bool close=false);
+
 
 
     /**
