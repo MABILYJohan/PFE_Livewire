@@ -52,6 +52,7 @@ void ExtractContour::extract(const string &filename)
     range_image.createFromPointCloud (point_cloud, angular_resolution, pcl::deg2rad (360.0f), pcl::deg2rad (180.0f),
                                       scene_sensor_pose, coordinate_frame, noise_level, min_range, border_size);
     range_image.integrateFarRanges (far_ranges);
+
     if (setUnseenToMaxRange)
         range_image.setUnseenToMaxRange ();
 

@@ -26,7 +26,8 @@ void printHelp (int, char **argv)
 /**
 * \brief Main function of the program
 *
-* Read .xyz file, and convert into .pcd file, and extract borders into an other .xyz file.
+* Read .xyz file and extract borders of the points cloud.
+* \return contour.xyz, contour.obj
 */
 int main(int argc, char** argv)
 {
@@ -35,13 +36,11 @@ int main(int argc, char** argv)
     // -----INIT-----
     // --------------
     print_info ("Convert a simple XYZ file to PCD format. For more information, use: %s -h\n", argv[0]);
-
     if (argc < 3)
     {
         printHelp (argc, argv);
         return (-1);
     }
-
     // Parse the command line arguments for .pcd and .ply files
     std::vector<int> pcd_file_indices = parse_file_extension_argument (argc, argv, ".pcd");
     std::vector<int> xyz_file_indices = parse_file_extension_argument (argc, argv, ".xyz");
@@ -53,11 +52,11 @@ int main(int argc, char** argv)
         print_error ("Need one input XYZ (or txt) file and one output PCD file.\n");
         return (-1);
     }
-
     // Load the first file
     PointCloud<PointXYZ> cloud;
     if (!UtilsPcl::loadCloud_from_xyzFile (argv[xyz_file_indices[0]], cloud))
         return (-1);
+
 
     // ---------------------------------
     // -----Convert to pcd and save-----
@@ -65,11 +64,31 @@ int main(int argc, char** argv)
     PCDWriter w;
     w.writeBinaryCompressed (argv[pcd_file_indices[0]], cloud);
 
-    // ----------------------------------
-    // -----Extract borders and save-----
-    // ----------------------------------
+
+    // -------------------------------------------------
+    // -----Extract borders and save into .xyz file-----
+    // -------------------------------------------------
     ExtractContour myExtractor(0.5, true, false);
     myExtractor.extract(argv[pcd_file_indices[0]]);
+
+
+    // ----------------------------------
+    // -----Convert contour to .obj -----
+    // ----------------------------------
+    PointCloud<PointXYZ> cloud2;
+    // Contour to pcd
+    if (!UtilsPcl::loadCloud_from_xyzFile ("contour.xyz", cloud2))
+        return (-1);
+    PCDWriter w2;
+    w2.writeBinaryCompressed ("contour.pcd", cloud2);
+    UtilsPcl::convert_file("contour.pcd", "contour.obj");
+
+
+    // ----------------------------------
+    // -----Remove unutils files --------
+    // ----------------------------------
+    remove(argv[pcd_file_indices[0]]);
+    remove("contour.pcd");
 
     return 0;
 }
