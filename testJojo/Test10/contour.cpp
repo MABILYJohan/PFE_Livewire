@@ -97,9 +97,9 @@ int Contour::search_borne_dim(vector<int> tmp, int dim, bool b_max)
     return idRes;
 }
 
-/*---------------------------------------------------------------------
- * Pour charger un contour à partir d'un maillage / nuage de points
- * ------------------------------------------------------------------*/
+///*---------------------------------------------------------------------
+// * Pour charger un contour à partir d'un maillage / nuage de points
+// * ------------------------------------------------------------------*/
 //Contour::Contour(MyMesh &_mesh, char *path) :
 //    mesh(_mesh)
 //{
@@ -202,7 +202,6 @@ vector<QVector3D> Contour::loadCloud(const string &filename)
         dim++;
     }
 
-
     qDebug() << "\t</" << __FUNCTION__ << ">";
 
     return myVec;
@@ -228,9 +227,30 @@ Contour::Contour(MyMesh &_mesh, char *path) :
     }
     Utils::suppr_occur(tmp);
 
-    for (auto t : tmp) {
-        this->add_vertex(t);
+    /////////////// V2 ////////////////
+    int id = 0;
+    for (unsigned i=0; i<tmp.size()  ; i++)
+    {
+        //        qDebug() << "\t\ti=" << i;
+        if (i==0) {
+            this->add_vertex(tmp[i]);
+            id = tmp[i];
+        }
+        else
+        {
+            id = search_min_dist_vertex_from_vertex(tmp, id);
+            if (id<0) {
+                qWarning() << "in" << __FUNCTION__ << ": id < 0";
+                exit (2);
+            }
+            add_vertex(id);
+        }
     }
+
+    // V3
+    //    for (auto t : tmp) {
+    //        this->add_vertex(t);
+    //    }
 
     qDebug() << "</" << __FUNCTION__ << ">";
 }

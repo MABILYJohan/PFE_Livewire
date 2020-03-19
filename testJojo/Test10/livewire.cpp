@@ -523,9 +523,12 @@ void LiveWire::draw(unsigned vertex2)
     //    }
 
 
-    int red = Utils::randInt(0, 255);
-    int blue = Utils::randInt(0, 255);
-    int green = Utils::randInt(0, 255);
+//    int red = Utils::randInt(0, 255);
+//    int blue = Utils::randInt(0, 255);
+//    int green = Utils::randInt(0, 255);
+    int red = 255;
+    int blue = 0;
+    int green = 0;
 
     EdgeHandle eh1 = mesh.edge_handle(edgeSeed);
     EdgeHandle eh2 = get_edge_seed(vertex2, vertexSeed);
@@ -539,7 +542,7 @@ void LiveWire::draw(unsigned vertex2)
         for (auto eh : ehs)
         {
             if (eh.idx()==paths[curEdge]) {
-                mesh.set_color(eh, MyMesh::Color(red, blue, green));
+                mesh.set_color(eh, MyMesh::Color(red, green, blue));
                 mesh.data(eh).thickness = 6;
             }
         }

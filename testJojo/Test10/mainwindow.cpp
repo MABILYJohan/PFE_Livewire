@@ -121,9 +121,9 @@ void MainWindow::make_livewire()
     //    char path[70] = {"../donneesPFE M2GIG/MySon/Test/Contour/contour_visibleVersion.obj\0"};
     //    char path[80] = {"../masks3D_Myson_02_contour.obj\0"};
     //    char path[80] = {"../../donneesPFE M2GIG/Siva/Test/mask_048_1_contour.xyz\0"};
-    char path[80] = {"../contour.xyz\0"};
+    char path[80] = {"../maks3D_Myson_02.xyz\0"};
     Contour myContour(mesh, path);
-    myContour.reduct(2);
+    myContour.reduct(3);
 
     myContour.display(1, true);
 
@@ -143,7 +143,7 @@ void MainWindow::make_livewire()
  * -----------------------------------------------------------------------*/
 void MainWindow::vizuContour(int displayDist)
 {
-    char path[80] = {"../contour.obj\0"};
+    char path[80] = {"../maks3D_Myson_02.obj\0"};
     MyMesh myMeshContour;
     OpenMesh::IO::read_mesh(myMeshContour, path);
     vector<MyMesh::Point> myPoints;
@@ -177,7 +177,7 @@ void MainWindow::on_pushButton_livewire_clicked()
 void MainWindow::on_pushButton_vizuContour_clicked()
 {
     qDebug() <<"<" << __FUNCTION__ << "The event sender is" << sender() << ">";
-    vizuContour(1);
+    vizuContour(0);
     qDebug() << "</" << __FUNCTION__ << ">";
 }
 

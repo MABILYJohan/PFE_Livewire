@@ -81,15 +81,14 @@ public:
      * \brief Construit les chemins pour le livewire
      *
      * Construit les chemins pour le livewire (dans @paths).
+     * Le chemin est composé de sommets.
      * @vertexNext pour le critère de visibilité avec dijkstra.
-     * Pensez au cas où à bien mettre à jour @vertexSeed avant d'utiliser la focntion.
+     * Pensez au cas où à bien mettre à jour @vertexSeed avant d'utiliser la fonction.
      *
      * \param vertexNext : vertex suivant pour le critère de visibilité utilisant Dijkstra
      * \param close : boolean pour savoir si le chemin qui va être calculé fermera le contour
     */
     void build_paths(int vertexNext, bool close=false);
-    void build_paths_noEdgeSeed(int vertexNext, bool close=false);
-
 
 
     /**

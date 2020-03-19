@@ -66,7 +66,11 @@ vector<unsigned> MainWindow::get_verticesID(int _testChoice)
         tmpPoints.push_back(MyMesh::Point(0.355f, -0.330f, 0.107f));
         break;
 
-    //////////////////  AUTRES   /////////////////////
+    //////////////////  CUBE   /////////////////////
+    case(6):
+        tmpPoints.push_back(MyMesh::Point(1.f, 1.f, 1.f));
+        tmpPoints.push_back(MyMesh::Point(-1.f, -1.f, -1.f));
+        break;
 
     default:
         qDebug() << "TEST NOT DEFINED";
@@ -115,11 +119,10 @@ void MainWindow::make_livewire()
 
     //    vector<unsigned> tmpVertices = {0, 15, 65, 75};
 
-    /* Test lapin */
-    /*
-    vector<unsigned> tmpVertices = get_verticesID(testChoice);
-    Contour myContour(mesh, tmpVertices);
-*/
+    //    // Test lapin
+    //    vector<unsigned> tmpVertices = get_verticesID(testChoice);
+    //    Contour myContour(mesh, tmpVertices);
+
     //    char path[70] = {"../donneesPFE M2GIG/MySon/Test/Contour/contour_visibleVersion.obj\0"};
     //char path[80] = {"../donneesPFE M2GIG/MySon/Test/Contour/contour_low_visibleVersion.obj\0"};
     //Contour myContour(mesh, path);
