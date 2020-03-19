@@ -64,6 +64,17 @@ int main(int argc, char** argv)
     PCDWriter w;
     w.writeBinaryCompressed (argv[pcd_file_indices[0]], cloud);
 
+    // -------------------------------------------
+    // -----Convert original to .obj -------------
+    // -------------------------------------------
+    PointCloud<PointXYZ> cloud3;
+    // Contour to pcd
+    if (!UtilsPcl::loadCloud_from_xyzFile (argv[pcd_file_indices[0]], cloud3))
+        return (-1);
+    PCDWriter w3;
+    w3.writeBinaryCompressed ("meshBase.pcd", cloud3);
+    UtilsPcl::convert_file("meshBase.pcd", "meshBase.obj");
+
 
     // -------------------------------------------------
     // -----Extract borders and save into .xyz file-----
@@ -89,6 +100,7 @@ int main(int argc, char** argv)
     // ----------------------------------
     remove(argv[pcd_file_indices[0]]);
     remove("contour.pcd");
+    remove("meshBase.pcd");
 
     return 0;
 }
