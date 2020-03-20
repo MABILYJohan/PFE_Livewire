@@ -69,7 +69,7 @@ int main(int argc, char** argv)
     // -------------------------------------------
     PointCloud<PointXYZ> cloud3;
     // Contour to pcd
-    if (!UtilsPcl::loadCloud_from_xyzFile (argv[pcd_file_indices[0]], cloud3))
+    if (!UtilsPcl::loadCloud_from_xyzFile (argv[xyz_file_indices[0]], cloud3))
         return (-1);
     PCDWriter w3;
     w3.writeBinaryCompressed ("meshBase.pcd", cloud3);
