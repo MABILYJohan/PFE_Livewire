@@ -129,7 +129,7 @@ void MainWindow::make_livewire()
     //    char path[80] = {"../donneesPFE M2GIG/MySon/Test/Contour/contour_low_visibleVersion.obj\0"};
     char path[80] = {"../contour.xyz\0"};
     Contour myContour(mesh, path);
-    myContour.reduct(1);
+    myContour.reduct(8);
 
     myContour.display(1, true);
 
@@ -184,7 +184,7 @@ void MainWindow::on_pushButton_livewire_clicked()
 void MainWindow::on_pushButton_vizuContour_clicked()
 {
     qDebug() <<"<" << __FUNCTION__ << "The event sender is" << sender() << ">";
-    vizuContour(3);
+    vizuContour(4);
     qDebug() << "</" << __FUNCTION__ << ">";
 }
 

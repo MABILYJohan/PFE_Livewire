@@ -34,7 +34,7 @@ void LiveWire::init_criterions()
     criteres.push_back(NORMAL_OR);
     criteres.push_back(VISIBILITY);
     criteres.push_back(STROKE_DIST);
-    criteres.push_back(ANGLE_EE);
+    //    criteres.push_back(ANGLE_EE);
 
     unsigned nb_criterions_preload=0;
     for(auto c : criteres) {
@@ -677,8 +677,8 @@ void LiveWire::draw(unsigned vertex2)
     // point de départ et point d'arrivée en rouge et en gros
     VertexHandle vhSeed = mesh.vertex_handle(vertexSeed);
     VertexHandle vhEnd = mesh.vertex_handle(vertex2);
-    mesh.set_color(vhSeed, MyMesh::Color(255, 0, 0));
-    mesh.set_color(vhEnd, MyMesh::Color(255, 0, 0));
+    mesh.set_color(vhSeed, MyMesh::Color(0, 255, 0));
+    mesh.set_color(vhEnd, MyMesh::Color(0, 255, 0));
     mesh.data(vhSeed).thickness = 20;
     mesh.data(vhEnd).thickness = 20;
 
