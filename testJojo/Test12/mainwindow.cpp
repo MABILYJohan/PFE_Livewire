@@ -130,7 +130,7 @@ void MainWindow::make_livewire()
     //    char path[80] = {"../../donneesPFE M2GIG/Siva/Test/mask_048_1_contour.xyz\0"};
     char path[80] = {"../contour.xyz\0"};
     Contour myContour(mesh, path);
-    myContour.reduct(1);
+    myContour.reduct(2);
 
     myContour.display(1, true);
 
