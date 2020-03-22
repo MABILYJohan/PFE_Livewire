@@ -465,7 +465,7 @@ double LiveWire::criterion_angleEE(int vertexCur, EdgeHandle eh1)
     vecteur1.normalize();
     vecteur2.normalize();
 
-    return acos(QVector3D::dotProduct(vecteur1, vecteur2));
+    return 2*M_PI-acos(QVector3D::dotProduct(vecteur1, vecteur2));
 }
 
 ///////////////////////////////////  ALGO   ////////////////////////////////////////////////
