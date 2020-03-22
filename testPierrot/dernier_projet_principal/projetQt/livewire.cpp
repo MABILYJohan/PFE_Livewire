@@ -34,7 +34,6 @@ void LiveWire::init_criterions()
     criteres.push_back(NORMAL_OR);
     criteres.push_back(VISIBILITY);
     criteres.push_back(STROKE_DIST);
-    criteres.push_back(ANGLE_EE);
 
     unsigned nb_criterions_preload=0;
     for(auto c : criteres) {
@@ -139,8 +138,6 @@ void LiveWire::display_criterions(int profDisplay)
         case(STROKE_DIST):
             qDebug() << cprof <<"\tSTROKE_DIST";
             break;
-        case(ANGLE_EE):
-            qDebug() << cprof <<"\tANGLE_EE";
         default:
             break;
         }
@@ -393,76 +390,9 @@ double LiveWire::criterion_stroke_distance(EdgeHandle eh)
     return cost;
 
 }
-
-/************************* PARTIE CRITERE ANGLE_EE ***************************/
-
-EdgeHandle get_edge_of_vertex(MyMesh *_mesh, int vertexCur, int vertexPrec)
-{
-    VertexHandle vhCur = _mesh->vertex_handle(vertexCur);
-    EdgeHandle eh;
-    for (MyMesh::VertexEdgeCWIter ve_it = _mesh->ve_cwiter(vhCur); ve_it.is_valid(); ve_it++)
-    {
-        VertexHandle vh0, vh1;
-        eh = *ve_it;
-        UtilsMesh::get_vh_of_edge(_mesh, eh.idx(), vh0, vh1);
-        if (((vh0.idx()==vertexCur) && (vh1.idx()==vertexPrec)) || ((vh1.idx()==vertexCur) && (vh0.idx()==vertexPrec))) break;
-    }
-    return eh;
-}
-
-double LiveWire::criterion_angleEE(int vertexCur, EdgeHandle eh1)
-{
-    QVector<QVector3D> points;
-    QVector3D point_origine;
-
-    int vertexPrec = paths[vertexCur]; //on recupere le vertex precedent du vertex courant
-    EdgeHandle eh0 = get_edge_of_vertex(&mesh, vertexCur, vertexPrec); //on recupere l'arete precedente de l'arete courante
-
-    VertexHandle vh0_edge0, vh1_edge0, vh0_edge1, vh1_edge1;
-    UtilsMesh::get_vh_of_edge(&mesh, eh0.idx(), vh0_edge0, vh1_edge0);
-    UtilsMesh::get_vh_of_edge(&mesh, eh1.idx(), vh0_edge1, vh1_edge1);
-
-    try //test pour etre sur que les aretes sont adjacentes
-    {
-        if (vh0_edge0.idx()==vh0_edge1.idx())
-        {
-            point_origine = QVector3D(mesh.point(vh0_edge0)[0],mesh.point(vh0_edge0)[1],mesh.point(vh0_edge0)[2]);
-            points.push_back(QVector3D(mesh.point(vh1_edge0)[0],mesh.point(vh1_edge0)[1],mesh.point(vh1_edge0)[2]));
-            points.push_back(QVector3D(mesh.point(vh1_edge1)[0],mesh.point(vh1_edge1)[1],mesh.point(vh1_edge1)[2]));
-        }
-        else if (vh0_edge0.idx()==vh1_edge1.idx())
-        {
-            point_origine = QVector3D(mesh.point(vh0_edge0)[0],mesh.point(vh0_edge0)[1],mesh.point(vh0_edge0)[2]);
-            points.push_back(QVector3D(mesh.point(vh1_edge0)[0],mesh.point(vh1_edge0)[1],mesh.point(vh1_edge0)[2]));
-            points.push_back(QVector3D(mesh.point(vh0_edge1)[0],mesh.point(vh0_edge1)[1],mesh.point(vh0_edge1)[2]));
-        }
-        else if (vh1_edge0.idx()==vh0_edge1.idx())
-        {
-            point_origine = QVector3D(mesh.point(vh1_edge0)[0],mesh.point(vh1_edge0)[1],mesh.point(vh1_edge0)[2]);
-            points.push_back(QVector3D(mesh.point(vh0_edge0)[0],mesh.point(vh0_edge0)[1],mesh.point(vh0_edge0)[2]));
-            points.push_back(QVector3D(mesh.point(vh1_edge1)[0],mesh.point(vh1_edge1)[1],mesh.point(vh1_edge1)[2]));
-        }
-        else if (vh1_edge0.idx()==vh1_edge1.idx())
-        {
-            point_origine = QVector3D(mesh.point(vh1_edge0)[0],mesh.point(vh1_edge0)[1],mesh.point(vh1_edge0)[2]);
-            points.push_back(QVector3D(mesh.point(vh0_edge0)[0],mesh.point(vh0_edge0)[1],mesh.point(vh0_edge0)[2]));
-            points.push_back(QVector3D(mesh.point(vh0_edge1)[0],mesh.point(vh0_edge1)[1],mesh.point(vh0_edge1)[2]));
-        }
-        else throw std::string("aretes non adjacentes!");
-    }
-    catch(std::string const& err) {std::cerr << err << std::endl;}
-
-    QVector3D vecteur1 = points[1] - point_origine;
-    QVector3D vecteur2 = points[0] - point_origine;
-    vecteur1.normalize();
-    vecteur2.normalize();
-
-    return acos(QVector3D::dotProduct(vecteur1, vecteur2));
-}
-
 ///////////////////////////////////  ALGO   ////////////////////////////////////////////////
 
-double LiveWire::cost_function(int numEdgeNeigh, int vertexCur, bool close)
+double LiveWire::cost_function(int numEdgeNeigh, bool close)
 {
     //    qDebug() << "\t\t\t<" << __FUNCTION__ << ">";
 
@@ -493,10 +423,6 @@ double LiveWire::cost_function(int numEdgeNeigh, int vertexCur, bool close)
 
         if (Utils::is_in_vector(criteres, static_cast<int>(STROKE_DIST))) {
             cost *= criterion_stroke_distance(ehNeigh);
-        }
-
-        if (Utils::is_in_vector(criteres, static_cast<int>(ANGLE_EE))) {
-            cost *= criterion_angleEE(vertexCur, ehNeigh);
         }
     }
 
@@ -603,7 +529,7 @@ void LiveWire::build_paths(int vertexNext, bool close)
             // Si déjà visité
             if (verticesVisited[vertexNeigh])    continue;
 
-            double tmpCost = costsToVertices[vertexCurrent] + cost_function(edgeNeigh, vhCur.idx(), close) ;
+            double tmpCost = costsToVertices[vertexCurrent] + cost_function(edgeNeigh, close) ;
 
             // Voisin dans liste active ET  coût calculé inférieur au coût enregistré
             if (Utils::is_in_vector(activeList, vertexNeigh) &&  tmpCost < costsToVertices[vertexNeigh]) {

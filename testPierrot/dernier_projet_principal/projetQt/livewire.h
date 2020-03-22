@@ -24,7 +24,7 @@ using namespace std;
 using namespace OpenMesh;
 using namespace OpenMesh::Attributes;
 
-enum enum_criteres {LENGTH, DIEDRAL, CURVATURE, NORMAL_OR, VISIBILITY, STROKE_DIST, ANGLE_EE};
+enum enum_criteres {LENGTH, DIEDRAL, CURVATURE, NORMAL_OR, VISIBILITY, STROKE_DIST};
 
 /*! \class LiveWire
    * \brief classe representant le LiveWire
@@ -108,7 +108,7 @@ private:
     double maxCurv;
     MyMesh::Point sightPoint;   /*!< Point de vue utilisateur */
 
-    int nbMaxCrit = 7;      /*!< Nombre maximum de critères pouvant être utilisés */
+    int nbMaxCrit = 6;      /*!< Nombre maximum de critères pouvant être utilisés */
     vector<int> criteres;   /*!< Tableau d'enums */
     vector<vector<double>> tabCosts; /*!< Tableau de tableaux de coûts précalculés (en fct de critères) */
     double rad_thickness = 1.2; //Radius of pre-supposed brush radius which "draws" the stroke
@@ -237,21 +237,7 @@ private:
      *
      * \return : le coût calculé pour cette arête
      */
-
-    /**
-     * \brief Calcul d'angle entre 2 arêtes
-     *
-     * Calcule l'angle entre 2 arêtes spécifiés appartenant au chemin choisi par la méthode du
-     * LiveWire depuis le sommet courant
-     *
-     * \param vertexCur : l'id du sommet courant
-     * \param eh1 : l'id de l'arete suivante dans le test du chemin du LiVeWire à choisir
-     *
-     * \return : l'angle entre les 2 arêtes souhaitées
-     */
-    double criterion_angleEE(int vertexCur, EdgeHandle eh1);
-
-    double cost_function(int numEdgeNeigh, int vertexCur, bool close=false);
+    double cost_function(int numEdgeNeigh, bool close=false);
 
     /**
      * \brief Initialise l'arête de départ de l'algorithme
