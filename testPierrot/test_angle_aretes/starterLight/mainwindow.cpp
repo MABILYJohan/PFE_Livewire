@@ -322,6 +322,67 @@ double MainWindow::critere_angleEE(MyMesh* _mesh, EdgeHandle eh0, EdgeHandle eh1
     return acos(QVector3D::dotProduct(vecteur1, vecteur2));
 }
 
+EdgeHandle get_edge_of_vertex(MyMesh *_mesh, int vertexCur, int vertexPrec)
+{
+    VertexHandle vhCur = _mesh->vertex_handle(vertexCur);
+    EdgeHandle eh;
+    for (MyMesh::VertexEdgeCWIter ve_it = _mesh->ve_cwiter(vhCur); ve_it.is_valid(); ve_it++)
+    {
+        VertexHandle vh0, vh1;
+        eh = *ve_it;
+        get_vh_of_edge(_mesh, eh.idx(), vh0, vh1);
+        if (((vh0.idx()==vertexCur) && (vh1.idx()==vertexPrec)) || ((vh1.idx()==vertexCur) && (vh0.idx()==vertexPrec))) break;
+    }
+    return eh;
+}
+
+//double MainWindow::critere_vertex_angleEE(MyMesh* _mesh, int vertexID, EdgeHandle eh0)
+//{
+//    QVector<QVector3D> points;
+//    QVector3D point_origine;
+
+//    VertexHandle vh0_edge0, vh1_edge0, vh0_edge1, vh1_edge1;
+//    get_vh_of_edge(_mesh, eh0.idx(), vh0_edge0, vh1_edge0);
+//    get_vh_of_edge(_mesh, eh1.idx(), vh0_edge1, vh1_edge1);
+
+//    try
+//    {
+//        if (vh0_edge0.idx()==vh0_edge1.idx())
+//        {
+//            point_origine = QVector3D(_mesh->point(vh0_edge0)[0],_mesh->point(vh0_edge0)[1],_mesh->point(vh0_edge0)[2]);
+//            points.push_back(QVector3D(_mesh->point(vh1_edge0)[0],_mesh->point(vh1_edge0)[1],_mesh->point(vh1_edge0)[2]));
+//            points.push_back(QVector3D(_mesh->point(vh1_edge1)[0],_mesh->point(vh1_edge1)[1],_mesh->point(vh1_edge1)[2]));
+//        }
+//        else if (vh0_edge0.idx()==vh1_edge1.idx())
+//        {
+//            point_origine = QVector3D(_mesh->point(vh0_edge0)[0],_mesh->point(vh0_edge0)[1],_mesh->point(vh0_edge0)[2]);
+//            points.push_back(QVector3D(_mesh->point(vh1_edge0)[0],_mesh->point(vh1_edge0)[1],_mesh->point(vh1_edge0)[2]));
+//            points.push_back(QVector3D(_mesh->point(vh0_edge1)[0],_mesh->point(vh0_edge1)[1],_mesh->point(vh0_edge1)[2]));
+//        }
+//        else if (vh1_edge0.idx()==vh0_edge1.idx())
+//        {
+//            point_origine = QVector3D(_mesh->point(vh1_edge0)[0],_mesh->point(vh1_edge0)[1],_mesh->point(vh1_edge0)[2]);
+//            points.push_back(QVector3D(_mesh->point(vh0_edge0)[0],_mesh->point(vh0_edge0)[1],_mesh->point(vh0_edge0)[2]));
+//            points.push_back(QVector3D(_mesh->point(vh1_edge1)[0],_mesh->point(vh1_edge1)[1],_mesh->point(vh1_edge1)[2]));
+//        }
+//        else if (vh1_edge0.idx()==vh1_edge1.idx())
+//        {
+//            point_origine = QVector3D(_mesh->point(vh1_edge0)[0],_mesh->point(vh1_edge0)[1],_mesh->point(vh1_edge0)[2]);
+//            points.push_back(QVector3D(_mesh->point(vh0_edge0)[0],_mesh->point(vh0_edge0)[1],_mesh->point(vh0_edge0)[2]));
+//            points.push_back(QVector3D(_mesh->point(vh0_edge1)[0],_mesh->point(vh0_edge1)[1],_mesh->point(vh0_edge1)[2]));
+//        }
+//        else throw std::string("aretes non adjacentes!");
+//    }
+//    catch(std::string const& err) {std::cerr << err << std::endl;}
+
+//    QVector3D vecteur1 = points[1] - point_origine;
+//    QVector3D vecteur2 = points[0] - point_origine;
+//    vecteur1.normalize();
+//    vecteur2.normalize();
+
+//    return acos(QVector3D::dotProduct(vecteur1, vecteur2));
+//}
+
 void MainWindow::on_pushButton_clicked()
 {
     /*double minE,maxE;

@@ -53,6 +53,7 @@ public:
     double K_Curv(MyMesh* _mesh, int vertID);
 
     double critere_angleEE(MyMesh* _mesh, EdgeHandle eh0, EdgeHandle eh1);
+    double critere_vertex_angleEE(MyMesh* _mesh, int vertexID, EdgeHandle eh0);
 
 private slots:
 
