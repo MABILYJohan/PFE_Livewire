@@ -101,7 +101,7 @@ void LiveWire::update_vertexSeed(int _vertexSeed, int vertexNext, bool close)
             //        vector<int> dijkstraPaths = myDijkstra.get_paths();
         }
     }
-    build_paths(vertexNext, close);
+    build_paths_noEdgeSeed(vertexNext, close);
 }
 
 void LiveWire::display_criterions(int profDisplay)
@@ -540,6 +540,13 @@ void LiveWire::build_paths_noEdgeSeed(int vertexNext, bool close)
 
     // Init
 
+    paths = vector<int>(mesh.n_edges(), -1);
+
+    if (Utils::is_in_vector(criteres, static_cast<int>(VISIBILITY))
+            || Utils::is_in_vector(criteres, static_cast<int>(STROKE_DIST))) {
+        myDijkstra.calc_path(&mesh, vertexNext);
+    }
+
     vector<double> costEdges(mesh.n_edges(), static_cast<double>(INT_MAX));
     vector<bool> edgesVisited(mesh.n_edges(), false);
     vector<int> activeList;
@@ -561,13 +568,6 @@ void LiveWire::build_paths_noEdgeSeed(int vertexNext, bool close)
     costEdges[edgeSeed] = 0.0;
 
     activeList.push_back(edgeSeed);
-
-    paths = vector<int>(mesh.n_edges(), -1);
-
-    if (Utils::is_in_vector(criteres, static_cast<int>(VISIBILITY))
-            || Utils::is_in_vector(criteres, static_cast<int>(STROKE_DIST))) {
-        myDijkstra.calc_path(&mesh, vertexNext);
-    }
 
     // WARNING --> BEGIN PAS INITIALISE DANS PATHS...
 
