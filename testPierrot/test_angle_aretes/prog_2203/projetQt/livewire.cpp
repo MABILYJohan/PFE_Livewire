@@ -496,7 +496,7 @@ double LiveWire::cost_function(int numEdgeNeigh, int vertexCur, bool close)
         }
 
         if (Utils::is_in_vector(criteres, static_cast<int>(ANGLE_EE))) {
-            cost += criterion_angleEE(vertexCur, ehNeigh);
+            cost *= criterion_angleEE(vertexCur, ehNeigh);
         }
     }
 
