@@ -128,9 +128,9 @@ void MainWindow::make_livewire()
     //Contour myContour(mesh, path);
     //    char path[80] = {"../donneesPFE M2GIG/MySon/Test/Contour/contour_low_visibleVersion.obj\0"};
     //    char path[80] = {"../../donneesPFE M2GIG/Siva/Test/mask_048_1_contour.xyz\0"};
-    char path[80] = {"../maks3D_Myson_02.xyz\0"};
+    char path[80] = {"../contour.xyz\0"};
     Contour myContour(mesh, path);
-    myContour.reduct(0);
+    myContour.reduct(6);
 
     myContour.display(1, true);
 
@@ -151,7 +151,7 @@ void MainWindow::make_livewire()
 void MainWindow::vizuContour(int displayDist)
 {
     //    char path[80] = {"../donneesPFE M2GIG/MySon/Test/Contour/contour_low_visibleVersion.obj\0"};
-    char path[80] = {"../maks3D_Myson_02.obj\0"};
+    char path[80] = {"../contour.obj\0"};
     MyMesh myMeshContour;
     OpenMesh::IO::read_mesh(myMeshContour, path);
     vector<MyMesh::Point> myPoints;
@@ -204,8 +204,8 @@ void MainWindow::on_pushButton_chargement_clicked()
     QString fileName = QFileDialog::getOpenFileName(this, tr("Open Mesh"),
                                                     // "../../../MGM/meshFiles/",
                                                     // "../../donneesPFE M2GIG/Siva/Test/",
-                                                    // "../../donneesPFE M2GIG/MySon/Test/",
-                                                    "../",
+                                                    "../../donneesPFE M2GIG/Siva/modele/",
+                                                    //"../",
                                                     tr("Mesh Files (*.obj)"));
 
     // chargement du fichier .obj dans la variable globale "mesh"

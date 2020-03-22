@@ -730,8 +730,6 @@ void LiveWire::draw(unsigned vertex2)
 {
     qDebug() << "\t\t<" << __FUNCTION__ << ">";
 
-    qDebug() << paths;
-
     //    int red = Utils::randInt(0, 255);
     //    int blue = Utils::randInt(0, 255);
     //    int green = Utils::randInt(0, 255);
@@ -739,19 +737,12 @@ void LiveWire::draw(unsigned vertex2)
     int blue = 0;
     int green = 0;
 
-    int cpt=0;
 
     unsigned vertexCurrent = vertex2;
     VertexHandle vhCur = mesh.vertex_handle(vertexCurrent);
-    qDebug() << "\t\t\tvertex2=" << vertex2;
-    qDebug() << "\t\t\tvertexSeed=" << vertexSeed;
-    qDebug() << "\t\t\tvertexCurrent" << vertexCurrent << endl;
 
     while (static_cast<int>(vertexCurrent) != vertexSeed)
     {
-        qDebug() << endl;
-        qDebug() << "\t\t\tpaths[" << vertexCurrent<<"] ="<<paths[vertexCurrent];
-        qDebug() << "\t\t\tBOUCLE";
 
         bool validator=false;
         for (MyMesh::VertexEdgeCWIter ve_it = mesh.ve_cwiter(vhCur); ve_it.is_valid(); ve_it++)
@@ -770,10 +761,7 @@ void LiveWire::draw(unsigned vertex2)
             }
             int vertexNeigh = vhNeigh.idx();
 
-            qDebug() << "\t\t\tvertexNeigh=" << vertexNeigh;
-
             if (vertexNeigh==paths[vertexCurrent]) {
-                qDebug() << "\t\t\tHEEY";
                 mesh.set_color(ehCur, MyMesh::Color(red, green, blue));
                 mesh.data(ehCur).thickness = 6;
                 validator=true;
@@ -785,9 +773,6 @@ void LiveWire::draw(unsigned vertex2)
             vertexCurrent = paths[vertexCurrent];
             vhCur = mesh.vertex_handle(vertexCurrent);
         }
-
-        qDebug() << "\t\t\tvertexCurrent" << vertexCurrent;
-        qDebug() << "\t\t\tcpt =" << cpt++;
     }
 
     // point de départ et point d'arrivée en rouge et en gros
