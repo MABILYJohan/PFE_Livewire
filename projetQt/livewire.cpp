@@ -26,6 +26,7 @@ vector<int> LiveWire::get_paths()  {   return paths;   }
 void LiveWire::init_criterions()
 {
     // ATTENTION à l'ordre
+    // Mettre en commentaires les critères qu'on ne souhaite pas charger
     criteres.clear();
     criteres.push_back(LENGTH);
     criteres.push_back(DIEDRAL);
@@ -33,6 +34,7 @@ void LiveWire::init_criterions()
     criteres.push_back(NORMAL_OR);
     criteres.push_back(VISIBILITY);
     criteres.push_back(STROKE_DIST);
+    criteres.push_back(ANGLE_EE);
 
     unsigned nb_criterions_preload=0;
     for(auto c : criteres) {
@@ -101,7 +103,7 @@ void LiveWire::update_vertexSeed(int _vertexSeed, int vertexNext, bool close)
             //        vector<int> dijkstraPaths = myDijkstra.get_paths();
         }
     }
-    build_paths_noEdgeSeed(vertexNext, close);
+    build_paths(vertexNext, close);
 }
 
 void LiveWire::display_criterions(int profDisplay)
@@ -137,6 +139,8 @@ void LiveWire::display_criterions(int profDisplay)
         case(STROKE_DIST):
             qDebug() << cprof <<"\tSTROKE_DIST";
             break;
+        case(ANGLE_EE):
+            qDebug() << cprof <<"\tANGLE_EE";
         default:
             break;
         }
@@ -246,10 +250,10 @@ double LiveWire::K_Curv(MyMesh* _mesh, int vertID)
     float a = 1.f / aire_barycentrique(_mesh, vh.idx());
     float theta = 0.f;
     for (MyMesh::VertexFaceCWIter vf_it = _mesh->vf_cwiter(vh); vf_it.is_valid(); vf_it++)
-        {
-            FaceHandle fh = *vf_it;
-            theta += angleEE(_mesh, vh.idx(), fh.idx());
-        }
+    {
+        FaceHandle fh = *vf_it;
+        theta += angleEE(_mesh, vh.idx(), fh.idx());
+    }
     float b = 2.f*M_PI - theta;
     float K = a*b;
     return K;
@@ -309,37 +313,18 @@ double LiveWire::criterion_visibility(EdgeHandle eh)
         to = mesh.point(mesh.to_vertex_handle(heh));
         from = mesh.point(mesh.from_vertex_handle(heh));
 
-        HalfedgeHandle start = mesh.halfedge_handle(EdgeHandle(pathEdges.front()), 0);
-        MyMesh::Point start_from, start_to;
-        start_to = mesh.point(mesh.to_vertex_handle(start));
-        start_from = mesh.point(mesh.from_vertex_handle(start));
+        HalfedgeHandle hep = mesh.halfedge_handle(ehPath, 0);
+        MyMesh::Point fromP, toP;
+        toP = mesh.point(mesh.to_vertex_handle(hep));
+        fromP = mesh.point(mesh.from_vertex_handle(hep));
 
-        HalfedgeHandle end = mesh.halfedge_handle(EdgeHandle(pathEdges.back()), 0);
-        MyMesh::Point end_from, end_to;
-        end_to = mesh.point(mesh.to_vertex_handle(end));
-        end_from = mesh.point(mesh.from_vertex_handle(end));
-
-        QVector3D a(to.data()[0], to.data()[1], to.data()[2]);
-        QVector3D b(start_to.data()[0], start_to.data()[2], start_to.data()[3]);
-
-        double max_dist = Utils::distance_euclidienne(to.data()[0], to.data()[1], to.data()[2], start_to.data()[0], start_to.data()[2], start_to.data()[3]);
-
-        max_dist = max(max_dist, Utils::distance_euclidienne(to.data()[0], to.data()[1], to.data()[2], start_from.data()[0], start_from.data()[2], start_from.data()[3]));
-        max_dist = max(max_dist, Utils::distance_euclidienne(to.data()[0], to.data()[1], to.data()[2], end_from.data()[0], end_from.data()[2], end_from.data()[3]));
-        max_dist = max(max_dist, Utils::distance_euclidienne(to.data()[0], to.data()[1], to.data()[2], end_to.data()[0], end_to.data()[2], end_to.data()[3]));
-
-        max_dist = max(max_dist, Utils::distance_euclidienne(from.data()[0], from.data()[1], from.data()[2], end_to.data()[0], end_to.data()[2], end_to.data()[3]));
-        max_dist = max(max_dist, Utils::distance_euclidienne(from.data()[0], from.data()[1], from.data()[2], start_to.data()[0], start_to.data()[2], start_to.data()[3]));
-        max_dist = max(max_dist, Utils::distance_euclidienne(from.data()[0], from.data()[1], from.data()[2], start_from.data()[0], start_from.data()[2], start_from.data()[3]));
-        max_dist = max(max_dist, Utils::distance_euclidienne(from.data()[0], from.data()[1], from.data()[2], end_from.data()[0], end_from.data()[2], end_from.data()[3]));
-
-        distMin = max(max_dist, distMin);
+        distMin = max(distMin, Utils::distance_euclidienne(to.data()[0], to.data()[1], to.data()[2], fromP.data()[0], fromP.data()[1], fromP.data()[2]));
     }
 
     double cost = 0;
     if(distMin >= rad_thickness)
     {
-       cost = rad_thickness/(distMin*distMin);
+        cost = rad_thickness/(distMin*distMin);
     }
 
     else
@@ -378,6 +363,33 @@ double LiveWire::criterion_stroke_distance(EdgeHandle eh)
         double distEuclid = Utils::distance_euclidienne(myP[0], myP[1], myP[2],
                 pTest[0], pTest[1], pTest[2]);
 
+        HalfedgeHandle heh = mesh.halfedge_handle(ehPath, 0);
+        MyMesh::Point from, to;
+        to = mesh.point(mesh.to_vertex_handle(heh));
+        from = mesh.point(mesh.from_vertex_handle(heh));
+
+        HalfedgeHandle start = mesh.halfedge_handle(EdgeHandle(pathEdges.front()), 0);
+        MyMesh::Point start_from, start_to;
+        start_to = mesh.point(mesh.to_vertex_handle(start));
+        start_from = mesh.point(mesh.from_vertex_handle(start));
+
+        HalfedgeHandle end = mesh.halfedge_handle(EdgeHandle(pathEdges.back()), 0);
+        MyMesh::Point end_from, end_to;
+        end_to = mesh.point(mesh.to_vertex_handle(end));
+        end_from = mesh.point(mesh.from_vertex_handle(end));
+
+
+        double max_dist = Utils::distance_euclidienne(to.data()[0], to.data()[1], to.data()[2], start_to.data()[0], start_to.data()[1], start_to.data()[1]);
+
+        max_dist = max(max_dist, Utils::distance_euclidienne(to.data()[0], to.data()[1], to.data()[2], start_from.data()[0], start_from.data()[1], start_from.data()[2]));
+        max_dist = max(max_dist, Utils::distance_euclidienne(to.data()[0], to.data()[1], to.data()[2], end_from.data()[0], end_from.data()[1], end_from.data()[2]));
+        max_dist = max(max_dist, Utils::distance_euclidienne(to.data()[0], to.data()[1], to.data()[2], end_to.data()[0], end_to.data()[1], end_to.data()[2]));
+
+        max_dist = max(max_dist, Utils::distance_euclidienne(from.data()[0], from.data()[1], from.data()[2], end_to.data()[0], end_to.data()[1], end_to.data()[2]));
+        max_dist = max(max_dist, Utils::distance_euclidienne(from.data()[0], from.data()[1], from.data()[2], start_to.data()[0], start_to.data()[1], start_to.data()[1]));
+        max_dist = max(max_dist, Utils::distance_euclidienne(from.data()[0], from.data()[1], from.data()[2], start_from.data()[0], start_from.data()[1], start_from.data()[2]));
+        max_dist = max(max_dist, Utils::distance_euclidienne(from.data()[0], from.data()[1], from.data()[2], end_from.data()[0], end_from.data()[1], end_from.data()[2]));
+
         //Looking for approximative maximal distance from the edge to the center-line of the stroke
         if (distMax < distEuclid) {
             distMax = distEuclid;
@@ -389,9 +401,76 @@ double LiveWire::criterion_stroke_distance(EdgeHandle eh)
     return cost;
 
 }
+
+/************************* PARTIE CRITERE ANGLE_EE ***************************/
+
+EdgeHandle get_edge_of_vertex(MyMesh *_mesh, int vertexCur, int vertexPrec)
+{
+    VertexHandle vhCur = _mesh->vertex_handle(vertexCur);
+    EdgeHandle eh;
+    for (MyMesh::VertexEdgeCWIter ve_it = _mesh->ve_cwiter(vhCur); ve_it.is_valid(); ve_it++)
+    {
+        VertexHandle vh0, vh1;
+        eh = *ve_it;
+        UtilsMesh::get_vh_of_edge(_mesh, eh.idx(), vh0, vh1);
+        if (((vh0.idx()==vertexCur) && (vh1.idx()==vertexPrec)) || ((vh1.idx()==vertexCur) && (vh0.idx()==vertexPrec))) break;
+    }
+    return eh;
+}
+
+double LiveWire::criterion_angleEE(int vertexCur, EdgeHandle eh1)
+{
+    QVector<QVector3D> points;
+    QVector3D point_origine;
+
+    int vertexPrec = paths[vertexCur]; //on recupere le vertex precedent du vertex courant
+    EdgeHandle eh0 = get_edge_of_vertex(&mesh, vertexCur, vertexPrec); //on recupere l'arete precedente de l'arete courante
+
+    VertexHandle vh0_edge0, vh1_edge0, vh0_edge1, vh1_edge1;
+    UtilsMesh::get_vh_of_edge(&mesh, eh0.idx(), vh0_edge0, vh1_edge0);
+    UtilsMesh::get_vh_of_edge(&mesh, eh1.idx(), vh0_edge1, vh1_edge1);
+
+    try //test pour etre sur que les aretes sont adjacentes
+    {
+        if (vh0_edge0.idx()==vh0_edge1.idx())
+        {
+            point_origine = QVector3D(mesh.point(vh0_edge0)[0],mesh.point(vh0_edge0)[1],mesh.point(vh0_edge0)[2]);
+            points.push_back(QVector3D(mesh.point(vh1_edge0)[0],mesh.point(vh1_edge0)[1],mesh.point(vh1_edge0)[2]));
+            points.push_back(QVector3D(mesh.point(vh1_edge1)[0],mesh.point(vh1_edge1)[1],mesh.point(vh1_edge1)[2]));
+        }
+        else if (vh0_edge0.idx()==vh1_edge1.idx())
+        {
+            point_origine = QVector3D(mesh.point(vh0_edge0)[0],mesh.point(vh0_edge0)[1],mesh.point(vh0_edge0)[2]);
+            points.push_back(QVector3D(mesh.point(vh1_edge0)[0],mesh.point(vh1_edge0)[1],mesh.point(vh1_edge0)[2]));
+            points.push_back(QVector3D(mesh.point(vh0_edge1)[0],mesh.point(vh0_edge1)[1],mesh.point(vh0_edge1)[2]));
+        }
+        else if (vh1_edge0.idx()==vh0_edge1.idx())
+        {
+            point_origine = QVector3D(mesh.point(vh1_edge0)[0],mesh.point(vh1_edge0)[1],mesh.point(vh1_edge0)[2]);
+            points.push_back(QVector3D(mesh.point(vh0_edge0)[0],mesh.point(vh0_edge0)[1],mesh.point(vh0_edge0)[2]));
+            points.push_back(QVector3D(mesh.point(vh1_edge1)[0],mesh.point(vh1_edge1)[1],mesh.point(vh1_edge1)[2]));
+        }
+        else if (vh1_edge0.idx()==vh1_edge1.idx())
+        {
+            point_origine = QVector3D(mesh.point(vh1_edge0)[0],mesh.point(vh1_edge0)[1],mesh.point(vh1_edge0)[2]);
+            points.push_back(QVector3D(mesh.point(vh0_edge0)[0],mesh.point(vh0_edge0)[1],mesh.point(vh0_edge0)[2]));
+            points.push_back(QVector3D(mesh.point(vh0_edge1)[0],mesh.point(vh0_edge1)[1],mesh.point(vh0_edge1)[2]));
+        }
+        else throw std::string("aretes non adjacentes!");
+    }
+    catch(std::string const& err) {std::cerr << err << std::endl;}
+
+    QVector3D vecteur1 = points[1] - point_origine;
+    QVector3D vecteur2 = points[0] - point_origine;
+    vecteur1.normalize();
+    vecteur2.normalize();
+
+    return acos(QVector3D::dotProduct(vecteur1, vecteur2));
+}
+
 ///////////////////////////////////  ALGO   ////////////////////////////////////////////////
 
-double LiveWire::cost_function(int numEdgeNeigh, bool close)
+double LiveWire::cost_function(int numEdgeNeigh, int vertexCur, bool close)
 {
     //    qDebug() << "\t\t\t<" << __FUNCTION__ << ">";
 
@@ -423,13 +502,17 @@ double LiveWire::cost_function(int numEdgeNeigh, bool close)
         if (Utils::is_in_vector(criteres, static_cast<int>(STROKE_DIST))) {
             cost *= criterion_stroke_distance(ehNeigh);
         }
+
+        if (Utils::is_in_vector(criteres, static_cast<int>(ANGLE_EE))) {
+            cost *= criterion_angleEE(vertexCur, ehNeigh);
+        }
     }
 
     //    qDebug() << "\t\t\t</" << __FUNCTION__ << ">";
     return cost;
 }
 
-unsigned get_minCostEdge_from_activeList(vector<int> activeList, vector<double> costEdges)
+unsigned get_minCostToVertex_from_activeList(vector<int> activeList, vector<double> costEdges)
 {
     //    qDebug() << "\t\t<" << __FUNCTION__ << ">";
 
@@ -478,55 +561,68 @@ EdgeHandle LiveWire::get_edge_seed(int vertexStart, int vertexEnd)
 /*------------------------------------------------------------------------------
  * Construit les chemins pour le livewire (dans @paths).
  * @vertexNext pour le critère de visibilité avec dijkstra.
- * Pensez au cas où à bien mettre à jour @vertexSeed avant d'utiliser la focntion.
+ * Pensez au cas où à bien mettre à jour @vertexSeed avant d'utiliser la fonction.
  * ----------------------------------------------------------------------------*/
 void LiveWire::build_paths(int vertexNext, bool close)
 {
     qDebug() << "\t\t<" << __FUNCTION__ << ">";
 
-    // Init
-    EdgeHandle ehTmp = get_edge_seed(vertexSeed, vertexNext);
-    edgeSeed = ehTmp.idx();
-
-    vector<double> costEdges(mesh.n_edges(), static_cast<double>(INT_MAX));
-    costEdges[edgeSeed] = 0.0;
-    vector<bool> edgesVisited(mesh.n_edges(), false);
-    vector<int> activeList;   activeList.push_back(edgeSeed);
-    paths = vector<int>(mesh.n_edges(), -1);
+    vector<double> costsToVertices(mesh.n_vertices(), static_cast<double>(INT_MAX));
+    costsToVertices[vertexSeed] = 0.0;
+    vector<bool> verticesVisited(mesh.n_vertices(), false);
+    vector<int> activeList;   activeList.push_back(vertexSeed);
+    paths = vector<int>(mesh.n_vertices(), -1);
 
     if (Utils::is_in_vector(criteres, static_cast<int>(VISIBILITY))
             || Utils::is_in_vector(criteres, static_cast<int>(STROKE_DIST))) {
         myDijkstra.calc_path(&mesh, vertexNext);
     }
 
-    // WARNING --> BEGIN PAS INITIALISE DANS PATHS...
-
     while (!activeList.empty())
     {
-        int curEdge = get_minCostEdge_from_activeList(activeList, costEdges);
-        Utils::erase_elt(activeList, curEdge);
-        edgesVisited[curEdge] = true;
+        //        qDebug() << endl << endl << "\t\t\tcostsToVertices=" << costsToVertices;
+        //        qDebug() << "\t\t\tverticesVisited=" << verticesVisited;
+        //        qDebug() << "\t\t\tactiveList=" << activeList;
+        //        qDebug() << "\t\t\tpaths=" << paths;
+
+        int vertexCurrent = get_minCostToVertex_from_activeList(activeList, costsToVertices);
+        VertexHandle vhCur;
+        vhCur = mesh.vertex_handle(vertexCurrent);
+        Utils::erase_elt(activeList, vertexCurrent);
+        verticesVisited[vertexCurrent] = true;
 
         // Voisinage
-        vector<EdgeHandle> ehs = UtilsMesh::get_edgeEdge_circulator(&mesh, curEdge);
-        for (auto eh : ehs)
+        for (MyMesh::VertexEdgeCWIter ve_it = mesh.ve_cwiter(vhCur); ve_it.is_valid(); ve_it++)
         {
-            int edgeNeigh = eh.idx();
+            EdgeHandle ehNeigh = *ve_it;
+            int edgeNeigh = ehNeigh.idx();
+
+            // On récupère l'autre sommet de l'arête
+            VertexHandle vh1, vh2;
+            UtilsMesh::get_vh_of_edge(&mesh, edgeNeigh, vh1, vh2);
+            VertexHandle vhNeigh;
+            if (vh1 == vhCur)   vhNeigh = vh2;
+            else if (vh2 == vhCur)  vhNeigh = vh1;
+            else {
+                qWarning() << "error in" << __FUNCTION__ << ": vhNeigh not found";
+            }
+            int vertexNeigh = vhNeigh.idx();
 
             // Si déjà visité
-            if (edgesVisited[edgeNeigh])    continue;
+            if (verticesVisited[vertexNeigh])    continue;
 
-            double tmpCost = costEdges[curEdge] + cost_function(edgeNeigh, close) ;
+            double tmpCost = costsToVertices[vertexCurrent] + cost_function(edgeNeigh, vhCur.idx(), close) ;
 
             // Voisin dans liste active ET  coût calculé inférieur au coût enregistré
-            if (Utils::is_in_vector(activeList, edgeNeigh) &&  tmpCost < costEdges[edgeNeigh]) {
-                Utils::erase_elt(activeList, edgeNeigh);
+            if (Utils::is_in_vector(activeList, vertexNeigh) &&  tmpCost < costsToVertices[vertexNeigh]) {
+                Utils::erase_elt(activeList, vertexNeigh);
             }
             // Voisin pas dans la lsite active
-            else if ( ! Utils::is_in_vector(activeList, edgeNeigh)) {
-                costEdges[edgeNeigh] = tmpCost;
-                paths[edgeNeigh] = curEdge;
-                activeList.push_back(edgeNeigh);
+            else if ( ! Utils::is_in_vector(activeList, vertexNeigh)) {
+                costsToVertices[vertexNeigh] = tmpCost;
+                // paths[edgeNeigh] = curEdge;
+                paths[vertexNeigh] = vertexCurrent;
+                activeList.push_back(vertexNeigh);
             }
         }
     }
@@ -534,75 +630,6 @@ void LiveWire::build_paths(int vertexNext, bool close)
     qDebug() << "\t\t</" << __FUNCTION__ << ">";
 }
 
-void LiveWire::build_paths_noEdgeSeed(int vertexNext, bool close)
-{
-    qDebug() << "\t\t<" << __FUNCTION__ << ">";
-
-    // Init
-
-    paths = vector<int>(mesh.n_edges(), -1);
-
-    if (Utils::is_in_vector(criteres, static_cast<int>(VISIBILITY))
-            || Utils::is_in_vector(criteres, static_cast<int>(STROKE_DIST))) {
-        myDijkstra.calc_path(&mesh, vertexNext);
-    }
-
-    vector<double> costEdges(mesh.n_edges(), static_cast<double>(INT_MAX));
-    vector<bool> edgesVisited(mesh.n_edges(), false);
-    vector<int> activeList;
-
-    int first_edge = 0;
-    int tmp = INT_MAX;
-    for(auto ve = mesh.ve_iter(VertexHandle(vertexNext)) ; ve.is_valid() ; ve++)
-    {
-
-        int cost_tmp = cost_function(ve->idx(), close);
-        if(cost_tmp < tmp)
-        {
-            first_edge = ve->idx();
-            tmp = cost_tmp;
-        }
-    }
-
-    edgeSeed = first_edge;
-    costEdges[edgeSeed] = 0.0;
-
-    activeList.push_back(edgeSeed);
-
-    // WARNING --> BEGIN PAS INITIALISE DANS PATHS...
-
-    while (!activeList.empty())
-    {
-        int curEdge = get_minCostEdge_from_activeList(activeList, costEdges);
-        Utils::erase_elt(activeList, curEdge);
-        edgesVisited[curEdge] = true;
-
-        // Voisinage
-        vector<EdgeHandle> ehs = UtilsMesh::get_edgeEdge_circulator(&mesh, curEdge);
-        for (auto eh : ehs)
-        {
-            int edgeNeigh = eh.idx();
-
-            // Si déjà visité
-            if (edgesVisited[edgeNeigh])    continue;
-
-            double tmpCost = costEdges[curEdge] + cost_function(edgeNeigh, close) ;
-
-            // Voisin dans liste active ET  coût calculé inférieur au coût enregistré
-            if (Utils::is_in_vector(activeList, edgeNeigh) &&  tmpCost < costEdges[edgeNeigh]) {
-                Utils::erase_elt(activeList, edgeNeigh);
-            }
-            // Voisin pas dans la lsite active
-            else if ( ! Utils::is_in_vector(activeList, edgeNeigh)) {
-                costEdges[edgeNeigh] = tmpCost;
-                paths[edgeNeigh] = curEdge;
-                activeList.push_back(edgeNeigh);
-            }
-        }
-    }
-
-    qDebug() << "\t\t</" << __FUNCTION__ << ">";
-}
 ///////////////////////////////////  AUTRES   ////////////////////////////////////////////////
 
 /*------------------------------------------------------------------------------
@@ -612,47 +639,56 @@ void LiveWire::draw(unsigned vertex2)
 {
     //    qDebug() << "\t\t<" << __FUNCTION__ << ">";
 
-    //    if (tabCosts.empty()) {
-    //        qWarning() << "in" << __FUNCTION__ << ": tabCosts is empty";
-    //        return;
-    //    }
+    //    int red = Utils::randInt(0, 255);
+    //    int blue = Utils::randInt(0, 255);
+    //    int green = Utils::randInt(0, 255);
+    int red = 255;
+    int blue = 0;
+    int green = 0;
 
+    unsigned vertexCurrent = vertex2;
+    VertexHandle vhCur = mesh.vertex_handle(vertexCurrent);
 
-    int red = Utils::randInt(0, 255);
-    int blue = Utils::randInt(0, 255);
-    int green = Utils::randInt(0, 255);
-
-    EdgeHandle eh1 = mesh.edge_handle(edgeSeed);
-    EdgeHandle eh2 = get_edge_seed(vertex2, vertexSeed);
-    unsigned curEdge = eh2.idx();
-    vector<EdgeHandle> ehs;
-
-    while (static_cast<int>(curEdge) != edgeSeed)
+    while (static_cast<int>(vertexCurrent) != vertexSeed)
     {
-        ehs.clear();
-        ehs = UtilsMesh::get_edgeEdge_circulator(&mesh, curEdge);
-        for (auto eh : ehs)
+        bool validator=false;
+        for (MyMesh::VertexEdgeCWIter ve_it = mesh.ve_cwiter(vhCur); ve_it.is_valid(); ve_it++)
         {
-            if (eh.idx()==paths[curEdge]) {
-                mesh.set_color(eh, MyMesh::Color(red, blue, green));
-                mesh.data(eh).thickness = 6;
+
+            EdgeHandle ehCur = *ve_it;
+            int edgeCurrent = ehCur.idx();
+
+            VertexHandle vh1, vh2;
+            UtilsMesh::get_vh_of_edge(&mesh, edgeCurrent, vh1, vh2);
+            VertexHandle vhNeigh;
+            if (vh1 == vhCur)   vhNeigh = vh2;
+            else if (vh2 == vhCur)  vhNeigh = vh1;
+            else {
+                qWarning() << "error in" << __FUNCTION__ << ": vhNeigh not found";
             }
+            int vertexNeigh = vhNeigh.idx();
+
+            if (vertexNeigh==paths[vertexCurrent]) {
+                mesh.set_color(ehCur, MyMesh::Color(red, green, blue));
+                mesh.data(ehCur).thickness = 6;
+                validator=true;
+                break;
+            }
+            validator=true;
         }
-        if (ehs.empty())    break;
-        curEdge = paths[curEdge];
+        if (validator) {
+            vertexCurrent = paths[vertexCurrent];
+            vhCur = mesh.vertex_handle(vertexCurrent);
+        }
     }
 
     // point de départ et point d'arrivée en rouge et en gros
-    mesh.set_color(eh1, MyMesh::Color(255, 0, 0));
-    mesh.set_color(eh2, MyMesh::Color(255, 0, 0));
-    mesh.data(eh1).thickness = 8;
-    mesh.data(eh2).thickness = 8;
-    VertexHandle vh1 = mesh.vertex_handle(vertexSeed);
-    VertexHandle vh2 = mesh.vertex_handle(vertex2);
-    mesh.set_color(vh1, MyMesh::Color(255, 0, 0));
-    mesh.set_color(vh2, MyMesh::Color(255, 0, 0));
-    mesh.data(vh1).thickness = 20;
-    mesh.data(vh2).thickness = 20;
+    VertexHandle vhSeed = mesh.vertex_handle(vertexSeed);
+    VertexHandle vhEnd = mesh.vertex_handle(vertex2);
+    mesh.set_color(vhSeed, MyMesh::Color(255, 0, 0));
+    mesh.set_color(vhEnd, MyMesh::Color(255, 0, 0));
+    mesh.data(vhSeed).thickness = 20;
+    mesh.data(vhEnd).thickness = 20;
 
     //    qDebug() << "\t\t</" << __FUNCTION__ << ">";
 }

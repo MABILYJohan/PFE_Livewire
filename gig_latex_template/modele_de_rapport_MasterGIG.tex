@@ -1,0 +1,131 @@
+% Mettre un "%" devant les styles à ne pas utiliser
+\documentclass{gig} % style Master GIG
+
+\usepackage[latin1]{inputenc} 
+\usepackage[frenchb]{babel} 
+\usepackage{t1enc,dfadobe}
+\usepackage{cite}
+
+% for including postscript figures
+% mind: package option 'draft' will replace PS figure by a filename within a frame
+\ifpdf \usepackage[pdftex]{graphicx} \pdfcompresslevel=9
+\else \usepackage[dvips]{graphicx} \fi
+
+
+\title[Analyse de la géométrie d'un objet discret]{Analyse de la géométrie d'un objet discret dans un espace tri-dimensionnel}
+
+\author[Laure Hatoufet et Laurent Larelu]%
+       {Laure Hatoufet$^1$
+        et Laurent Larelu$^{1,2}$
+        \\
+         $^1$Aix-Marseille Université\\
+         $^2$Aix-Marseille Université
+       }
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+   Ceci est un résumé.
+\end{abstract}
+
+\keywords{Modélisation géométrique, maillages, mot 3, mot 4.}
+
+%-------------------------------------------------------------------------
+
+
+\section{Introduction}
+
+Contexte, problématique.
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum \cite{REFIG1}. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+
+\section{Travaux relatifs}
+
+Ce qui se fait d'habitude dans le domaine, bref état de l'art, exposé rapide des méthodes existantes.
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+\subsection{Figures en couleur}
+
+Il n'y a aucune censure à avoir sur les figures en couleur (voir figure \ref{fig:ex3}). 
+
+\begin{figure*}[htb]
+  \centering
+  \mbox{} \hfill
+  \includegraphics[width=.3\linewidth]{logoGIG}
+  \hfill
+  \includegraphics[width=.3\linewidth]{logoGIG}
+  \hfill \mbox{}
+  \caption{\label{fig:ex3}Les figures en couleurs ou en noir et blanc peuvent être placées n'importe où dans le document. Elles peuvent être mises sur les 2 colonnes grâce à "figure*".}
+\end{figure*}
+
+
+\section{Exposé de la méthode}
+
+Votre méthode, avec un schéma global qui explique les différentes étapes.
+
+Algorithmes en pseudo-code.
+
+Répartition des tâches.
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+\subsection{Tableau}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|l|c|r|}
+\hline
+Laboratoire & Ville & Conférence\\ \hline\hline
+ XLIM & Limoges & AFIG \cite{AFIG13} \\ \hline
+& Laval & AFRV \cite{AFRV13}\\ \hline
+LIAFA et LIGM & Paris & GéoDis \cite{GEODIS13}\\ \hline
+\end{tabular}
+\label{tab:tab1}
+\caption{Exemple de tableau.}
+\end{table}
+
+\subsection{Equation}
+
+\begin{equation}
+x' + y^{2} = z_{i}^{2} \label{eq:eq1}
+\end{equation}
+
+L'équation \ref{eq:eq1} n'est qu'un exemple d'équation.
+
+\begin{figure}[htb]
+  \centering
+  \mbox{} \hfill
+  \includegraphics[width=\linewidth]{logoGIG}
+  \hfill \mbox{}
+  \caption{\label{fig:ex4} Une figure sur une seule colonne.}
+\end{figure}
+
+
+\section{Résultats et validation}
+
+Résultats obtenus, difficultés rencontrées, les cas qui posent problème, discussion sur la méthode.
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+\section{Conclusion}
+
+Conclusion, ce qui marche et ce qui marche moins bien.
+
+Perspectives et travaux futurs : comment améliorer l'approche dans le futur.
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+%-------------------------------------------------------------------------
+\newpage
+\bibliographystyle{refig-alpha}
+\bibliography{bibsample}
+%-------------------------------------------------------------------------
+
+
+
+
+\end{document}

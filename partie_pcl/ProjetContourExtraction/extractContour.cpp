@@ -52,6 +52,8 @@ void ExtractContour::extract(const string &filename)
     range_image.createFromPointCloud (point_cloud, angular_resolution, pcl::deg2rad (360.0f), pcl::deg2rad (180.0f),
                                       scene_sensor_pose, coordinate_frame, noise_level, min_range, border_size);
     range_image.integrateFarRanges (far_ranges);
+
+    //    TMP COMMENT
     if (setUnseenToMaxRange)
         range_image.setUnseenToMaxRange ();
 
@@ -63,9 +65,6 @@ void ExtractContour::extract(const string &filename)
     viewer.addCoordinateSystem (1.0f, "global");
     pcl::visualization::PointCloudColorHandlerCustom<PointType> point_cloud_color_handler (point_cloud_ptr, 0, 0, 0);
     viewer.addPointCloud (point_cloud_ptr, point_cloud_color_handler, "original point cloud");
-    //PointCloudColorHandlerCustom<pcl::PointWithRange> range_image_color_handler (range_image_ptr, 150, 150, 150);
-    //viewer.addPointCloud (range_image_ptr, range_image_color_handler, "range image");
-    //viewer.setPointCloudRenderingProperties (PCL_VISUALIZER_POINT_SIZE, 2, "range image");
 
     // -------------------------
     // -----Extract borders-----
