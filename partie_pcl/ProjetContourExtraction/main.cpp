@@ -79,7 +79,7 @@ int main(int argc, char** argv)
     // -------------------------------------------------
     // -----Extract borders and save into .xyz file-----
     // -------------------------------------------------
-    ExtractContour myExtractor(0.5, true, false);
+    ExtractContour myExtractor(0.5, true, true);
     myExtractor.extract(argv[pcd_file_indices[0]]);
 
 
