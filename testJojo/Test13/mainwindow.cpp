@@ -129,7 +129,7 @@ void MainWindow::make_livewire()
     //    char path[80] = {"../donneesPFE M2GIG/MySon/Test/Contour/contour_low_visibleVersion.obj\0"};
     char path[80] = {"../contour.xyz\0"};
     Contour myContour(mesh, path);
-    myContour.reduct(6);
+    myContour.reduct(8);
 
     myContour.display(1, true);
 
