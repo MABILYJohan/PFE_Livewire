@@ -120,16 +120,17 @@ void MainWindow::make_livewire()
     //    vector<unsigned> tmpVertices = {0, 15, 65, 75};
 
     // Test lapin
-    vector<unsigned> tmpVertices = get_verticesID(testChoice);
-    Contour myContour(mesh, tmpVertices);
+    //vector<unsigned> tmpVertices = get_verticesID(testChoice);
+    //Contour myContour(mesh, tmpVertices);
+
     //    char path[70] = {"../donneesPFE M2GIG/MySon/Test/Contour/contour_visibleVersion.obj\0"};
     //char path[80] = {"../donneesPFE M2GIG/MySon/Test/Contour/contour_low_visibleVersion.obj\0"};
     //Contour myContour(mesh, path);
     //    char path[80] = {"../donneesPFE M2GIG/MySon/Test/Contour/contour_low_visibleVersion.obj\0"};
-    /*
-    char path[80] = {"../donneesPFE M2GIG/Siva/Test/mask_048_1_contour.xyz\0"};
+
+    char path[80] = {"../donneesPFE M2GIG/Siva/contour/3/siva3Light.xyz"};
     Contour myContour(mesh, path);
-    */
+
 
     myContour.reduct(1);
 
@@ -152,7 +153,7 @@ void MainWindow::make_livewire()
 void MainWindow::vizuContour(int displayDist)
 {
     //    char path[80] = {"../donneesPFE M2GIG/MySon/Test/Contour/contour_low_visibleVersion.obj\0"};
-    char path[80] = {"../donneesPFE M2GIG/Siva/Test/mask_048_1_contour.obj\0"};
+    char path[80] = {"../donneesPFE M2GIG/Siva/contour/3/mask_048_3_contour.obj\0"};
     MyMesh myMeshContour;
     OpenMesh::IO::read_mesh(myMeshContour, path);
     vector<MyMesh::Point> myPoints;
