@@ -54,6 +54,8 @@ private:
 
     void make_livewire();
     void vizuContour(int displayDist=0);
+    void vizu2Contour(int displayDist);
+
 };
 
 #endif // MAINWINDOW_H

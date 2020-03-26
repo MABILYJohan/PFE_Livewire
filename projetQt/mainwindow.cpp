@@ -128,17 +128,21 @@ void MainWindow::make_livewire()
     //Contour myContour(mesh, path);
     //    char path[80] = {"../donneesPFE M2GIG/MySon/Test/Contour/contour_low_visibleVersion.obj\0"};
 
-    char path[80] = {"../donneesPFE M2GIG/Siva/contour/3/siva3Light.xyz"};
-    Contour myContour(mesh, path);
+    char path1[80] = {"../donneesPFE M2GIG/Siva/contour/2/siva2light.xyz"};
+    Contour contour1(mesh, path1);
+    char path2[80] = {"../donneesPFE M2GIG/Siva/contour/3/siva3light.xyz"};
+    Contour contour2(mesh, path2);
 
-
-    myContour.reduct(1);
-
-    myContour.display(1, true);
 
     MyMesh::Point _sightPoint = get_pt_de_vue();
 
-    myContour.draw_contour(&mesh, _sightPoint);
+    contour1.reduct(1);
+    contour1.display(1, true);
+    contour1.draw_contour(&mesh, _sightPoint);
+
+    contour2.reduct(1);
+    contour2.display(1, true);
+    contour2.draw_contour(&mesh, _sightPoint);
 
     // on affiche le maillage
     displayMesh(&mesh);
@@ -173,6 +177,48 @@ void MainWindow::vizuContour(int displayDist)
     displayMesh(&mesh);
 }
 
+void MainWindow::vizu2Contour(int displayDist)
+{
+    //    char path[80] = {"../donneesPFE M2GIG/MySon/Test/Contour/contour_low_visibleVersion.obj\0"};
+    char path[80] = {"../donneesPFE M2GIG/Siva/contour/3/mask_048_3_contour.obj\0"};
+    MyMesh myMeshContour;
+    OpenMesh::IO::read_mesh(myMeshContour, path);
+    vector<MyMesh::Point> myPoints;
+    for (MyMesh::VertexIter curVert = myMeshContour.vertices_begin(); curVert != myMeshContour.vertices_end(); curVert++)
+    {
+        VertexHandle vh = *curVert;
+        MyMesh::Point p = myMeshContour.point(vh);
+        myPoints.push_back(p);
+    }
+    for (auto p : myPoints)
+    {
+        p[2] += displayDist*0.01f;
+        VertexHandle vh = mesh.add_vertex(p);
+        mesh.data(vh).thickness = 8;
+        mesh.set_color(vh, MyMesh::Color(0, 50, 255));
+    }
+
+    //    char path[80] = {"../donneesPFE M2GIG/MySon/Test/Contour/contour_low_visibleVersion.obj\0"};
+    char path2[80] = {"../donneesPFE M2GIG/Siva/contour/2/mask_048_2_contour.obj\0"};
+    MyMesh myMeshContour2;
+    OpenMesh::IO::read_mesh(myMeshContour2, path2);
+    vector<MyMesh::Point> myPoints2;
+    for (MyMesh::VertexIter curVert = myMeshContour2.vertices_begin(); curVert != myMeshContour2.vertices_end(); curVert++)
+    {
+        VertexHandle vh = *curVert;
+        MyMesh::Point p = myMeshContour2.point(vh);
+        myPoints2.push_back(p);
+    }
+    for (auto p : myPoints2)
+    {
+        p[2] += displayDist*0.01f;
+        VertexHandle vh = mesh.add_vertex(p);
+        mesh.data(vh).thickness = 8;
+        mesh.set_color(vh, MyMesh::Color(100, 0, 255));
+    }
+    displayMesh(&mesh);
+}
+
 /* **** début de la partie boutons et IHM **** */
 
 void MainWindow::on_pushButton_livewire_clicked()
@@ -187,7 +233,7 @@ void MainWindow::on_pushButton_livewire_clicked()
 void MainWindow::on_pushButton_vizuContour_clicked()
 {
     qDebug() <<"<" << __FUNCTION__ << "The event sender is" << sender() << ">";
-    vizuContour(3);
+    vizu2Contour(3);
     qDebug() << "</" << __FUNCTION__ << ">";
 }
 

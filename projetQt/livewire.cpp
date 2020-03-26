@@ -686,8 +686,8 @@ void LiveWire::draw(unsigned vertex2)
     // point de départ et point d'arrivée en rouge et en gros
     VertexHandle vhSeed = mesh.vertex_handle(vertexSeed);
     VertexHandle vhEnd = mesh.vertex_handle(vertex2);
-    mesh.set_color(vhSeed, MyMesh::Color(255, 0, 0));
-    mesh.set_color(vhEnd, MyMesh::Color(255, 0, 0));
+    mesh.set_color(vhSeed, MyMesh::Color(0, 255, 0));
+    mesh.set_color(vhEnd, MyMesh::Color(0, 255, 0));
     mesh.data(vhSeed).thickness = 20;
     mesh.data(vhEnd).thickness = 20;
 
