@@ -1,7 +1,17 @@
 #include "raycasting.h"
 
+/*
+ * Base on the following paper :
+ * Möller, Tomas & Trumbore, Ben. (2005).
+ * Fast, Minimum Storage Ray-Triangle Intersection.
+ * Journal of Graphics Tools. 2. 10.1145/1198555.1198746.
+ *
+ *
+ */
+
 // (Backface) Culling allows to
 extern uint32_t TEST_CULL;
+
 
 void Raycasting::enable_backface_culling()
 {
@@ -15,6 +25,9 @@ void Raycasting::disable_backface_culling()
         TEST_CULL = 0;
 }
 
+/*------------------------------------------------------------------------------
+ * Qt - OpenMesh Raycaster for intersection on triangular meshes
+ * ----------------------------------------------------------------------------*/
 bool Raycasting::intersects_triangle(QVector3D origin,
                                      QVector3D direction,
                                      QVector<QVector3D> faceVertices,

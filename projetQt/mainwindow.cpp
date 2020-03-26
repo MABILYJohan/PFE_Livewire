@@ -152,7 +152,6 @@ void MainWindow::make_livewire()
  * -----------------------------------------------------------------------*/
 void MainWindow::vizuContour(int displayDist)
 {
-    //    char path[80] = {"../donneesPFE M2GIG/MySon/Test/Contour/contour_low_visibleVersion.obj\0"};
     char path[80] = {"../donneesPFE M2GIG/Siva/contour/3/mask_048_3_contour.obj\0"};
     MyMesh myMeshContour;
     OpenMesh::IO::read_mesh(myMeshContour, path);

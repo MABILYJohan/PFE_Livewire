@@ -472,7 +472,6 @@ double LiveWire::criterion_angleEE(int vertexCur, EdgeHandle eh1)
 
 double LiveWire::cost_function(int numEdgeNeigh, int vertexCur, bool close)
 {
-    //    qDebug() << "\t\t\t<" << __FUNCTION__ << ">";
 
     double cost = 1.0;
     // EdgeHandle ehCur = mesh.edge_handle(numEdgeCur);
@@ -508,14 +507,11 @@ double LiveWire::cost_function(int numEdgeNeigh, int vertexCur, bool close)
         }
     }
 
-    //    qDebug() << "\t\t\t</" << __FUNCTION__ << ">";
     return cost;
 }
 
 unsigned get_minCostToVertex_from_activeList(vector<int> activeList, vector<double> costEdges)
 {
-    //    qDebug() << "\t\t<" << __FUNCTION__ << ">";
-
     unsigned numEdge=0;
     double min = static_cast<double>(INT_MAX);
     for (auto e : activeList) {
@@ -524,7 +520,6 @@ unsigned get_minCostToVertex_from_activeList(vector<int> activeList, vector<doub
             numEdge = e;
         }
     }
-    //    qDebug() << "\t\t</" << __FUNCTION__ << ">";
     return numEdge;
 }
 
@@ -580,10 +575,6 @@ void LiveWire::build_paths(int vertexNext, bool close)
 
     while (!activeList.empty())
     {
-        //        qDebug() << endl << endl << "\t\t\tcostsToVertices=" << costsToVertices;
-        //        qDebug() << "\t\t\tverticesVisited=" << verticesVisited;
-        //        qDebug() << "\t\t\tactiveList=" << activeList;
-        //        qDebug() << "\t\t\tpaths=" << paths;
 
         int vertexCurrent = get_minCostToVertex_from_activeList(activeList, costsToVertices);
         VertexHandle vhCur;
@@ -638,8 +629,6 @@ void LiveWire::build_paths(int vertexNext, bool close)
  * ----------------------------------------------------------------------------*/
 void LiveWire::draw(unsigned vertex2)
 {
-    //    qDebug() << "\t\t<" << __FUNCTION__ << ">";
-
     //    int red = Utils::randInt(0, 255);
     //    int blue = Utils::randInt(0, 255);
     //    int green = Utils::randInt(0, 255);
@@ -691,7 +680,6 @@ void LiveWire::draw(unsigned vertex2)
     mesh.data(vhSeed).thickness = 20;
     mesh.data(vhEnd).thickness = 20;
 
-    //    qDebug() << "\t\t</" << __FUNCTION__ << ">";
 }
 
 
