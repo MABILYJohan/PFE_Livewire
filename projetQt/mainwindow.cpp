@@ -123,15 +123,10 @@ void MainWindow::make_livewire()
     //vector<unsigned> tmpVertices = get_verticesID(testChoice);
     //Contour myContour(mesh, tmpVertices);
 
-    //    char path[70] = {"../donneesPFE M2GIG/MySon/Test/Contour/contour_visibleVersion.obj\0"};
-    //char path[80] = {"../donneesPFE M2GIG/MySon/Test/Contour/contour_low_visibleVersion.obj\0"};
-    //Contour myContour(mesh, path);
-    //    char path[80] = {"../donneesPFE M2GIG/MySon/Test/Contour/contour_low_visibleVersion.obj\0"};
-
+    // Charger un contour d'un fichier .xyz
     char path[80] = {"../donneesPFE M2GIG/Siva/contour/3/siva3Light.xyz"};
     Contour myContour(mesh, path);
-
-
+    // Pour réduire le nombre de sommets dans le contour
     myContour.reduct(1);
 
     myContour.display(1, true);
@@ -152,7 +147,6 @@ void MainWindow::make_livewire()
  * -----------------------------------------------------------------------*/
 void MainWindow::vizuContour(int displayDist)
 {
-    //    char path[80] = {"../donneesPFE M2GIG/MySon/Test/Contour/contour_low_visibleVersion.obj\0"};
     char path[80] = {"../donneesPFE M2GIG/Siva/contour/3/mask_048_3_contour.obj\0"};
     MyMesh myMeshContour;
     OpenMesh::IO::read_mesh(myMeshContour, path);

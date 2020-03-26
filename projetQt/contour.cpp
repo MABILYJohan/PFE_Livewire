@@ -287,7 +287,6 @@ void Contour::draw_contour(MyMesh *_mesh, MyMesh::Point _sightPoint)
 
     if (curVertex2==endPoint && curVertex2!=startPoint)
     {
-        //        qDebug() << "\t\tpremier if";
         qDebug() << "\t\tchargement draw:" << cpt<<"/"<<verticesContour.size();
         curVertex2 = verticesContour[cpt+1];
         lW.update_vertexSeed(curVertex, curVertex2);
@@ -299,7 +298,6 @@ void Contour::draw_contour(MyMesh *_mesh, MyMesh::Point _sightPoint)
     {
         while (static_cast<int>(curVertex2) != endPoint)
         {
-            //            qDebug() << "\t\tboucle cpt=" << cpt;
             qDebug() << "\t\tchargement draw:" << cpt<<"/"<<verticesContour.size();
             curVertex2 = verticesContour[cpt+1];
             lW.update_vertexSeed(curVertex, curVertex2);
