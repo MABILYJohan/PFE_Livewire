@@ -45,7 +45,6 @@ SOURCES += \
     utils.cpp \
     utilsMesh.cpp \
     livewire.cpp \
-    selectedpoints.cpp \
     raycasting.cpp \
     contour.cpp \
     dijkstra.cpp
@@ -56,7 +55,6 @@ HEADERS += \
     utils.h \
     utilsMesh.h \
     livewire.h \
-    selectedpoints.h \
     raycasting.h \
     contour.h \
     dijkstra.h
