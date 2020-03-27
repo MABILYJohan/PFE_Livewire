@@ -1,9 +1,8 @@
-A voir si on fusionne avec le projet Qt.
+myInstallPCL.sh est un exécutable pour installer PCL. (Testé sous Ubuntu)
 
-En attendant tout ce qui touche au contour et nuage de points sera mis ici.
+Tout ce qui touche au contour et nuage de points est ici.
 
 Compilation:
-	aller dans le répertoire buil d'un projet et entrer la commande
+	Créer et aller dans un répertoire build et faire les commandes suivantes :
 	$ cmake ..
-	Ensuite:
 	$ make [-j]

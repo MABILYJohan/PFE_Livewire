@@ -1,0 +1,37 @@
+\hypertarget{classMainWindow}{}\section{Référence de la classe Main\+Window}
+\label{classMainWindow}\index{Main\+Window@{Main\+Window}}
+
+
+Graphe d\textquotesingle{}héritage de Main\+Window\+:
+% FIG 0
+
+
+Graphe de collaboration de Main\+Window\+:
+% FIG 1
+\subsection*{Fonctions membres publiques}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classMainWindow_a8b244be8b7b7db1b08de2a2acb9409db}\label{classMainWindow_a8b244be8b7b7db1b08de2a2acb9409db}} 
+{\bfseries Main\+Window} (Q\+Widget $\ast$parent=0)
+\item 
+\mbox{\Hypertarget{classMainWindow_a27a4a96e4905b609511294e7648b4e46}\label{classMainWindow_a27a4a96e4905b609511294e7648b4e46}} 
+My\+Mesh\+::\+Point {\bfseries get\+\_\+pt\+\_\+de\+\_\+vue} ()
+\item 
+\mbox{\Hypertarget{classMainWindow_a2777bdebd714a3d8aefb26e42a2a55f4}\label{classMainWindow_a2777bdebd714a3d8aefb26e42a2a55f4}} 
+void {\bfseries display\+Mesh} (My\+Mesh $\ast$\+\_\+mesh, bool is\+Temperature\+Map=false, float map\+Range=-\/1)
+\item 
+\mbox{\Hypertarget{classMainWindow_a33b1a2664589175987b851eb236d3b8e}\label{classMainWindow_a33b1a2664589175987b851eb236d3b8e}} 
+void {\bfseries reset\+All\+Colors\+And\+Thickness} (My\+Mesh $\ast$\+\_\+mesh)
+\end{DoxyCompactItemize}
+\subsection*{Attributs publics}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classMainWindow_a727b67fd40c0452157d43c688c12aca6}\label{classMainWindow_a727b67fd40c0452157d43c688c12aca6}} 
+int {\bfseries test\+Choice} =1
+\end{DoxyCompactItemize}
+
+
+La documentation de cette classe a été générée à partir des fichiers suivants \+:\begin{DoxyCompactItemize}
+\item 
+mainwindow.\+h\item 
+mainwindow.\+cpp\end{DoxyCompactItemize}

@@ -1,0 +1,136 @@
+\hypertarget{classMeshViewerWidget}{}\section{Référence de la classe Mesh\+Viewer\+Widget}
+\label{classMeshViewerWidget}\index{Mesh\+Viewer\+Widget@{Mesh\+Viewer\+Widget}}
+
+
+Graphe d\textquotesingle{}héritage de Mesh\+Viewer\+Widget\+:
+% FIG 0
+
+
+Graphe de collaboration de Mesh\+Viewer\+Widget\+:
+% FIG 1
+\subsection*{Fonctions membres publiques}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classMeshViewerWidget_abb3882da8de0f1d08d652a14313e9515}\label{classMeshViewerWidget_abb3882da8de0f1d08d652a14313e9515}} 
+{\bfseries Mesh\+Viewer\+Widget} (Q\+Widget $\ast$\+\_\+parent=0)
+\item 
+\mbox{\Hypertarget{classMeshViewerWidget_a7cf3528018adb2334ba5d983eb150448}\label{classMeshViewerWidget_a7cf3528018adb2334ba5d983eb150448}} 
+{\bfseries Mesh\+Viewer\+Widget} (Q\+G\+L\+Format \&\+\_\+fmt, Q\+Widget $\ast$\+\_\+parent)
+\item 
+\mbox{\Hypertarget{classMeshViewerWidget_a8b2d34a70c5b981579c408523d19ca77}\label{classMeshViewerWidget_a8b2d34a70c5b981579c408523d19ca77}} 
+void {\bfseries initialize\+GL} ()
+\item 
+\mbox{\Hypertarget{classMeshViewerWidget_ae97219a7de61d27ecc5b8cd72aa05930}\label{classMeshViewerWidget_ae97219a7de61d27ecc5b8cd72aa05930}} 
+void {\bfseries resize\+GL} (int \+\_\+w, int \+\_\+h)
+\item 
+\mbox{\Hypertarget{classMeshViewerWidget_a7914bf37120b84e5da9a4281d7b7de39}\label{classMeshViewerWidget_a7914bf37120b84e5da9a4281d7b7de39}} 
+void {\bfseries paint\+GL} ()
+\item 
+\mbox{\Hypertarget{classMeshViewerWidget_a35f545aa53a3302470c23aaa3a4bf08d}\label{classMeshViewerWidget_a35f545aa53a3302470c23aaa3a4bf08d}} 
+void {\bfseries update\+\_\+projection\+\_\+matrix} ()
+\item 
+\mbox{\Hypertarget{classMeshViewerWidget_a5e7e836e06a5eec60e1c8f75f0baea6a}\label{classMeshViewerWidget_a5e7e836e06a5eec60e1c8f75f0baea6a}} 
+void {\bfseries my\+\_\+view} ()
+\item 
+\mbox{\Hypertarget{classMeshViewerWidget_a59599338a500cc33519bb766a9a2cb34}\label{classMeshViewerWidget_a59599338a500cc33519bb766a9a2cb34}} 
+void {\bfseries view\+\_\+all} ()
+\item 
+\mbox{\Hypertarget{classMeshViewerWidget_ad829500f1d32ce5a405cc9816593243c}\label{classMeshViewerWidget_ad829500f1d32ce5a405cc9816593243c}} 
+void {\bfseries set\+\_\+scene\+\_\+pos} (const Open\+Mesh\+::\+Vec3f \&\+\_\+cog, float \+\_\+radius)
+\item 
+\mbox{\Hypertarget{classMeshViewerWidget_a623ac597c208b98f5331a5df15d526db}\label{classMeshViewerWidget_a623ac597c208b98f5331a5df15d526db}} 
+bool {\bfseries map\+\_\+to\+\_\+sphere} (const Q\+Point \&\+\_\+point, Open\+Mesh\+::\+Vec3f \&\+\_\+result)
+\item 
+\mbox{\Hypertarget{classMeshViewerWidget_a94d5b8c1f8a94ce40e398b735438d8f7}\label{classMeshViewerWidget_a94d5b8c1f8a94ce40e398b735438d8f7}} 
+void {\bfseries translate} (const Open\+Mesh\+::\+Vec3f \&\+\_\+trans)
+\item 
+\mbox{\Hypertarget{classMeshViewerWidget_ad033d669fb44ec33a36613eae4da0b67}\label{classMeshViewerWidget_ad033d669fb44ec33a36613eae4da0b67}} 
+void {\bfseries rotate} (const Open\+Mesh\+::\+Vec3f \&\+\_\+axis, float \+\_\+angle)
+\item 
+\mbox{\Hypertarget{classMeshViewerWidget_a9701f509f4fcad8c92879767dadb6de5}\label{classMeshViewerWidget_a9701f509f4fcad8c92879767dadb6de5}} 
+void {\bfseries reload\+P\+OV} ()
+\item 
+\mbox{\Hypertarget{classMeshViewerWidget_a6442eafad612bf98929c5bc252a7ee27}\label{classMeshViewerWidget_a6442eafad612bf98929c5bc252a7ee27}} 
+void {\bfseries load\+Mesh} (G\+Lfloat $\ast$verts, G\+Lfloat $\ast$colors, int n\+Verts, G\+Luint $\ast$triangles, int n\+Triangles)
+\item 
+\mbox{\Hypertarget{classMeshViewerWidget_a44910bc71f44356cf6fb871b56e63daf}\label{classMeshViewerWidget_a44910bc71f44356cf6fb871b56e63daf}} 
+void {\bfseries load\+Lines} (G\+Lfloat $\ast$verts, G\+Lfloat $\ast$colors, int n\+Verts, G\+Luint $\ast$lines, int n\+Lines, Q\+List$<$ Q\+Pair$<$ float, int $>$ $>$ es)
+\item 
+\mbox{\Hypertarget{classMeshViewerWidget_a20094dbd10ca460558f669aa4725d1c1}\label{classMeshViewerWidget_a20094dbd10ca460558f669aa4725d1c1}} 
+void {\bfseries load\+Points} (G\+Lfloat $\ast$verts, G\+Lfloat $\ast$colors, int n\+Verts, G\+Luint $\ast$points, int n\+Points, Q\+List$<$ Q\+Pair$<$ float, int $>$ $>$ vs)
+\end{DoxyCompactItemize}
+\subsection*{Attributs publics}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classMeshViewerWidget_a7e7d7d4c5bc86119273327e6047e3362}\label{classMeshViewerWidget_a7e7d7d4c5bc86119273327e6047e3362}} 
+G\+Luint {\bfseries Tri\+Data\+Buffers} \mbox{[}2\mbox{]}
+\item 
+\mbox{\Hypertarget{classMeshViewerWidget_abfb0d42918e778cbc7e2b59fd02ff408}\label{classMeshViewerWidget_abfb0d42918e778cbc7e2b59fd02ff408}} 
+int {\bfseries tri\+To\+Draw}
+\item 
+\mbox{\Hypertarget{classMeshViewerWidget_a6a260f06692206dfd4d3ce7af40d839d}\label{classMeshViewerWidget_a6a260f06692206dfd4d3ce7af40d839d}} 
+G\+Luint {\bfseries Lines\+Data\+Buffers} \mbox{[}2\mbox{]}
+\item 
+\mbox{\Hypertarget{classMeshViewerWidget_a4ffce868cc6dd7504e392d50a3644a96}\label{classMeshViewerWidget_a4ffce868cc6dd7504e392d50a3644a96}} 
+int {\bfseries lines\+To\+Draw}
+\item 
+\mbox{\Hypertarget{classMeshViewerWidget_a9ecf05964cec9732fd59fe8e658bb05e}\label{classMeshViewerWidget_a9ecf05964cec9732fd59fe8e658bb05e}} 
+Q\+List$<$ Q\+Pair$<$ float, int $>$ $>$ {\bfseries edge\+Sizes}
+\item 
+\mbox{\Hypertarget{classMeshViewerWidget_a2c3b827a15f3946f46aefb019595d058}\label{classMeshViewerWidget_a2c3b827a15f3946f46aefb019595d058}} 
+G\+Luint {\bfseries Points\+Data\+Buffers} \mbox{[}2\mbox{]}
+\item 
+\mbox{\Hypertarget{classMeshViewerWidget_a890952a2fecf87ba85384018df5efa6c}\label{classMeshViewerWidget_a890952a2fecf87ba85384018df5efa6c}} 
+int {\bfseries points\+To\+Draw}
+\item 
+\mbox{\Hypertarget{classMeshViewerWidget_aadcc11bb4fec8f1f18c18f0bd7839cb1}\label{classMeshViewerWidget_aadcc11bb4fec8f1f18c18f0bd7839cb1}} 
+Q\+List$<$ Q\+Pair$<$ float, int $>$ $>$ {\bfseries verts\+Sizes}
+\item 
+\mbox{\Hypertarget{classMeshViewerWidget_a9959f3fd3a304ed8c213ea8ae9fbe728}\label{classMeshViewerWidget_a9959f3fd3a304ed8c213ea8ae9fbe728}} 
+bool {\bfseries init}
+\item 
+\mbox{\Hypertarget{classMeshViewerWidget_a841cfb397a703ea521cc1debbaa3bfd7}\label{classMeshViewerWidget_a841cfb397a703ea521cc1debbaa3bfd7}} 
+Open\+Mesh\+::\+Vec3f {\bfseries center\+\_\+}
+\item 
+\mbox{\Hypertarget{classMeshViewerWidget_a06c27be573e36af466f1af30049bbcf0}\label{classMeshViewerWidget_a06c27be573e36af466f1af30049bbcf0}} 
+float {\bfseries radius\+\_\+}
+\item 
+\mbox{\Hypertarget{classMeshViewerWidget_afba32e498a00bc44b7e1ea7b3651c464}\label{classMeshViewerWidget_afba32e498a00bc44b7e1ea7b3651c464}} 
+Open\+Mesh\+::\+Vec3f {\bfseries my\+Center}
+\item 
+\mbox{\Hypertarget{classMeshViewerWidget_a808bad86a183b00c2f169f47efefeccf}\label{classMeshViewerWidget_a808bad86a183b00c2f169f47efefeccf}} 
+G\+Ldouble {\bfseries projection\+\_\+matrix\+\_\+} \mbox{[}16\mbox{]}
+\item 
+\mbox{\Hypertarget{classMeshViewerWidget_a626f16bd69fc82a06b640f91c2f56fbc}\label{classMeshViewerWidget_a626f16bd69fc82a06b640f91c2f56fbc}} 
+G\+Ldouble {\bfseries modelview\+\_\+matrix\+\_\+} \mbox{[}16\mbox{]}
+\item 
+\mbox{\Hypertarget{classMeshViewerWidget_a34bb32fab41dd26eb9c55333c66da519}\label{classMeshViewerWidget_a34bb32fab41dd26eb9c55333c66da519}} 
+Q\+Point {\bfseries last\+\_\+point\+\_\+2\+D\+\_\+}
+\item 
+\mbox{\Hypertarget{classMeshViewerWidget_a4f8a1992d01060b836557365291afdc8}\label{classMeshViewerWidget_a4f8a1992d01060b836557365291afdc8}} 
+Open\+Mesh\+::\+Vec3f {\bfseries last\+\_\+point\+\_\+3\+D\+\_\+}
+\item 
+\mbox{\Hypertarget{classMeshViewerWidget_a55f9a6b15733f896eee81ff4d2b96938}\label{classMeshViewerWidget_a55f9a6b15733f896eee81ff4d2b96938}} 
+bool {\bfseries last\+\_\+point\+\_\+ok\+\_\+}
+\end{DoxyCompactItemize}
+\subsection*{Fonctions membres protégées}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classMeshViewerWidget_a4e9fce5f74bec96c86f6c7172d8597aa}\label{classMeshViewerWidget_a4e9fce5f74bec96c86f6c7172d8597aa}} 
+virtual void {\bfseries mouse\+Press\+Event} (Q\+Mouse\+Event $\ast$)
+\item 
+\mbox{\Hypertarget{classMeshViewerWidget_ae9733594b33687a574dd5b91110cceb6}\label{classMeshViewerWidget_ae9733594b33687a574dd5b91110cceb6}} 
+virtual void {\bfseries mouse\+Release\+Event} (Q\+Mouse\+Event $\ast$)
+\item 
+\mbox{\Hypertarget{classMeshViewerWidget_a9d6ddba4bcdb9a5b8877af7624d3d775}\label{classMeshViewerWidget_a9d6ddba4bcdb9a5b8877af7624d3d775}} 
+virtual void {\bfseries mouse\+Move\+Event} (Q\+Mouse\+Event $\ast$)
+\item 
+\mbox{\Hypertarget{classMeshViewerWidget_a33ceb3173b5c6cfafd9cf559ac84dd7b}\label{classMeshViewerWidget_a33ceb3173b5c6cfafd9cf559ac84dd7b}} 
+virtual void {\bfseries wheel\+Event} (Q\+Wheel\+Event $\ast$)
+\end{DoxyCompactItemize}
+
+
+La documentation de cette classe a été générée à partir des fichiers suivants \+:\begin{DoxyCompactItemize}
+\item 
+meshviewerwidget.\+h\item 
+meshviewerwidget.\+cpp\end{DoxyCompactItemize}

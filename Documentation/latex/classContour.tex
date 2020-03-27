@@ -1,0 +1,253 @@
+\hypertarget{classContour}{}\section{Référence de la classe Contour}
+\label{classContour}\index{Contour@{Contour}}
+\subsection*{Fonctions membres publiques}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classContour_a7522d78ab496badf3b1727202ed15492}{Contour} (My\+Mesh \&\+\_\+mesh)
+\begin{DoxyCompactList}\small\item\em Constructeur. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classContour_a45bf85c9d66109bbdda7d3b688665e2a}\label{classContour_a45bf85c9d66109bbdda7d3b688665e2a}} 
+{\bfseries Contour} (My\+Mesh \&\+\_\+mesh, unsigned \+\_\+begin)
+\item 
+\mbox{\Hypertarget{classContour_a944fb89ff1f9f6dc6850bab1d14479d8}\label{classContour_a944fb89ff1f9f6dc6850bab1d14479d8}} 
+{\bfseries Contour} (My\+Mesh \&\+\_\+mesh, vector$<$ unsigned $>$ \+\_\+vertices)
+\item 
+\hyperlink{classContour_af584aa2a5e9de4660cb2bc0e187868c6}{Contour} (My\+Mesh \&\+\_\+mesh, char $\ast$path)
+\begin{DoxyCompactList}\small\item\em Constructeur. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classContour_ac10722aa3766b0c03bfe602209b36a9a}\label{classContour_ac10722aa3766b0c03bfe602209b36a9a}} 
+unsigned {\bfseries get\+\_\+start} ()
+\item 
+\mbox{\Hypertarget{classContour_abccf731418475131b8d5f4ee08905b99}\label{classContour_abccf731418475131b8d5f4ee08905b99}} 
+unsigned {\bfseries get\+\_\+end} ()
+\item 
+\mbox{\Hypertarget{classContour_a133f0f87f768742538a77fafb7c2f020}\label{classContour_a133f0f87f768742538a77fafb7c2f020}} 
+vector$<$ unsigned $>$ {\bfseries get\+\_\+contour} ()
+\item 
+\mbox{\Hypertarget{classContour_adb639b570d0f49aa38b114e9728412fa}\label{classContour_adb639b570d0f49aa38b114e9728412fa}} 
+void {\bfseries set\+\_\+contour} (vector$<$ unsigned $>$ tmp)
+\item 
+void \hyperlink{classContour_a82c764d0bacfbdaea423679ce7a43661}{reduct} (int modulo)
+\begin{DoxyCompactList}\small\item\em Réduit le nombre de sommets. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classContour_a23c1d89a386157db31266aed7f742b71}\label{classContour_a23c1d89a386157db31266aed7f742b71}} 
+void {\bfseries add\+\_\+edge} (unsigned num\+Edge)
+\item 
+void \hyperlink{classContour_a2b6191371b3ba0cd72e4c26da74e9b58}{add\+\_\+vertex} (unsigned num\+Vertex)
+\begin{DoxyCompactList}\small\item\em Ajoute un sommet dans le contour. \end{DoxyCompactList}\item 
+void \hyperlink{classContour_ad5d4922909fd2dab2c660a85dc339df1}{draw\+\_\+contour} (My\+Mesh $\ast$\+\_\+mesh, My\+Mesh\+::\+Point \+\_\+sight\+Point)
+\begin{DoxyCompactList}\small\item\em dessine le contour dans le viewer \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classContour_ae657948e295c643c2ebfbb451d9aa7f4}\label{classContour_ae657948e295c643c2ebfbb451d9aa7f4}} 
+void {\bfseries display} (int prof\+Display, bool flag\+Color=false)
+\end{DoxyCompactItemize}
+\subsection*{Attributs publics}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classContour_aa98615f98c08bec572067bf1bbb2125a}\label{classContour_aa98615f98c08bec572067bf1bbb2125a}} 
+double {\bfseries half\+\_\+thickness} = 2
+\end{DoxyCompactItemize}
+\subsection*{Fonctions membres protégées}
+\begin{DoxyCompactItemize}
+\item 
+vector$<$ Q\+Vector3D $>$ \hyperlink{classContour_a8e7d2f787365f5b4e03c3d7173f2c3e9}{load\+Cloud} (const string \&filename)
+\begin{DoxyCompactList}\small\item\em charge un nuage \end{DoxyCompactList}\item 
+int \hyperlink{classContour_a7c98ec3dde7850d673a63e2f6cddcb45}{search\+\_\+borne\+\_\+dim} (vector$<$ int $>$ tmp, int dim, bool b\+\_\+max=true)
+\begin{DoxyCompactList}\small\item\em cherche la dimension maximale \end{DoxyCompactList}\item 
+int \hyperlink{classContour_aaf1e67f8e917e3fc50620f8d91aba100}{search\+\_\+min\+\_\+dist\+\_\+vertex\+\_\+from\+\_\+vertex} (vector$<$ int $>$ tmp, int id)
+\begin{DoxyCompactList}\small\item\em Cherche le sommet dont l\textquotesingle{}indice est dans , qui est le plus proche du sommet d\textquotesingle{}indice . \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Attributs protégés}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classContour_ae5c4cfe642e40495f839b061800f2e62}\label{classContour_ae5c4cfe642e40495f839b061800f2e62}} 
+My\+Mesh \& {\bfseries mesh}
+\item 
+int \hyperlink{classContour_a2f694889bf420b8fabd7ecc2fbd7608d}{start\+Point}
+\item 
+int \hyperlink{classContour_a56a02a0bc526980bbfdcec9805ae8a86}{end\+Point}
+\item 
+\mbox{\Hypertarget{classContour_ae8fc2f3205cabb7cd86cb9d707ef9151}\label{classContour_ae8fc2f3205cabb7cd86cb9d707ef9151}} 
+vector$<$ unsigned $>$ {\bfseries edges\+Contour}
+\item 
+vector$<$ unsigned $>$ \hyperlink{classContour_a5e1351483caaec2b0b23287a012fbc56}{vertices\+Contour}
+\end{DoxyCompactItemize}
+
+
+\subsection{Documentation des constructeurs et destructeur}
+\mbox{\Hypertarget{classContour_a7522d78ab496badf3b1727202ed15492}\label{classContour_a7522d78ab496badf3b1727202ed15492}} 
+\index{Contour@{Contour}!Contour@{Contour}}
+\index{Contour@{Contour}!Contour@{Contour}}
+\subsubsection{\texorpdfstring{Contour()}{Contour()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily Contour\+::\+Contour (\begin{DoxyParamCaption}\item[{My\+Mesh \&}]{\+\_\+mesh }\end{DoxyParamCaption})}
+
+
+
+Constructeur. 
+
+Constructeur de la classe \hyperlink{classLiveWire}{Live\+Wire}
+
+
+\begin{DoxyParams}{Paramètres}
+{\em \+\_\+vertices} & \+: le contour d\textquotesingle{}id de sommets \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classContour_af584aa2a5e9de4660cb2bc0e187868c6}\label{classContour_af584aa2a5e9de4660cb2bc0e187868c6}} 
+\index{Contour@{Contour}!Contour@{Contour}}
+\index{Contour@{Contour}!Contour@{Contour}}
+\subsubsection{\texorpdfstring{Contour()}{Contour()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily Contour\+::\+Contour (\begin{DoxyParamCaption}\item[{My\+Mesh \&}]{\+\_\+mesh,  }\item[{char $\ast$}]{path }\end{DoxyParamCaption})}
+
+
+
+Constructeur. 
+
+Constructeur de la classe \hyperlink{classLiveWire}{Live\+Wire} chargeant un fichier .xyz comme contour. (éviter de mettre les données de couleur dans le fichier).
+
+
+\begin{DoxyParams}{Paramètres}
+{\em path} & \+: le contour contenu dans un fichier .xyz \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Documentation des fonctions membres}
+\mbox{\Hypertarget{classContour_a2b6191371b3ba0cd72e4c26da74e9b58}\label{classContour_a2b6191371b3ba0cd72e4c26da74e9b58}} 
+\index{Contour@{Contour}!add\+\_\+vertex@{add\+\_\+vertex}}
+\index{add\+\_\+vertex@{add\+\_\+vertex}!Contour@{Contour}}
+\subsubsection{\texorpdfstring{add\+\_\+vertex()}{add\_vertex()}}
+{\footnotesize\ttfamily void Contour\+::add\+\_\+vertex (\begin{DoxyParamCaption}\item[{unsigned}]{num\+Vertex }\end{DoxyParamCaption})}
+
+
+
+Ajoute un sommet dans le contour. 
+
+
+\begin{DoxyParams}{Paramètres}
+{\em num\+Vertex} & \+: l\textquotesingle{}id du sommet \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classContour_ad5d4922909fd2dab2c660a85dc339df1}\label{classContour_ad5d4922909fd2dab2c660a85dc339df1}} 
+\index{Contour@{Contour}!draw\+\_\+contour@{draw\+\_\+contour}}
+\index{draw\+\_\+contour@{draw\+\_\+contour}!Contour@{Contour}}
+\subsubsection{\texorpdfstring{draw\+\_\+contour()}{draw\_contour()}}
+{\footnotesize\ttfamily void Contour\+::draw\+\_\+contour (\begin{DoxyParamCaption}\item[{My\+Mesh $\ast$}]{\+\_\+mesh,  }\item[{My\+Mesh\+::\+Point}]{\+\_\+sight\+Point }\end{DoxyParamCaption})}
+
+
+
+dessine le contour dans le viewer 
+
+Appelle le livewire pour chaque couple de sommets dans le contour et dessine les arêtes dans le viewer.
+
+
+\begin{DoxyParams}{Paramètres}
+{\em \+\_\+mesh} & \+: le maillage. \\
+\hline
+{\em \+\_\+sight\+Point} & \+: le point de vue utilisateur. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classContour_a8e7d2f787365f5b4e03c3d7173f2c3e9}\label{classContour_a8e7d2f787365f5b4e03c3d7173f2c3e9}} 
+\index{Contour@{Contour}!load\+Cloud@{load\+Cloud}}
+\index{load\+Cloud@{load\+Cloud}!Contour@{Contour}}
+\subsubsection{\texorpdfstring{load\+Cloud()}{loadCloud()}}
+{\footnotesize\ttfamily vector$<$ Q\+Vector3D $>$ Contour\+::load\+Cloud (\begin{DoxyParamCaption}\item[{const string \&}]{filename }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+charge un nuage 
+
+Charge un fichier .txt ou .xyz à partir de  (attention ne gère pas encore les couleurs).
+
+
+\begin{DoxyParams}{Paramètres}
+{\em filename} & \+: le fichier (.xyz ou .txt) contenant les données d\textquotesingle{}un nuage. \\
+\hline
+{\em \+\_\+sight\+Point} & \+: le point de vue utilisateur.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+les coordonnées du nuage 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classContour_a82c764d0bacfbdaea423679ce7a43661}\label{classContour_a82c764d0bacfbdaea423679ce7a43661}} 
+\index{Contour@{Contour}!reduct@{reduct}}
+\index{reduct@{reduct}!Contour@{Contour}}
+\subsubsection{\texorpdfstring{reduct()}{reduct()}}
+{\footnotesize\ttfamily void Contour\+::reduct (\begin{DoxyParamCaption}\item[{int}]{modulo }\end{DoxyParamCaption})}
+
+
+
+Réduit le nombre de sommets. 
+
+Réduit le nombre de sommets dans  à partir d\textquotesingle{}une valeur modulo. (exemple\+: on ne garde que les id de sommets (dans le tableau) dont le modulo  vaut 0)
+
+
+\begin{DoxyParams}{Paramètres}
+{\em modulo} & \+: pour indiquer la proprtiuon de sommets à conserver \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classContour_a7c98ec3dde7850d673a63e2f6cddcb45}\label{classContour_a7c98ec3dde7850d673a63e2f6cddcb45}} 
+\index{Contour@{Contour}!search\+\_\+borne\+\_\+dim@{search\+\_\+borne\+\_\+dim}}
+\index{search\+\_\+borne\+\_\+dim@{search\+\_\+borne\+\_\+dim}!Contour@{Contour}}
+\subsubsection{\texorpdfstring{search\+\_\+borne\+\_\+dim()}{search\_borne\_dim()}}
+{\footnotesize\ttfamily int Contour\+::search\+\_\+borne\+\_\+dim (\begin{DoxyParamCaption}\item[{vector$<$ int $>$}]{tmp,  }\item[{int}]{dim,  }\item[{bool}]{b\+\_\+max = {\ttfamily true} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+cherche la dimension maximale 
+
+Cherche le point dans  qui a, en fonction du boolean , la  maximale ou minimale
+
+
+\begin{DoxyParams}{Paramètres}
+{\em tmp} & \+: contour d\textquotesingle{}id de sommets. \\
+\hline
+{\em dim} & \+: 0,1 ou 2 aka x, y ou z.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+l\textquotesingle{}id du sommet de coord min 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classContour_aaf1e67f8e917e3fc50620f8d91aba100}\label{classContour_aaf1e67f8e917e3fc50620f8d91aba100}} 
+\index{Contour@{Contour}!search\+\_\+min\+\_\+dist\+\_\+vertex\+\_\+from\+\_\+vertex@{search\+\_\+min\+\_\+dist\+\_\+vertex\+\_\+from\+\_\+vertex}}
+\index{search\+\_\+min\+\_\+dist\+\_\+vertex\+\_\+from\+\_\+vertex@{search\+\_\+min\+\_\+dist\+\_\+vertex\+\_\+from\+\_\+vertex}!Contour@{Contour}}
+\subsubsection{\texorpdfstring{search\+\_\+min\+\_\+dist\+\_\+vertex\+\_\+from\+\_\+vertex()}{search\_min\_dist\_vertex\_from\_vertex()}}
+{\footnotesize\ttfamily int Contour\+::search\+\_\+min\+\_\+dist\+\_\+vertex\+\_\+from\+\_\+vertex (\begin{DoxyParamCaption}\item[{vector$<$ int $>$}]{tmp,  }\item[{int}]{id }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Cherche le sommet dont l\textquotesingle{}indice est dans , qui est le plus proche du sommet d\textquotesingle{}indice . 
+
+Cherche le sommet dont l\textquotesingle{}indice est dans , qui est le plus proche du sommet d\textquotesingle{}indice . Le sommet dans  n\textquotesingle{}est reconnu que s\textquotesingle{}il n\textquotesingle{}est pas dans . Retourne -\/1 si aucun sommet compatible.
+
+
+\begin{DoxyParams}{Paramètres}
+{\em tmp} & \+: contour d\textquotesingle{}id de sommets. \\
+\hline
+{\em id} & \+: id d\textquotesingle{}un sommet.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+l\textquotesingle{}id du sommet trouvé ou -\/1 si aucun sommet compatible. 
+\end{DoxyReturn}
+
+
+\subsection{Documentation des données membres}
+\mbox{\Hypertarget{classContour_a56a02a0bc526980bbfdcec9805ae8a86}\label{classContour_a56a02a0bc526980bbfdcec9805ae8a86}} 
+\index{Contour@{Contour}!end\+Point@{end\+Point}}
+\index{end\+Point@{end\+Point}!Contour@{Contour}}
+\subsubsection{\texorpdfstring{end\+Point}{endPoint}}
+{\footnotesize\ttfamily int Contour\+::end\+Point\hspace{0.3cm}{\ttfamily [protected]}}
+
+Indice du dernier sommet du contour \mbox{\Hypertarget{classContour_a2f694889bf420b8fabd7ecc2fbd7608d}\label{classContour_a2f694889bf420b8fabd7ecc2fbd7608d}} 
+\index{Contour@{Contour}!start\+Point@{start\+Point}}
+\index{start\+Point@{start\+Point}!Contour@{Contour}}
+\subsubsection{\texorpdfstring{start\+Point}{startPoint}}
+{\footnotesize\ttfamily int Contour\+::start\+Point\hspace{0.3cm}{\ttfamily [protected]}}
+
+Indice du premier sommet du contour \mbox{\Hypertarget{classContour_a5e1351483caaec2b0b23287a012fbc56}\label{classContour_a5e1351483caaec2b0b23287a012fbc56}} 
+\index{Contour@{Contour}!vertices\+Contour@{vertices\+Contour}}
+\index{vertices\+Contour@{vertices\+Contour}!Contour@{Contour}}
+\subsubsection{\texorpdfstring{vertices\+Contour}{verticesContour}}
+{\footnotesize\ttfamily vector$<$unsigned$>$ Contour\+::vertices\+Contour\hspace{0.3cm}{\ttfamily [protected]}}
+
+Le contour de sommets 
+
+La documentation de cette classe a été générée à partir des fichiers suivants \+:\begin{DoxyCompactItemize}
+\item 
+contour.\+h\item 
+contour.\+cpp\end{DoxyCompactItemize}

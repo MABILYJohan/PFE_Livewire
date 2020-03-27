@@ -110,7 +110,7 @@ private:
     int nbMaxCrit = 7;      /*!< Nombre maximum de critères pouvant être utilisés */
     vector<int> criteres;   /*!< Tableau d'enums */
     vector<vector<double>> tabCosts; /*!< Tableau de tableaux de coûts précalculés (en fct de critères) */
-    double rad_thickness = 1.4; //Radius of pre-supposed brush radius which "draws" the stroke
+    double rad_thickness = 1.4; /*!< Radius of pre-supposed brush radius which "draws" the stroke*/
 
 
     /**

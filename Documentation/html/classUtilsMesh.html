@@ -1,0 +1,162 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.13"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Segmentation 3D par la méthode du Livewire: Référence de la classe UtilsMesh</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">Segmentation 3D par la méthode du Livewire
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Généré par Doxygen 1.8.13 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search",false,'Recherche');
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+$(function() {
+  initMenu('',true,false,'search.php','Recherche');
+  $(document).ready(function() { init_search(); });
+});
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#pub-static-methods">Fonctions membres publiques statiques</a> &#124;
+<a href="classUtilsMesh-members.html">Liste de tous les membres</a>  </div>
+  <div class="headertitle">
+<div class="title">Référence de la classe UtilsMesh</div>  </div>
+</div><!--header-->
+<div class="contents">
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
+Fonctions membres publiques statiques</h2></td></tr>
+<tr class="memitem:a0d2f2fe7d612ceb4d4362c87b126c170"><td class="memItemLeft" align="right" valign="top"><a id="a0d2f2fe7d612ceb4d4362c87b126c170"></a>
+static bool&#160;</td><td class="memItemRight" valign="bottom"><b>edge_is_in_face</b> (MyMesh *_mesh, int edgeID, int faceID)</td></tr>
+<tr class="separator:a0d2f2fe7d612ceb4d4362c87b126c170"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ace2a1887302820d51204277c7ad4b27d"><td class="memItemLeft" align="right" valign="top"><a id="ace2a1887302820d51204277c7ad4b27d"></a>
+static bool&#160;</td><td class="memItemRight" valign="bottom"><b>faces_have_common_edge</b> (MyMesh *_mesh, int face1ID, int face2ID)</td></tr>
+<tr class="separator:ace2a1887302820d51204277c7ad4b27d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaedbfffbb55c461eeb612aa1811695ba"><td class="memItemLeft" align="right" valign="top"><a id="aaedbfffbb55c461eeb612aa1811695ba"></a>
+static bool&#160;</td><td class="memItemRight" valign="bottom"><b>vertex_is_in_face</b> (MyMesh *_mesh, int faceID, int vertexID)</td></tr>
+<tr class="separator:aaedbfffbb55c461eeb612aa1811695ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2aa07d8d317c3abf913e908814de1348"><td class="memItemLeft" align="right" valign="top"><a id="a2aa07d8d317c3abf913e908814de1348"></a>
+static int&#160;</td><td class="memItemRight" valign="bottom"><b>get_vertex_of_point</b> (MyMesh *_mesh, MyMesh::Point p, int precision=0)</td></tr>
+<tr class="separator:a2aa07d8d317c3abf913e908814de1348"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a884362ef422ab9153dddaf3ed4839f12"><td class="memItemLeft" align="right" valign="top"><a id="a884362ef422ab9153dddaf3ed4839f12"></a>
+static int&#160;</td><td class="memItemRight" valign="bottom"><b>get_opposite_edgeFace</b> (MyMesh *_mesh, int faceID, int edgeID)</td></tr>
+<tr class="separator:a884362ef422ab9153dddaf3ed4839f12"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab0b77c2c49bc2a758f128816d2f8cf38"><td class="memItemLeft" align="right" valign="top"><a id="ab0b77c2c49bc2a758f128816d2f8cf38"></a>
+static void&#160;</td><td class="memItemRight" valign="bottom"><b>get_vh_of_edge</b> (MyMesh *_mesh, int edgeID, VertexHandle &amp;vh0, VertexHandle &amp;vh1)</td></tr>
+<tr class="separator:ab0b77c2c49bc2a758f128816d2f8cf38"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5639fe5d99b8d4863a601882354783f7"><td class="memItemLeft" align="right" valign="top"><a id="a5639fe5d99b8d4863a601882354783f7"></a>
+static void&#160;</td><td class="memItemRight" valign="bottom"><b>get_eh_of_triangle_face</b> (MyMesh *_mesh, int faceID, EdgeHandle &amp;eh0, EdgeHandle &amp;eh1, EdgeHandle &amp;eh2)</td></tr>
+<tr class="separator:a5639fe5d99b8d4863a601882354783f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a78b1d3eae8fb732b329ded324a8a945a"><td class="memItemLeft" align="right" valign="top"><a id="a78b1d3eae8fb732b329ded324a8a945a"></a>
+static vector&lt; VertexHandle &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>get_vh_of_face</b> (MyMesh *_mesh, int faceID)</td></tr>
+<tr class="separator:a78b1d3eae8fb732b329ded324a8a945a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab917829a3ca0e3ec4aacad5ca920755b"><td class="memItemLeft" align="right" valign="top"><a id="ab917829a3ca0e3ec4aacad5ca920755b"></a>
+static void&#160;</td><td class="memItemRight" valign="bottom"><b>get_vh_of_triangle_face</b> (MyMesh *_mesh, int faceID, VertexHandle &amp;vh0, VertexHandle &amp;vh1, VertexHandle &amp;vh2)</td></tr>
+<tr class="separator:ab917829a3ca0e3ec4aacad5ca920755b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6bf821f4b60630010b30929ff08df8ef"><td class="memItemLeft" align="right" valign="top"><a id="a6bf821f4b60630010b30929ff08df8ef"></a>
+static void&#160;</td><td class="memItemRight" valign="bottom"><b>get_points_of_triangle_face</b> (MyMesh *_mesh, int faceID, MyMesh::Point &amp;p1, MyMesh::Point &amp;p2, MyMesh::Point &amp;p3)</td></tr>
+<tr class="separator:a6bf821f4b60630010b30929ff08df8ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae90e0778536a6b84028765d0fa94c1d5"><td class="memItemLeft" align="right" valign="top"><a id="ae90e0778536a6b84028765d0fa94c1d5"></a>
+static vector&lt; FaceHandle &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>get_neighbour_faces</b> (MyMesh *_mesh, int numFace)</td></tr>
+<tr class="separator:ae90e0778536a6b84028765d0fa94c1d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaaa320f02cba619c3879278d3a71defc"><td class="memItemLeft" align="right" valign="top"><a id="aaaa320f02cba619c3879278d3a71defc"></a>
+static vector&lt; EdgeHandle &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>get_edgeEdge_circulator</b> (MyMesh *_mesh, int numEdge)</td></tr>
+<tr class="separator:aaaa320f02cba619c3879278d3a71defc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad303b77cd61c61bac06680b3afca72bf"><td class="memItemLeft" align="right" valign="top"><a id="ad303b77cd61c61bac06680b3afca72bf"></a>
+static EdgeHandle&#160;</td><td class="memItemRight" valign="bottom"><b>get_next_eh_of_vh</b> (MyMesh *_mesh, int numVertex)</td></tr>
+<tr class="separator:ad303b77cd61c61bac06680b3afca72bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a91d7084f562bb9da88164546fbf738ec"><td class="memItemLeft" align="right" valign="top"><a id="a91d7084f562bb9da88164546fbf738ec"></a>
+static int&#160;</td><td class="memItemRight" valign="bottom"><b>find_near_vertex_of_point</b> (MyMesh *_mesh, MyMesh::Point P)</td></tr>
+<tr class="separator:a91d7084f562bb9da88164546fbf738ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad786014e4009f7763e8efc2e330a6432"><td class="memItemLeft" align="right" valign="top"><a id="ad786014e4009f7763e8efc2e330a6432"></a>
+static void&#160;</td><td class="memItemRight" valign="bottom"><b>add_triangle_face</b> (MyMesh *_mesh, VertexHandle vh1, VertexHandle vh2, VertexHandle vh3)</td></tr>
+<tr class="separator:ad786014e4009f7763e8efc2e330a6432"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5b273e1b0bc46b953a3ab563cb214797"><td class="memItemLeft" align="right" valign="top"><a id="a5b273e1b0bc46b953a3ab563cb214797"></a>
+static void&#160;</td><td class="memItemRight" valign="bottom"><b>add_face</b> (MyMesh *_mesh, vector&lt; VertexHandle &gt; vhs)</td></tr>
+<tr class="separator:a5b273e1b0bc46b953a3ab563cb214797"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae75a3540f04ff113cfc8676bcca9d19e"><td class="memItemLeft" align="right" valign="top"><a id="ae75a3540f04ff113cfc8676bcca9d19e"></a>
+static void&#160;</td><td class="memItemRight" valign="bottom"><b>collapseEdge</b> (MyMesh *_mesh, int edgeID)</td></tr>
+<tr class="separator:ae75a3540f04ff113cfc8676bcca9d19e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a19119b36d76cae392c4b9a920070e00f"><td class="memItemLeft" align="right" valign="top"><a id="a19119b36d76cae392c4b9a920070e00f"></a>
+static void&#160;</td><td class="memItemRight" valign="bottom"><b>flipEdge</b> (MyMesh *_mesh, int edgeID)</td></tr>
+<tr class="separator:a19119b36d76cae392c4b9a920070e00f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a524c2a3d0054783b85fa55deb7396bc7"><td class="memItemLeft" align="right" valign="top"><a id="a524c2a3d0054783b85fa55deb7396bc7"></a>
+static void&#160;</td><td class="memItemRight" valign="bottom"><b>splitEdge</b> (MyMesh *_mesh, int edgeID, bool bCopy=false)</td></tr>
+<tr class="separator:a524c2a3d0054783b85fa55deb7396bc7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a38d408dcd7a0144332d75011f1f28a1f"><td class="memItemLeft" align="right" valign="top"><a id="a38d408dcd7a0144332d75011f1f28a1f"></a>
+static QVector3D&#160;</td><td class="memItemRight" valign="bottom"><b>to_qvector3D</b> (MyMesh::Point p)</td></tr>
+<tr class="separator:a38d408dcd7a0144332d75011f1f28a1f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a95ac0f209729bda6535a62697d1bef4b"><td class="memItemLeft" align="right" valign="top"><a id="a95ac0f209729bda6535a62697d1bef4b"></a>
+static float&#160;</td><td class="memItemRight" valign="bottom"><b>distance_point_to_face</b> (MyMesh *_mesh, MyMesh::Point p, int faceID)</td></tr>
+<tr class="separator:a95ac0f209729bda6535a62697d1bef4b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a25164a4817219ce93cb529aba35f5f3e"><td class="memItemLeft" align="right" valign="top"><a id="a25164a4817219ce93cb529aba35f5f3e"></a>
+static MyMesh::Point&#160;</td><td class="memItemRight" valign="bottom"><b>middle_edge</b> (MyMesh *_mesh, int edgeID)</td></tr>
+<tr class="separator:a25164a4817219ce93cb529aba35f5f3e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4db1ebed704b471978fada1f1781c77a"><td class="memItemLeft" align="right" valign="top"><a id="a4db1ebed704b471978fada1f1781c77a"></a>
+static MyMesh::Point&#160;</td><td class="memItemRight" valign="bottom"><b>barycentre_triangle</b> (MyMesh *_mesh, int faceID)</td></tr>
+<tr class="separator:a4db1ebed704b471978fada1f1781c77a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac4c332572b422495d609ea8a7ff31352"><td class="memItemLeft" align="right" valign="top"><a id="ac4c332572b422495d609ea8a7ff31352"></a>
+static float&#160;</td><td class="memItemRight" valign="bottom"><b>angle_diedre</b> (MyMesh *_mesh)</td></tr>
+<tr class="separator:ac4c332572b422495d609ea8a7ff31352"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abb69a35743ba9086f9882150bde17f60"><td class="memItemLeft" align="right" valign="top"><a id="abb69a35743ba9086f9882150bde17f60"></a>
+static unsigned&#160;</td><td class="memItemRight" valign="bottom"><b>nb_connexity_componenents</b> (MyMesh *_mesh)</td></tr>
+<tr class="separator:abb69a35743ba9086f9882150bde17f60"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aad038179c37dbee5b313757c2e4c7c5d"><td class="memItemLeft" align="right" valign="top"><a id="aad038179c37dbee5b313757c2e4c7c5d"></a>
+static void&#160;</td><td class="memItemRight" valign="bottom"><b>extract_biggest_connexity_component</b> (MyMesh *_mesh)</td></tr>
+<tr class="separator:aad038179c37dbee5b313757c2e4c7c5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<hr/>La documentation de cette classe a été générée à partir des fichiers suivants :<ul>
+<li><a class="el" href="utilsMesh_8h_source.html">utilsMesh.h</a></li>
+<li>utilsMesh.cpp</li>
+</ul>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Généré par &#160;<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/>
+</a> 1.8.13
+</small></address>
+</body>
+</html>

@@ -1,0 +1,89 @@
+\hypertarget{classUtilsMesh}{}\section{Référence de la classe Utils\+Mesh}
+\label{classUtilsMesh}\index{Utils\+Mesh@{Utils\+Mesh}}
+\subsection*{Fonctions membres publiques statiques}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classUtilsMesh_a0d2f2fe7d612ceb4d4362c87b126c170}\label{classUtilsMesh_a0d2f2fe7d612ceb4d4362c87b126c170}} 
+static bool {\bfseries edge\+\_\+is\+\_\+in\+\_\+face} (My\+Mesh $\ast$\+\_\+mesh, int edge\+ID, int face\+ID)
+\item 
+\mbox{\Hypertarget{classUtilsMesh_ace2a1887302820d51204277c7ad4b27d}\label{classUtilsMesh_ace2a1887302820d51204277c7ad4b27d}} 
+static bool {\bfseries faces\+\_\+have\+\_\+common\+\_\+edge} (My\+Mesh $\ast$\+\_\+mesh, int face1\+ID, int face2\+ID)
+\item 
+\mbox{\Hypertarget{classUtilsMesh_aaedbfffbb55c461eeb612aa1811695ba}\label{classUtilsMesh_aaedbfffbb55c461eeb612aa1811695ba}} 
+static bool {\bfseries vertex\+\_\+is\+\_\+in\+\_\+face} (My\+Mesh $\ast$\+\_\+mesh, int face\+ID, int vertex\+ID)
+\item 
+\mbox{\Hypertarget{classUtilsMesh_a2aa07d8d317c3abf913e908814de1348}\label{classUtilsMesh_a2aa07d8d317c3abf913e908814de1348}} 
+static int {\bfseries get\+\_\+vertex\+\_\+of\+\_\+point} (My\+Mesh $\ast$\+\_\+mesh, My\+Mesh\+::\+Point p, int precision=0)
+\item 
+\mbox{\Hypertarget{classUtilsMesh_a884362ef422ab9153dddaf3ed4839f12}\label{classUtilsMesh_a884362ef422ab9153dddaf3ed4839f12}} 
+static int {\bfseries get\+\_\+opposite\+\_\+edge\+Face} (My\+Mesh $\ast$\+\_\+mesh, int face\+ID, int edge\+ID)
+\item 
+\mbox{\Hypertarget{classUtilsMesh_ab0b77c2c49bc2a758f128816d2f8cf38}\label{classUtilsMesh_ab0b77c2c49bc2a758f128816d2f8cf38}} 
+static void {\bfseries get\+\_\+vh\+\_\+of\+\_\+edge} (My\+Mesh $\ast$\+\_\+mesh, int edge\+ID, Vertex\+Handle \&vh0, Vertex\+Handle \&vh1)
+\item 
+\mbox{\Hypertarget{classUtilsMesh_a5639fe5d99b8d4863a601882354783f7}\label{classUtilsMesh_a5639fe5d99b8d4863a601882354783f7}} 
+static void {\bfseries get\+\_\+eh\+\_\+of\+\_\+triangle\+\_\+face} (My\+Mesh $\ast$\+\_\+mesh, int face\+ID, Edge\+Handle \&eh0, Edge\+Handle \&eh1, Edge\+Handle \&eh2)
+\item 
+\mbox{\Hypertarget{classUtilsMesh_a78b1d3eae8fb732b329ded324a8a945a}\label{classUtilsMesh_a78b1d3eae8fb732b329ded324a8a945a}} 
+static vector$<$ Vertex\+Handle $>$ {\bfseries get\+\_\+vh\+\_\+of\+\_\+face} (My\+Mesh $\ast$\+\_\+mesh, int face\+ID)
+\item 
+\mbox{\Hypertarget{classUtilsMesh_ab917829a3ca0e3ec4aacad5ca920755b}\label{classUtilsMesh_ab917829a3ca0e3ec4aacad5ca920755b}} 
+static void {\bfseries get\+\_\+vh\+\_\+of\+\_\+triangle\+\_\+face} (My\+Mesh $\ast$\+\_\+mesh, int face\+ID, Vertex\+Handle \&vh0, Vertex\+Handle \&vh1, Vertex\+Handle \&vh2)
+\item 
+\mbox{\Hypertarget{classUtilsMesh_a6bf821f4b60630010b30929ff08df8ef}\label{classUtilsMesh_a6bf821f4b60630010b30929ff08df8ef}} 
+static void {\bfseries get\+\_\+points\+\_\+of\+\_\+triangle\+\_\+face} (My\+Mesh $\ast$\+\_\+mesh, int face\+ID, My\+Mesh\+::\+Point \&p1, My\+Mesh\+::\+Point \&p2, My\+Mesh\+::\+Point \&p3)
+\item 
+\mbox{\Hypertarget{classUtilsMesh_ae90e0778536a6b84028765d0fa94c1d5}\label{classUtilsMesh_ae90e0778536a6b84028765d0fa94c1d5}} 
+static vector$<$ Face\+Handle $>$ {\bfseries get\+\_\+neighbour\+\_\+faces} (My\+Mesh $\ast$\+\_\+mesh, int num\+Face)
+\item 
+\mbox{\Hypertarget{classUtilsMesh_aaaa320f02cba619c3879278d3a71defc}\label{classUtilsMesh_aaaa320f02cba619c3879278d3a71defc}} 
+static vector$<$ Edge\+Handle $>$ {\bfseries get\+\_\+edge\+Edge\+\_\+circulator} (My\+Mesh $\ast$\+\_\+mesh, int num\+Edge)
+\item 
+\mbox{\Hypertarget{classUtilsMesh_ad303b77cd61c61bac06680b3afca72bf}\label{classUtilsMesh_ad303b77cd61c61bac06680b3afca72bf}} 
+static Edge\+Handle {\bfseries get\+\_\+next\+\_\+eh\+\_\+of\+\_\+vh} (My\+Mesh $\ast$\+\_\+mesh, int num\+Vertex)
+\item 
+\mbox{\Hypertarget{classUtilsMesh_a91d7084f562bb9da88164546fbf738ec}\label{classUtilsMesh_a91d7084f562bb9da88164546fbf738ec}} 
+static int {\bfseries find\+\_\+near\+\_\+vertex\+\_\+of\+\_\+point} (My\+Mesh $\ast$\+\_\+mesh, My\+Mesh\+::\+Point P)
+\item 
+\mbox{\Hypertarget{classUtilsMesh_ad786014e4009f7763e8efc2e330a6432}\label{classUtilsMesh_ad786014e4009f7763e8efc2e330a6432}} 
+static void {\bfseries add\+\_\+triangle\+\_\+face} (My\+Mesh $\ast$\+\_\+mesh, Vertex\+Handle vh1, Vertex\+Handle vh2, Vertex\+Handle vh3)
+\item 
+\mbox{\Hypertarget{classUtilsMesh_a5b273e1b0bc46b953a3ab563cb214797}\label{classUtilsMesh_a5b273e1b0bc46b953a3ab563cb214797}} 
+static void {\bfseries add\+\_\+face} (My\+Mesh $\ast$\+\_\+mesh, vector$<$ Vertex\+Handle $>$ vhs)
+\item 
+\mbox{\Hypertarget{classUtilsMesh_ae75a3540f04ff113cfc8676bcca9d19e}\label{classUtilsMesh_ae75a3540f04ff113cfc8676bcca9d19e}} 
+static void {\bfseries collapse\+Edge} (My\+Mesh $\ast$\+\_\+mesh, int edge\+ID)
+\item 
+\mbox{\Hypertarget{classUtilsMesh_a19119b36d76cae392c4b9a920070e00f}\label{classUtilsMesh_a19119b36d76cae392c4b9a920070e00f}} 
+static void {\bfseries flip\+Edge} (My\+Mesh $\ast$\+\_\+mesh, int edge\+ID)
+\item 
+\mbox{\Hypertarget{classUtilsMesh_a524c2a3d0054783b85fa55deb7396bc7}\label{classUtilsMesh_a524c2a3d0054783b85fa55deb7396bc7}} 
+static void {\bfseries split\+Edge} (My\+Mesh $\ast$\+\_\+mesh, int edge\+ID, bool b\+Copy=false)
+\item 
+\mbox{\Hypertarget{classUtilsMesh_a38d408dcd7a0144332d75011f1f28a1f}\label{classUtilsMesh_a38d408dcd7a0144332d75011f1f28a1f}} 
+static Q\+Vector3D {\bfseries to\+\_\+qvector3D} (My\+Mesh\+::\+Point p)
+\item 
+\mbox{\Hypertarget{classUtilsMesh_a95ac0f209729bda6535a62697d1bef4b}\label{classUtilsMesh_a95ac0f209729bda6535a62697d1bef4b}} 
+static float {\bfseries distance\+\_\+point\+\_\+to\+\_\+face} (My\+Mesh $\ast$\+\_\+mesh, My\+Mesh\+::\+Point p, int face\+ID)
+\item 
+\mbox{\Hypertarget{classUtilsMesh_a25164a4817219ce93cb529aba35f5f3e}\label{classUtilsMesh_a25164a4817219ce93cb529aba35f5f3e}} 
+static My\+Mesh\+::\+Point {\bfseries middle\+\_\+edge} (My\+Mesh $\ast$\+\_\+mesh, int edge\+ID)
+\item 
+\mbox{\Hypertarget{classUtilsMesh_a4db1ebed704b471978fada1f1781c77a}\label{classUtilsMesh_a4db1ebed704b471978fada1f1781c77a}} 
+static My\+Mesh\+::\+Point {\bfseries barycentre\+\_\+triangle} (My\+Mesh $\ast$\+\_\+mesh, int face\+ID)
+\item 
+\mbox{\Hypertarget{classUtilsMesh_ac4c332572b422495d609ea8a7ff31352}\label{classUtilsMesh_ac4c332572b422495d609ea8a7ff31352}} 
+static float {\bfseries angle\+\_\+diedre} (My\+Mesh $\ast$\+\_\+mesh)
+\item 
+\mbox{\Hypertarget{classUtilsMesh_abb69a35743ba9086f9882150bde17f60}\label{classUtilsMesh_abb69a35743ba9086f9882150bde17f60}} 
+static unsigned {\bfseries nb\+\_\+connexity\+\_\+componenents} (My\+Mesh $\ast$\+\_\+mesh)
+\item 
+\mbox{\Hypertarget{classUtilsMesh_aad038179c37dbee5b313757c2e4c7c5d}\label{classUtilsMesh_aad038179c37dbee5b313757c2e4c7c5d}} 
+static void {\bfseries extract\+\_\+biggest\+\_\+connexity\+\_\+component} (My\+Mesh $\ast$\+\_\+mesh)
+\end{DoxyCompactItemize}
+
+
+La documentation de cette classe a été générée à partir des fichiers suivants \+:\begin{DoxyCompactItemize}
+\item 
+utils\+Mesh.\+h\item 
+utils\+Mesh.\+cpp\end{DoxyCompactItemize}

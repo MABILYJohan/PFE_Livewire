@@ -1,3 +1,0 @@
-/home/djohlan/Bureau/pcl_test/pourLeProjet/simpleViewer/build/CMakeFiles/rebuild_cache.dir
-/home/djohlan/Bureau/pcl_test/pourLeProjet/simpleViewer/build/CMakeFiles/vizu.dir
-/home/djohlan/Bureau/pcl_test/pourLeProjet/simpleViewer/build/CMakeFiles/edit_cache.dir

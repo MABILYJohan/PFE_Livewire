@@ -1,0 +1,149 @@
+\hypertarget{classLiveWire}{}\section{Référence de la classe Live\+Wire}
+\label{classLiveWire}\index{Live\+Wire@{Live\+Wire}}
+
+
+classe representant le \hyperlink{classLiveWire}{Live\+Wire}  
+
+
+
+
+{\ttfamily \#include $<$livewire.\+h$>$}
+
+\subsection*{Fonctions membres publiques}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classLiveWire_abc36982cf24dcf6ac80aeaaa2e6ee7de}{Live\+Wire} (My\+Mesh \&\+\_\+mesh, int \+\_\+vertex\+Seed, My\+Mesh\+::\+Point \+\_\+sight\+Point)
+\begin{DoxyCompactList}\small\item\em Constructeur. \end{DoxyCompactList}\item 
+void \hyperlink{classLiveWire_a6c6ced430d7fd80faeb4ba03c8553642}{display\+\_\+criterions} (int prof\+Display=0)
+\begin{DoxyCompactList}\small\item\em Afficheur de critères. \end{DoxyCompactList}\item 
+void \hyperlink{classLiveWire_af76b35975d3b17c4c831103df2a99a41}{update\+\_\+vertex\+Seed} (int \+\_\+vertex\+Seed, int vertex\+Next, bool close=false)
+\begin{DoxyCompactList}\small\item\em Met à jour le sommet de départ. \end{DoxyCompactList}\item 
+void \hyperlink{classLiveWire_ad5f6d3ed25f17e9ef59dcab06436fbf5}{draw} (unsigned vertex2)
+\begin{DoxyCompactList}\small\item\em Dessine le chemin calculé par le \hyperlink{classLiveWire}{Live\+Wire}. \end{DoxyCompactList}\item 
+void \hyperlink{classLiveWire_a41a127be9f1d85aea471310a614de0b4}{build\+\_\+paths} (int vertex\+Next, bool close=false)
+\begin{DoxyCompactList}\small\item\em Construit les chemins pour le livewire. \end{DoxyCompactList}\item 
+vector$<$ int $>$ \hyperlink{classLiveWire_a84b0d58817a209322cc11525423c2472}{get\+\_\+paths} ()
+\begin{DoxyCompactList}\small\item\em Accesseur chemins calculés. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Description détaillée}
+classe representant le \hyperlink{classLiveWire}{Live\+Wire} 
+
+La classe calcule l\textquotesingle{}algorithme du livewire3D sur un maillage 
+
+\subsection{Documentation des constructeurs et destructeur}
+\mbox{\Hypertarget{classLiveWire_abc36982cf24dcf6ac80aeaaa2e6ee7de}\label{classLiveWire_abc36982cf24dcf6ac80aeaaa2e6ee7de}} 
+\index{Live\+Wire@{Live\+Wire}!Live\+Wire@{Live\+Wire}}
+\index{Live\+Wire@{Live\+Wire}!Live\+Wire@{Live\+Wire}}
+\subsubsection{\texorpdfstring{Live\+Wire()}{LiveWire()}}
+{\footnotesize\ttfamily Live\+Wire\+::\+Live\+Wire (\begin{DoxyParamCaption}\item[{My\+Mesh \&}]{\+\_\+mesh,  }\item[{int}]{\+\_\+vertex\+Seed,  }\item[{My\+Mesh\+::\+Point}]{\+\_\+sight\+Point }\end{DoxyParamCaption})}
+
+
+
+Constructeur. 
+
+Constructeur de la classe \hyperlink{classLiveWire}{Live\+Wire}
+
+
+\begin{DoxyParams}{Paramètres}
+{\em \+\_\+mesh} & \+: le maillage auquel on va appliquer l\textquotesingle{}algorithme \\
+\hline
+{\em \+\_\+vertex\+Seed} & \+: Le sommet de départ de l\textquotesingle{}algo \\
+\hline
+{\em \+\_\+sight\+Point} & \+: Le point de vue utilisateur \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Documentation des fonctions membres}
+\mbox{\Hypertarget{classLiveWire_a41a127be9f1d85aea471310a614de0b4}\label{classLiveWire_a41a127be9f1d85aea471310a614de0b4}} 
+\index{Live\+Wire@{Live\+Wire}!build\+\_\+paths@{build\+\_\+paths}}
+\index{build\+\_\+paths@{build\+\_\+paths}!Live\+Wire@{Live\+Wire}}
+\subsubsection{\texorpdfstring{build\+\_\+paths()}{build\_paths()}}
+{\footnotesize\ttfamily void Live\+Wire\+::build\+\_\+paths (\begin{DoxyParamCaption}\item[{int}]{vertex\+Next,  }\item[{bool}]{close = {\ttfamily false} }\end{DoxyParamCaption})}
+
+
+
+Construit les chemins pour le livewire. 
+
+Construit les chemins pour le livewire (dans ). Le chemin est composé de sommets.  pour le critère de visibilité avec dijkstra. Pensez au cas où à bien mettre à jour  avant d\textquotesingle{}utiliser la fonction.
+
+
+\begin{DoxyParams}{Paramètres}
+{\em vertex\+Next} & \+: vertex suivant pour le critère de visibilité utilisant \hyperlink{classDijkstra}{Dijkstra} \\
+\hline
+{\em close} & \+: boolean pour savoir si le chemin qui va être calculé fermera le contour \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classLiveWire_a6c6ced430d7fd80faeb4ba03c8553642}\label{classLiveWire_a6c6ced430d7fd80faeb4ba03c8553642}} 
+\index{Live\+Wire@{Live\+Wire}!display\+\_\+criterions@{display\+\_\+criterions}}
+\index{display\+\_\+criterions@{display\+\_\+criterions}!Live\+Wire@{Live\+Wire}}
+\subsubsection{\texorpdfstring{display\+\_\+criterions()}{display\_criterions()}}
+{\footnotesize\ttfamily void Live\+Wire\+::display\+\_\+criterions (\begin{DoxyParamCaption}\item[{int}]{prof\+Display = {\ttfamily 0} }\end{DoxyParamCaption})}
+
+
+
+Afficheur de critères. 
+
+Affiche les critères qui vont être utilisés
+
+
+\begin{DoxyParams}{Paramètres}
+{\em prof\+Display} & \+: simple variable pour régler la profondeur d\textquotesingle{}affichage \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classLiveWire_ad5f6d3ed25f17e9ef59dcab06436fbf5}\label{classLiveWire_ad5f6d3ed25f17e9ef59dcab06436fbf5}} 
+\index{Live\+Wire@{Live\+Wire}!draw@{draw}}
+\index{draw@{draw}!Live\+Wire@{Live\+Wire}}
+\subsubsection{\texorpdfstring{draw()}{draw()}}
+{\footnotesize\ttfamily void Live\+Wire\+::draw (\begin{DoxyParamCaption}\item[{unsigned}]{vertex2 }\end{DoxyParamCaption})}
+
+
+
+Dessine le chemin calculé par le \hyperlink{classLiveWire}{Live\+Wire}. 
+
+Dessine le chemin dans  entre l\textquotesingle{}arête  et une arête 
+
+
+\begin{DoxyParams}{Paramètres}
+{\em vertex2} & \+: sommet d\textquotesingle{}arrivé du sommet  \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classLiveWire_a84b0d58817a209322cc11525423c2472}\label{classLiveWire_a84b0d58817a209322cc11525423c2472}} 
+\index{Live\+Wire@{Live\+Wire}!get\+\_\+paths@{get\+\_\+paths}}
+\index{get\+\_\+paths@{get\+\_\+paths}!Live\+Wire@{Live\+Wire}}
+\subsubsection{\texorpdfstring{get\+\_\+paths()}{get\_paths()}}
+{\footnotesize\ttfamily vector$<$ int $>$ Live\+Wire\+::get\+\_\+paths (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Accesseur chemins calculés. 
+
+\begin{DoxyReturn}{Renvoie}
+tableau des prédecesseurs de chaque arêtes 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classLiveWire_af76b35975d3b17c4c831103df2a99a41}\label{classLiveWire_af76b35975d3b17c4c831103df2a99a41}} 
+\index{Live\+Wire@{Live\+Wire}!update\+\_\+vertex\+Seed@{update\+\_\+vertex\+Seed}}
+\index{update\+\_\+vertex\+Seed@{update\+\_\+vertex\+Seed}!Live\+Wire@{Live\+Wire}}
+\subsubsection{\texorpdfstring{update\+\_\+vertex\+Seed()}{update\_vertexSeed()}}
+{\footnotesize\ttfamily void Live\+Wire\+::update\+\_\+vertex\+Seed (\begin{DoxyParamCaption}\item[{int}]{\+\_\+vertex\+Seed,  }\item[{int}]{vertex\+Next,  }\item[{bool}]{close = {\ttfamily false} }\end{DoxyParamCaption})}
+
+
+
+Met à jour le sommet de départ. 
+
+Met à jour le sommet de départ  et met à jour \hyperlink{classDijkstra}{Dijkstra} si critère de visibilité puis refait les chemins avec critères.  pour le critère de visibilité avec dijkstra.
+
+
+\begin{DoxyParams}{Paramètres}
+{\em vertex\+Next} & \+: vertex suivant pour le critère de visibilité utilisant \hyperlink{classDijkstra}{Dijkstra} \\
+\hline
+{\em close} & \+: boolean pour savoir si le chemin qui va être calculé fermera le contour \\
+\hline
+\end{DoxyParams}
+
+
+La documentation de cette classe a été générée à partir des fichiers suivants \+:\begin{DoxyCompactItemize}
+\item 
+livewire.\+h\item 
+livewire.\+cpp\end{DoxyCompactItemize}
